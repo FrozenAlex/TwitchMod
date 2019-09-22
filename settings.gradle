@@ -1,0 +1,2 @@
+include ':app', ':mod', ':libwrapper'
+rootProject.name='TwitchMod'
