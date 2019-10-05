@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import tv.twitch.android.mod.emotes.EmotesManager;
-import tv.twitch.android.mod.utils.TwitchUsers;
 
 public class MainActivity extends Activity {
 
@@ -13,7 +12,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final String[] emotes = {"LULW", "OMEGALUL"};
+        final String[] emotes = {"PedoBear", "YooHoo", "forsenShuffle", "LULW"};
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {

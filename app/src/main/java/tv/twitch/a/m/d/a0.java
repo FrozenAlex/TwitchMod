@@ -1,7 +1,7 @@
-package tv.twitch.a.l.d;
+package tv.twitch.a.m.d;
 
 import android.text.style.ClickableSpan;
 
-public interface C {
+public interface a0 {
     ClickableSpan a(String str);
 }

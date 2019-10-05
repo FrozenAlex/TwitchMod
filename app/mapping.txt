@@ -1,0 +1,24 @@
+# Version: 8.1.0_800000
+
+com.google.gson.annotations.SerializedName -> e.j.b.y.c:
+com.google.gson.Gson -> e.j.b.f:
+retrofit2.Call -> l.b:
+    void enqueue(retrofit2.Callback) -> a
+retrofit2.Callback -> l.d:
+retrofit2.Response -> l.m:
+    125:125:int code() -> b
+    140:140:boolean isSuccessful() -> e
+    145:145:java.lang.Object body() -> a
+retrofit2.http.Path -> l.s.q:
+retrofit2.http.Headers -> l.s.j:
+retrofit2.http.GET -> l.s.e:
+retrofit2.http.Query -> l.s.r:
+retrofit2.Retrofit -> l.n:
+    131:135:java.lang.Object create(java.lang.Class) -> a
+retrofit2.Retrofit$Builder -> l.n$b:
+    469:470:retrofit2.Retrofit$Builder baseUrl(java.lang.String) -> a
+    535:536:retrofit2.Retrofit$Builder addConverterFactory(retrofit2.Converter$Factory) -> a
+    586:587:retrofit2.Retrofit build() -> a
+retrofit2.Converter$Factory -> l.e$a:
+retrofit2.converter.gson.GsonConverterFactory -> l.r.a.a:
+    51:51:retrofit2.converter.gson.GsonConverterFactory create(com.google.gson.Gson) -> a

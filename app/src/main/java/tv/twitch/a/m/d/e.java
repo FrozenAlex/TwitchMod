@@ -1,7 +1,11 @@
-package tv.twitch.a.l.d;
+package tv.twitch.a.m.d;
 
-public interface f {
+public interface e {
+    //List<MessageBadge> getBadges();
+
     String getDisplayName();
+
+    //List<MessageToken> getTokens();
 
     int getUserId();
 

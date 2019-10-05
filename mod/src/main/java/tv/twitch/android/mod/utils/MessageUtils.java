@@ -1,6 +1,7 @@
 package tv.twitch.android.mod.utils;
 
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.SpannedString;
 import android.util.Log;
 
@@ -10,7 +11,7 @@ import tv.twitch.android.mod.models.Emote;
 
 public class MessageUtils {
 
-    public static SpannedString injectEmotes(SpannedString orgMessage, int channelID, ChatMessageFactory factory) {
+    public static Spanned injectEmotes(Spanned orgMessage, int channelID, ChatMessageFactory factory) {
         try {
             final SpannableStringBuilder ssb = new SpannableStringBuilder(orgMessage);
 
