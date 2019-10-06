@@ -6,3 +6,6 @@ IClickableUsernameSpanListener - tv.twitch.a.m.d.h0.b
 TwitchURLSpan - tv.twitch.android.util.androidUI.TwitchURLSpan
 WebViewDialogFragment - tv.twitch.android.app.core.u1
 CensoredMessageTrackingInfo - tv.twitch.a.m.d.u0.c
+ChatUtil - tv.twitch.a.m.d.w0.c
+DeletedMessageClickableSpan - tv.twitch.a.m.d.w0.g
+ClickableUsernameSpan - tv.twitch.a.m.d.w0.e

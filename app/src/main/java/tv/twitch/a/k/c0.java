@@ -1,4 +1,4 @@
-package h.v.d.tv.twitch.a.k;
+package tv.twitch.a.k;
 
 import tv.twitch.android.mod.emotes.EmotesManager;
 
