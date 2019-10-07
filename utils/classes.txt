@@ -9,3 +9,4 @@ CensoredMessageTrackingInfo - tv.twitch.a.m.d.u0.c
 ChatUtil - tv.twitch.a.m.d.w0.c
 DeletedMessageClickableSpan - tv.twitch.a.m.d.w0.g
 ClickableUsernameSpan - tv.twitch.a.m.d.w0.e
+GifDrawable - com.bumptech.glide.load.p.g.c
