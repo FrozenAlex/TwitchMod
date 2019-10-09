@@ -3,6 +3,7 @@ package tv.twitch.android.mod.emotes;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,9 +22,9 @@ import static tv.twitch.android.mod.net.ServiceFactory.getFfzApi;
 public class FfzChannelEmoteSet extends ApiCallback<FfzResponse> implements EmoteSet {
     private static final String LOG_TAG = FfzChannelEmoteSet.class.getName();
     private final LinkedHashMap<String, Emote> mRoute = new LinkedHashMap<>();
-    private final long mChannelId;
+    private final int mChannelId;
 
-    public FfzChannelEmoteSet(long channelId) {
+    public FfzChannelEmoteSet(int channelId) {
         this.mChannelId = channelId;
     }
 
@@ -115,5 +116,10 @@ public class FfzChannelEmoteSet extends ApiCallback<FfzResponse> implements Emot
     @Override
     public void fetch() {
         getFfzApi().getChannelEmotes(this.mChannelId).enqueue(this);
+    }
+
+    @Override
+    public List<Emote> getEmotes() {
+        return new ArrayList<>(mRoute.values());
     }
 }

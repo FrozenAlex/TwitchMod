@@ -2,20 +2,23 @@ package tv.twitch.android.mod.emotes;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import tv.twitch.android.mod.models.Emote;
+import tv.twitch.android.mod.models.EmoteSet;
 
 public class EmotesManager {
     private final static String LOG_TAG = EmotesManager.class.getName();
 
-    private BttvGlobalEmoteSet mBttvGlobal;
-    private FfzGlobalEmoteSet mFfzGlobal;
+    private EmoteSet mBttvGlobal;
+    private EmoteSet mFfzGlobal;
 
-    private final ConcurrentHashMap<Long, Room> mRooms = new ConcurrentHashMap<>();
-    private final Set<Long> mCurrentRequests = Collections.newSetFromMap(new ConcurrentHashMap<Long, Boolean>());
+    private final ConcurrentHashMap<Integer, Room> mRooms = new ConcurrentHashMap<>();
+    private final Set<Integer> mCurrentRequests = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>());
 
     private EmotesManager() {
         fetchGlobalEmotes();
@@ -27,6 +30,25 @@ public class EmotesManager {
 
     public static EmotesManager getInstance() {
         return Holder.instance;
+    }
+
+    public List<Emote> getGlobalEmotes() {
+        List<Emote> list = new ArrayList<>();
+        if (mBttvGlobal != null)
+            list.addAll(mBttvGlobal.getEmotes());
+        if (mFfzGlobal != null)
+            list.addAll(mFfzGlobal.getEmotes());
+
+        return list;
+    }
+
+    public List<Emote> getEmotes(int channelId) {
+        List<Emote> list = new ArrayList<>();
+        Room room = mRooms.get(channelId);
+        if (room == null)
+            return list;
+
+        return room.getEmotes();
     }
 
     private void fetchGlobalEmotes() {
@@ -45,7 +67,7 @@ public class EmotesManager {
         }
     }
 
-    public Emote getEmote(String code, long channelId) {
+    public Emote getEmote(String code, int channelId) {
         Emote emote = null;
 
         if (!mRooms.containsKey(channelId))
@@ -66,11 +88,11 @@ public class EmotesManager {
         return emote;
     }
 
-    public void request(long channelId) {
+    public void request(int channelId) {
         request(channelId, true);
     }
 
-    private void request(long channelId, boolean forced) {
+    private void request(int channelId, boolean forced) {
         if (!forced && mRooms.containsKey(channelId))
             return;
 
@@ -78,7 +100,7 @@ public class EmotesManager {
             return;
 
         mCurrentRequests.add(channelId);
-        Log.i(LOG_TAG, "New request for " + channelId);
+        Log.i(LOG_TAG, String.format("New request: %d", channelId));
         mRooms.put(channelId, new Room(channelId));
         mCurrentRequests.remove(channelId);
     }

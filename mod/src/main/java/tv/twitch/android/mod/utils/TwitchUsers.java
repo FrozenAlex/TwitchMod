@@ -17,7 +17,7 @@ import tv.twitch.android.mod.models.api.TwitchUser;
 public class TwitchUsers {
     private static final String LOG_TAG = TwitchUsers.class.getName();
 
-    private final ConcurrentHashMap<Long, String> mIds = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Integer, String> mIds = new ConcurrentHashMap<>();
 
     private TwitchUsers() {
     }
@@ -31,10 +31,10 @@ public class TwitchUsers {
     }
 
     private final class IdCallback extends ApiCallback<TwitchResponse<TwitchUser>> {
-        private final long mChannelId;
+        private final int mChannelId;
         private WeakReference<UserInfoCallback> mCallback = null;
 
-        public IdCallback(long channelId, UserInfoCallback callback) {
+        public IdCallback(int channelId, UserInfoCallback callback) {
             this.mChannelId = channelId;
             if (callback != null)
                 this.mCallback = new WeakReference<>(callback);
@@ -49,7 +49,7 @@ public class TwitchUsers {
             callback(twitchUser.getLogin(), twitchUser.getId());
         }
 
-        private void callback(String userName, long userId) {
+        private void callback(String userName, int userId) {
             if (this.mCallback != null) {
                 UserInfoCallback callback = this.mCallback.get();
                 if (callback != null) {
@@ -88,17 +88,17 @@ public class TwitchUsers {
 
     }
 
-    public void request(long channelId) {
+    public void request(int channelId) {
         request(channelId, null);
     }
 
-    private void request(long channelId, UserInfoCallback callback) {
+    private void request(int channelId, UserInfoCallback callback) {
         Log.i(LOG_TAG, "New API request for id: " + channelId);
         IdCallback idCallback = new IdCallback(channelId, callback);
         idCallback.fetch();
     }
 
-    public void requestUserName(long id, UserInfoCallback callback) {
+    public void requestUserName(int id, UserInfoCallback callback) {
         if (!mIds.containsKey(id)) {
             request(id, callback);
             return;

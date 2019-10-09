@@ -3,6 +3,7 @@ package tv.twitch.android.mod.emotes;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -17,11 +18,12 @@ import static tv.twitch.android.mod.net.ServiceFactory.getBttvApi;
 
 public class BttvGlobalEmoteSet extends ApiCallback<BttvResponse> implements EmoteSet {
     private static final String LOG_TAG = BttvGlobalEmoteSet.class.getName();
+
     private final LinkedHashMap<String, Emote> mRoute = new LinkedHashMap<>();
 
     @Override
     public synchronized void addEmote(Emote emote) {
-        if (emote != null && emote.getCode() != null)
+        if (emote != null && emote.getCode() != null && !TextUtils.isEmpty(emote.getCode()))
             mRoute.put(emote.getCode(), emote);
     }
 
@@ -38,20 +40,21 @@ public class BttvGlobalEmoteSet extends ApiCallback<BttvResponse> implements Emo
     @Override
     public void onRequestSuccess(BttvResponse bttvResponse) {
         if (bttvResponse == null) {
-            Log.e(LOG_TAG, "Body is null");
+            Log.e(LOG_TAG, "Empty body");
             return;
         }
 
         if (bttvResponse.getStatus() == null || !bttvResponse.getStatus().equals("200")) {
-            Log.e(LOG_TAG, "Bad bttv status");
+            Log.e(LOG_TAG, "Bad status: " + bttvResponse.getStatus());
             return;
         }
 
         String templateUrl = bttvResponse.getUrlTemplate();
         if (templateUrl == null || templateUrl.isEmpty()) {
-            Log.e(LOG_TAG, "Bad templateUrl");
+            Log.e(LOG_TAG, "Bad templateUrl: " + templateUrl);
             return;
         }
+
         if (templateUrl.startsWith("//"))
             templateUrl = "https:" + templateUrl;
 
@@ -77,7 +80,7 @@ public class BttvGlobalEmoteSet extends ApiCallback<BttvResponse> implements Emo
             addEmote(new BttvEmote(emoticon.getCode(), templateUrl, emoticon.getId(), emoticon.getImageType()));
         }
 
-        Log.i(LOG_TAG, "res: " + mRoute.toString());
+        Log.d(LOG_TAG, "res: " + mRoute.toString());
     }
 
     @Override
@@ -85,4 +88,8 @@ public class BttvGlobalEmoteSet extends ApiCallback<BttvResponse> implements Emo
         Log.e(LOG_TAG, "requestError");
     }
 
+    @Override
+    public List<Emote> getEmotes() {
+        return new ArrayList<>(mRoute.values());
+    }
 }

@@ -3,6 +3,7 @@ package tv.twitch.android.mod.emotes;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -44,18 +45,18 @@ public class BttvChannelEmoteSet extends ApiCallback<BttvResponse> implements Em
     @Override
     public void onRequestSuccess(BttvResponse bttvResponse) {
         if (bttvResponse == null) {
-            Log.e(LOG_TAG, "Bad response");
+            Log.e(LOG_TAG, "Empty body");
             return;
         }
 
         if (bttvResponse.getStatus() == null || !bttvResponse.getStatus().equals("200")) {
-            Log.e(LOG_TAG, "Bad bttv status");
+            Log.e(LOG_TAG, "Bad status: " + bttvResponse.getStatus());
             return;
         }
 
         String templateUrl = bttvResponse.getUrlTemplate();
         if (templateUrl == null || templateUrl.isEmpty()) {
-            Log.e(LOG_TAG, "Bad templateUrl");
+            Log.e(LOG_TAG, "Bad templateUrl: " + templateUrl);
             return;
         }
         if (templateUrl.startsWith("//"))
@@ -63,7 +64,7 @@ public class BttvChannelEmoteSet extends ApiCallback<BttvResponse> implements Em
 
         List<BttvEmoteResponse> emoticons = bttvResponse.getBttvEmotes();
         if (emoticons == null || emoticons.isEmpty()) {
-            Log.e(LOG_TAG, "Empty global set");
+            Log.e(LOG_TAG, "Empty channel set");
             return;
         }
 
@@ -83,11 +84,16 @@ public class BttvChannelEmoteSet extends ApiCallback<BttvResponse> implements Em
             addEmote(new BttvEmote(emoticon.getCode(), templateUrl, emoticon.getId(), emoticon.getImageType()));
         }
 
-        Log.i(LOG_TAG, "res: " + mRoute.toString());
+        Log.d(LOG_TAG, "res: " + mRoute.toString());
     }
 
     @Override
     public void onRequestFail(FailReason reason) {
         Log.e(LOG_TAG, "requestError");
+    }
+
+    @Override
+    public List<Emote> getEmotes() {
+        return new ArrayList<>(mRoute.values());
     }
 }

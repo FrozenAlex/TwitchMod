@@ -11,7 +11,7 @@ public interface FfzApi {
     Call<FfzGlobalResponse> getGlobalEmotes();
 
     @GET("/v1/room/id/{id}")
-    Call<FfzResponse> getChannelEmotes(@Path("id") long channelId);
+    Call<FfzResponse> getChannelEmotes(@Path("id") int channelId);
 
     @GET("/v1/room/{id}")
     Call<FfzResponse> getChannelEmotes(@Path("id") String channelId);

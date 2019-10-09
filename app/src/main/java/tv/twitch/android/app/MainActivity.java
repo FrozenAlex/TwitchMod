@@ -5,13 +5,14 @@ import android.os.Bundle;
 import android.util.Log;
 
 import tv.twitch.android.mod.emotes.EmotesManager;
+import tv.twitch.android.mod.utils.Helper;
 
 public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Helper.getInstance().setCurrentChannel(22484632);
         final String[] emotes = {"PedoBear", "YooHoo", "forsenShuffle", "LULW"};
         Thread th = new Thread(new Runnable() {
             @Override

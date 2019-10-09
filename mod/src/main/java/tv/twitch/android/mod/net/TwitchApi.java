@@ -13,7 +13,7 @@ public interface TwitchApi {
 
     @Headers({CLIENT_ID_HEADER})
     @GET("/helix/users")
-    public Call<TwitchResponse<TwitchUser>> getUsersInfo(@Query("id") long id);
+    public Call<TwitchResponse<TwitchUser>> getUsersInfo(@Query("id") int id);
 
     @Headers({CLIENT_ID_HEADER})
     @GET("/helix/users")

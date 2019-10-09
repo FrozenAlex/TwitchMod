@@ -3,6 +3,7 @@ package tv.twitch.android.mod.emotes;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -105,5 +106,10 @@ public class FfzGlobalEmoteSet extends ApiCallback<FfzGlobalResponse> implements
 
     public void fetch() {
         getFfzApi().getGlobalEmotes().enqueue(this);
+    }
+
+    @Override
+    public List<Emote> getEmotes() {
+        return new ArrayList<>(mRoute.values());
     }
 }

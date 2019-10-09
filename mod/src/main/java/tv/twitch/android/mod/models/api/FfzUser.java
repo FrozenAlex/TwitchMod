@@ -20,7 +20,7 @@ public class FfzUser {
     @SerializedName("name")
     private String name;
     @SerializedName("twitch_id")
-    private long twitchId;
+    private int twitchId;
 
     public String getAvatar() {
         return avatar;
@@ -70,11 +70,11 @@ public class FfzUser {
         this.name = name;
     }
 
-    public long getTwitchId() {
+    public int getTwitchId() {
         return twitchId;
     }
 
-    public void setTwitchId(long twitchId) {
+    public void setTwitchId(int twitchId) {
         this.twitchId = twitchId;
     }
 

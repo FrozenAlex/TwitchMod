@@ -19,10 +19,3 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
-
--keep class tv.twitch.** { *; }
--keep class okhttp3.** { *; }
-
-# Twitch obfuscation
--keep public interface retrofit2.Callback {*;}
--applymapping mapping.txt

@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class TwitchUser {
     @SerializedName("id")
-    private long id;
+    private int id;
     @SerializedName("login")
     private String login;
     @SerializedName("display_name")
@@ -22,11 +22,11 @@ public class TwitchUser {
     @SerializedName("view_count")
     private long viewCount;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
