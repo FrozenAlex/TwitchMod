@@ -7,6 +7,7 @@ import retrofit2.Response;
 public abstract class ApiCallback<T> implements Callback<T> {
     public enum FailReason {
         UNKNOWN,
+        NULL_BODY
     }
 
     public void onFailure(Call<T> bVar, Throwable th) {
@@ -20,10 +21,16 @@ public abstract class ApiCallback<T> implements Callback<T> {
 
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.isSuccessful()) {
+            if (response.body() == null) {
+                onRequestFail(FailReason.NULL_BODY);
+                return;
+            }
             onRequestSuccess(response.body());
             return;
         }
 
         onRequestFail(FailReason.UNKNOWN);
     }
+
+    public abstract void fetch();
 }

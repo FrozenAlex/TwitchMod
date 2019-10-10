@@ -21,30 +21,25 @@ import static tv.twitch.android.mod.net.ServiceFactory.getFfzApi;
 public class FfzGlobalEmoteSet extends ApiCallback<FfzGlobalResponse> implements EmoteSet {
     private static final String LOG_TAG = FfzGlobalEmoteSet.class.getName();
 
-    private final LinkedHashMap<String, Emote> mRoute = new LinkedHashMap<>();
+    private final LinkedHashMap<String, Emote> mEmoteMap = new LinkedHashMap<>();
 
     @Override
     public void onRequestSuccess(FfzGlobalResponse ffzGlobalResponse) {
-        if (ffzGlobalResponse == null) {
-            Log.e(LOG_TAG, "Body is null");
-            return;
-        }
+        List<Integer> defaultSetsId = ffzGlobalResponse.getDefaultSets();
 
-        List<Integer> ids = ffzGlobalResponse.getDefaultSets();
-
-        if (ids == null || ids.isEmpty()) {
+        if (defaultSetsId == null || defaultSetsId.isEmpty()) {
             Log.e(LOG_TAG, "No ids. API error?");
             return;
         }
 
-        HashMap<Integer, FfzSet> sets = ffzGlobalResponse.getSets();
-        if (sets == null || sets.isEmpty()) {
-            Log.e(LOG_TAG, "No sets. API error?");
+        HashMap<Integer, FfzSet> ffzSets = ffzGlobalResponse.getSets();
+        if (ffzSets == null || ffzSets.isEmpty()) {
+            Log.e(LOG_TAG, "Empty or null sets. API error?");
             return;
         }
 
-        for (Integer id : ids) {
-            FfzSet set = sets.get(id);
+        for (Integer setId : defaultSetsId) {
+            FfzSet set = ffzSets.get(setId);
             if (set == null)
                 continue;
 
@@ -60,12 +55,13 @@ public class FfzGlobalEmoteSet extends ApiCallback<FfzGlobalResponse> implements
                     continue;
 
                 if (TextUtils.isEmpty(emoticon.getName())) {
-                    Log.w(LOG_TAG, "Bad emote " + emoticon.getId() + ": empty name");
+                    Log.w(LOG_TAG, "Bad emote " + emoticon.getId() + ": empty emote name");
                     continue;
                 }
 
                 HashMap<Integer, String> urls = emoticon.getUrls();
                 String url;
+                // best emote quality
                 if (urls.containsKey(4))
                     url = urls.get(4);
                 else if (urls.containsKey(2))
@@ -85,7 +81,7 @@ public class FfzGlobalEmoteSet extends ApiCallback<FfzGlobalResponse> implements
             }
         }
 
-        Log.i(LOG_TAG, "res: " + mRoute.toString());
+        Log.i(LOG_TAG, "res: " + mEmoteMap.toString());
     }
 
     @Override
@@ -95,13 +91,16 @@ public class FfzGlobalEmoteSet extends ApiCallback<FfzGlobalResponse> implements
 
     @Override
     public synchronized void addEmote(Emote emote) {
-        if (emote != null && emote.getCode() != null)
-            mRoute.put(emote.getCode(), emote);
+        if (emote != null && !TextUtils.isEmpty(emote.getCode()))
+            mEmoteMap.put(emote.getCode(), emote);
+        else {
+            Log.d(LOG_TAG, "Bad emote: " + emote);
+        }
     }
 
     @Override
     public Emote getEmote(String name) {
-        return mRoute.get(name);
+        return mEmoteMap.get(name);
     }
 
     public void fetch() {
@@ -110,6 +109,6 @@ public class FfzGlobalEmoteSet extends ApiCallback<FfzGlobalResponse> implements
 
     @Override
     public List<Emote> getEmotes() {
-        return new ArrayList<>(mRoute.values());
+        return new ArrayList<>(mEmoteMap.values());
     }
 }

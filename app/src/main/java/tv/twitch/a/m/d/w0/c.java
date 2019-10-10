@@ -7,7 +7,7 @@ import android.text.style.StrikethroughSpan;
 
 // Source: ChatUtil
 public class c {
-    private final Spannable a(Spanned spanned, String str, g gVar) { // TODO: replace
+    private final Spannable a(Spanned spanned, String str, g gVar) { // TODO: __REPLACE
         e[] clickableUsernameSpans = spanned.getSpans(0, spanned.length(), e.class);
         if (clickableUsernameSpans == null)
             return null;

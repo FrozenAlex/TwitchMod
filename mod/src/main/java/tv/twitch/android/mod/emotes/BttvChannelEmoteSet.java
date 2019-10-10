@@ -19,7 +19,7 @@ import static tv.twitch.android.mod.net.ServiceFactory.getBttvApi;
 public class BttvChannelEmoteSet extends ApiCallback<BttvResponse> implements EmoteSet {
     private static final String LOG_TAG = BttvChannelEmoteSet.class.getName();
 
-    private final LinkedHashMap<String, Emote> mRoute = new LinkedHashMap<>();
+    private final LinkedHashMap<String, Emote> mEmoteMap = new LinkedHashMap<>();
     private final String mChannelName;
 
     public BttvChannelEmoteSet(String channelName) {
@@ -28,13 +28,16 @@ public class BttvChannelEmoteSet extends ApiCallback<BttvResponse> implements Em
 
     @Override
     public synchronized void addEmote(Emote emote) {
-        if (emote != null && emote.getCode() != null)
-            mRoute.put(emote.getCode(), emote);
+        if (emote != null && !TextUtils.isEmpty(emote.getCode()))
+            mEmoteMap.put(emote.getCode(), emote);
+        else {
+            Log.d(LOG_TAG, "Bad emote: " + emote);
+        }
     }
 
     @Override
     public Emote getEmote(String name) {
-        return mRoute.get(name);
+        return mEmoteMap.get(name);
     }
 
     @Override
@@ -44,11 +47,6 @@ public class BttvChannelEmoteSet extends ApiCallback<BttvResponse> implements Em
 
     @Override
     public void onRequestSuccess(BttvResponse bttvResponse) {
-        if (bttvResponse == null) {
-            Log.e(LOG_TAG, "Empty body");
-            return;
-        }
-
         if (bttvResponse.getStatus() == null || !bttvResponse.getStatus().equals("200")) {
             Log.e(LOG_TAG, "Bad status: " + bttvResponse.getStatus());
             return;
@@ -84,7 +82,7 @@ public class BttvChannelEmoteSet extends ApiCallback<BttvResponse> implements Em
             addEmote(new BttvEmote(emoticon.getCode(), templateUrl, emoticon.getId(), emoticon.getImageType()));
         }
 
-        Log.d(LOG_TAG, "res: " + mRoute.toString());
+        Log.d(LOG_TAG, "res: " + mEmoteMap.toString());
     }
 
     @Override
@@ -94,6 +92,6 @@ public class BttvChannelEmoteSet extends ApiCallback<BttvResponse> implements Em
 
     @Override
     public List<Emote> getEmotes() {
-        return new ArrayList<>(mRoute.values());
+        return new ArrayList<>(mEmoteMap.values());
     }
 }

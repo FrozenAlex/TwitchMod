@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tv.twitch.android.mod.models.Emote;
-import tv.twitch.android.mod.models.EmoteSet;
 import tv.twitch.android.mod.models.UserInfoCallback;
 import tv.twitch.android.mod.utils.TwitchUsers;
 
@@ -16,8 +15,8 @@ class Room implements UserInfoCallback {
 
     private final int mChannelId;
 
-    private EmoteSet mBttvSet;
-    private EmoteSet mFfzSet;
+    private BttvChannelEmoteSet mBttvSet;
+    private FfzChannelEmoteSet mFfzSet;
 
     public Room(int channelId) {
         this.mChannelId = channelId;
@@ -25,23 +24,15 @@ class Room implements UserInfoCallback {
     }
 
     private void requestEmotes() {
-        TwitchUsers.getInstance().requestUserName(this.mChannelId, this);
+        TwitchUsers.getInstance().getUserName(this.mChannelId, this);
     }
 
-    private void fetch(int userId, String userName) {
-        Log.i(LOG_TAG, "Fetching '" + userName + "' emoticons...");
-        try {
-            if (mBttvSet == null) {
-                mBttvSet = new BttvChannelEmoteSet(userName);
-                mBttvSet.fetch();
-            }
-            if (mFfzSet == null) {
-                mFfzSet = new FfzChannelEmoteSet(userId);
-                mFfzSet.fetch();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void update(String userName, int userId) {
+        Log.i(LOG_TAG, String.format("Fetching %s [%d] emoticons...", userName, userId));
+        mBttvSet = new BttvChannelEmoteSet(userName);
+        mBttvSet.fetch();
+        mFfzSet = new FfzChannelEmoteSet(userName);
+        mFfzSet.fetch();
     }
 
     public final Emote findEmote(String emoteName) {
@@ -67,11 +58,11 @@ class Room implements UserInfoCallback {
 
     @Override
     public void userInfo(String userName, int userId) {
-        if (userId == 0 || userName == null) {
-            Log.e(LOG_TAG, "userInfo error");
-            return;
-        }
+        update(userName, userId);
+    }
 
-        fetch(userId, userName);
+    @Override
+    public void fail(int userId) {
+        Log.e(LOG_TAG, String.format("Error fetching emoticons for channel %d", userId));
     }
 }

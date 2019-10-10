@@ -8,7 +8,7 @@ import tv.twitch.chat.ChatEmoticonUrl;
 // Source: EmoteUtils
 public final class h {
 
-    public static final String a(Context context, ChatEmoticon chatEmoticon) { // TODO: replace
+    public static final String a(Context context, ChatEmoticon chatEmoticon) { // TODO: __REPLACE
         String str = chatEmoticon.emoticonId;
         if (chatEmoticon instanceof ChatEmoticonUrl)
             return ((ChatEmoticonUrl) chatEmoticon).getUrl();

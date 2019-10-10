@@ -144,4 +144,13 @@ public class Helper {
     public int getCurrentChannel() {
         return this.currentChannel;
     }
+
+    public static void newRequest(int channelId) {
+        try {
+            EmotesManager.getInstance().request(channelId);
+            Helper.getInstance().setCurrentChannel(channelId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

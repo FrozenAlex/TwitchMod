@@ -9,27 +9,26 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import tv.twitch.android.mod.models.Emote;
-import tv.twitch.android.mod.models.EmoteSet;
 
 public class EmotesManager {
     private final static String LOG_TAG = EmotesManager.class.getName();
 
-    private EmoteSet mBttvGlobal;
-    private EmoteSet mFfzGlobal;
+    private BttvGlobalEmoteSet mBttvGlobal;
+    private FfzGlobalEmoteSet mFfzGlobal;
 
     private final ConcurrentHashMap<Integer, Room> mRooms = new ConcurrentHashMap<>();
-    private final Set<Integer> mCurrentRequests = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>());
+    private final Set<Integer> mCurrentRoomRequests = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>());
 
     private EmotesManager() {
         fetchGlobalEmotes();
     }
 
     private static class Holder {
-        static final EmotesManager instance = new EmotesManager();
+        static final EmotesManager mInstanse = new EmotesManager();
     }
 
     public static EmotesManager getInstance() {
-        return Holder.instance;
+        return Holder.mInstanse;
     }
 
     public List<Emote> getGlobalEmotes() {
@@ -52,18 +51,14 @@ public class EmotesManager {
     }
 
     private void fetchGlobalEmotes() {
-        try {
-            Log.i(LOG_TAG, "Fetching global emoticons...");
-            if (mBttvGlobal == null) {
-                mBttvGlobal = new BttvGlobalEmoteSet();
-                mBttvGlobal.fetch();
-            }
-            if (mFfzGlobal == null) {
-                mFfzGlobal = new FfzGlobalEmoteSet();
-                mFfzGlobal.fetch();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        Log.i(LOG_TAG, "Fetching global emoticons...");
+        if (mBttvGlobal == null) {
+            mBttvGlobal = new BttvGlobalEmoteSet();
+            mBttvGlobal.fetch();
+        }
+        if (mFfzGlobal == null) {
+            mFfzGlobal = new FfzGlobalEmoteSet();
+            mFfzGlobal.fetch();
         }
     }
 
@@ -96,12 +91,12 @@ public class EmotesManager {
         if (!forced && mRooms.containsKey(channelId))
             return;
 
-        if (mCurrentRequests.contains(channelId))
+        if (mCurrentRoomRequests.contains(channelId))
             return;
 
-        mCurrentRequests.add(channelId);
-        Log.i(LOG_TAG, String.format("New request: %d", channelId));
+        mCurrentRoomRequests.add(channelId);
+        Log.i(LOG_TAG, String.format("New request for channel(room): %d", channelId));
         mRooms.put(channelId, new Room(channelId));
-        mCurrentRequests.remove(channelId);
+        mCurrentRoomRequests.remove(channelId);
     }
 }

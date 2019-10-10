@@ -21,20 +21,15 @@ import static tv.twitch.android.mod.net.ServiceFactory.getFfzApi;
 
 public class FfzChannelEmoteSet extends ApiCallback<FfzResponse> implements EmoteSet {
     private static final String LOG_TAG = FfzChannelEmoteSet.class.getName();
-    private final LinkedHashMap<String, Emote> mRoute = new LinkedHashMap<>();
-    private final int mChannelId;
+    private final LinkedHashMap<String, Emote> mEmoteMap = new LinkedHashMap<>();
+    private final String mChannelName;
 
-    public FfzChannelEmoteSet(int channelId) {
-        this.mChannelId = channelId;
+    public FfzChannelEmoteSet(String channelName) {
+        this.mChannelName = channelName;
     }
 
     @Override
     public void onRequestSuccess(FfzResponse ffzResponse) {
-        if (ffzResponse == null) {
-            Log.e(LOG_TAG, "Body is null");
-            return;
-        }
-
         FfzRoom room = ffzResponse.getRoom();
 
         if (room == null) {
@@ -42,17 +37,17 @@ public class FfzChannelEmoteSet extends ApiCallback<FfzResponse> implements Emot
             return;
         }
 
-        int id = room.getSet();
-        HashMap<Integer, FfzSet> sets = ffzResponse.getSets();
+        int setId = room.getSet();
+        HashMap<Integer, FfzSet> ffzSets = ffzResponse.getSets();
 
-        if (sets == null || sets.isEmpty()) {
+        if (ffzSets == null || ffzSets.isEmpty()) {
             Log.w(LOG_TAG, "No sets in room");
             return;
         }
 
-        FfzSet set = sets.get(id);
+        FfzSet set = ffzSets.get(setId);
         if (set == null) {
-            Log.e(LOG_TAG, "Set not found: " + id);
+            Log.e(LOG_TAG, "Set not found: " + setId);
             return;
         }
 
@@ -94,7 +89,7 @@ public class FfzChannelEmoteSet extends ApiCallback<FfzResponse> implements Emot
             addEmote(emote);
         }
 
-        Log.i(LOG_TAG, "res: " + mRoute.toString());
+        Log.i(LOG_TAG, "res: " + mEmoteMap.toString());
     }
 
     @Override
@@ -104,22 +99,25 @@ public class FfzChannelEmoteSet extends ApiCallback<FfzResponse> implements Emot
 
     @Override
     public synchronized void addEmote(Emote emote) {
-        if (emote != null && emote.getCode() != null)
-            mRoute.put(emote.getCode(), emote);
+        if (emote != null && !TextUtils.isEmpty(emote.getCode()))
+            mEmoteMap.put(emote.getCode(), emote);
+        else {
+            Log.d(LOG_TAG, "Bad emote: " + emote);
+        }
     }
 
     @Override
     public Emote getEmote(String name) {
-        return mRoute.get(name);
+        return mEmoteMap.get(name);
     }
 
     @Override
     public void fetch() {
-        getFfzApi().getChannelEmotes(this.mChannelId).enqueue(this);
+        getFfzApi().getChannelEmotes(this.mChannelName).enqueue(this);
     }
 
     @Override
     public List<Emote> getEmotes() {
-        return new ArrayList<>(mRoute.values());
+        return new ArrayList<>(mEmoteMap.values());
     }
 }

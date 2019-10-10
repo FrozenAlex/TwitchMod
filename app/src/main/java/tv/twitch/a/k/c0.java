@@ -15,14 +15,13 @@ public class c0 {
     // i2 - user id?
     // i3 - channel id
     private boolean a(int i2, int i3) {
-        EmotesManager.getInstance().request(i3);
-        Helper.getInstance().setCurrentChannel(i3);
+        Helper.newRequest(i3); // TODO: __ADD
         return false;
     }
 
 
-    public ChatEmoticonSet[] c() {
-        return injectEmotes(this.o); // TODO: add
+    public ChatEmoticonSet[] c() { // TODO: __REPLACE
+        return injectEmotes(this.o);
     }
 
 

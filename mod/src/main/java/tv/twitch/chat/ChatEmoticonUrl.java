@@ -1,10 +1,10 @@
 package tv.twitch.chat;
 
-public class ChatEmoticonUrl extends ChatEmoticon { //TODO: add
+public class ChatEmoticonUrl extends ChatEmoticon { //TODO: __ADD
     private String url;
 
     public ChatEmoticonUrl(String match, String url) {
-        this.emoticonId = "-1";
+        this.emoticonId = "-1"; // TODO: test
         this.isRegex = false;
         this.match = match;
         this.url = url;

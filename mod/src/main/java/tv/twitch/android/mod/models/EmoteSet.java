@@ -7,7 +7,5 @@ public interface EmoteSet {
 
     Emote getEmote(String name);
 
-    void fetch();
-
     List<Emote> getEmotes();
 }
