@@ -8,7 +8,7 @@ import tv.twitch.android.mod.bridges.ChatMessageFactory;
 import tv.twitch.android.mod.utils.Helper;
 import tv.twitch.android.util.androidUI.TwitchURLSpan;
 
-public class a implements ChatMessageFactory { // TODO: Implement interface!
+public class a implements ChatMessageFactory { // TODO: __IMPLEMENT
     static CharSequence a(a aVar, String str, e.b bVar, tv.twitch.a.m.d.a0 a0Var, boolean z, int i2, Object obj) {
         return null;
     }

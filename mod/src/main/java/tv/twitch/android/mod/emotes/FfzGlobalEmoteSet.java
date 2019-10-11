@@ -1,7 +1,6 @@
 package tv.twitch.android.mod.emotes;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,12 +14,11 @@ import tv.twitch.android.mod.models.api.FfzEmoticon;
 import tv.twitch.android.mod.models.api.FfzGlobalResponse;
 import tv.twitch.android.mod.models.api.FfzSet;
 import tv.twitch.android.mod.bridges.ApiCallback;
+import tv.twitch.android.mod.utils.Logger;
 
 import static tv.twitch.android.mod.net.ServiceFactory.getFfzApi;
 
 public class FfzGlobalEmoteSet extends ApiCallback<FfzGlobalResponse> implements EmoteSet {
-    private static final String LOG_TAG = FfzGlobalEmoteSet.class.getName();
-
     private final LinkedHashMap<String, Emote> mEmoteMap = new LinkedHashMap<>();
 
     @Override
@@ -28,13 +26,13 @@ public class FfzGlobalEmoteSet extends ApiCallback<FfzGlobalResponse> implements
         List<Integer> defaultSetsId = ffzGlobalResponse.getDefaultSets();
 
         if (defaultSetsId == null || defaultSetsId.isEmpty()) {
-            Log.e(LOG_TAG, "No ids. API error?");
+            Logger.error("No ids. API error?");
             return;
         }
 
         HashMap<Integer, FfzSet> ffzSets = ffzGlobalResponse.getSets();
         if (ffzSets == null || ffzSets.isEmpty()) {
-            Log.e(LOG_TAG, "Empty or null sets. API error?");
+            Logger.error("Empty or null sets. API error?");
             return;
         }
 
@@ -55,7 +53,7 @@ public class FfzGlobalEmoteSet extends ApiCallback<FfzGlobalResponse> implements
                     continue;
 
                 if (TextUtils.isEmpty(emoticon.getName())) {
-                    Log.w(LOG_TAG, "Bad emote " + emoticon.getId() + ": empty emote name");
+                    Logger.warning("Bad emote " + emoticon.getId() + ": empty emote name");
                     continue;
                 }
 
@@ -81,12 +79,12 @@ public class FfzGlobalEmoteSet extends ApiCallback<FfzGlobalResponse> implements
             }
         }
 
-        Log.i(LOG_TAG, "res: " + mEmoteMap.toString());
+        Logger.info("res: " + mEmoteMap.toString());
     }
 
     @Override
     public void onRequestFail(FailReason reason) {
-        Log.e(LOG_TAG, "requestError");
+        Logger.error(reason.name());
     }
 
     @Override
@@ -94,7 +92,7 @@ public class FfzGlobalEmoteSet extends ApiCallback<FfzGlobalResponse> implements
         if (emote != null && !TextUtils.isEmpty(emote.getCode()))
             mEmoteMap.put(emote.getCode(), emote);
         else {
-            Log.d(LOG_TAG, "Bad emote: " + emote);
+            Logger.debug("Bad emote: " + emote);
         }
     }
 

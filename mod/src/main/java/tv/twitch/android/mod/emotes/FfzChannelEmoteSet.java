@@ -1,7 +1,6 @@
 package tv.twitch.android.mod.emotes;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,11 +15,11 @@ import tv.twitch.android.mod.models.api.FfzResponse;
 import tv.twitch.android.mod.models.api.FfzRoom;
 import tv.twitch.android.mod.models.api.FfzSet;
 import tv.twitch.android.mod.bridges.ApiCallback;
+import tv.twitch.android.mod.utils.Logger;
 
 import static tv.twitch.android.mod.net.ServiceFactory.getFfzApi;
 
 public class FfzChannelEmoteSet extends ApiCallback<FfzResponse> implements EmoteSet {
-    private static final String LOG_TAG = FfzChannelEmoteSet.class.getName();
     private final LinkedHashMap<String, Emote> mEmoteMap = new LinkedHashMap<>();
     private final String mChannelName;
 
@@ -33,7 +32,7 @@ public class FfzChannelEmoteSet extends ApiCallback<FfzResponse> implements Emot
         FfzRoom room = ffzResponse.getRoom();
 
         if (room == null) {
-            Log.e(LOG_TAG, "Room is null. API error?");
+            Logger.error("room==null");
             return;
         }
 
@@ -41,19 +40,19 @@ public class FfzChannelEmoteSet extends ApiCallback<FfzResponse> implements Emot
         HashMap<Integer, FfzSet> ffzSets = ffzResponse.getSets();
 
         if (ffzSets == null || ffzSets.isEmpty()) {
-            Log.w(LOG_TAG, "No sets in room");
+            Logger.error("No sets in room");
             return;
         }
 
         FfzSet set = ffzSets.get(setId);
         if (set == null) {
-            Log.e(LOG_TAG, "Set not found: " + setId);
+            Logger.error("Set not found: " + setId);
             return;
         }
 
         List<FfzEmoticon> emoticons = set.getEmoticons();
         if (emoticons == null || emoticons.isEmpty()) {
-            Log.w(LOG_TAG, "Empty set");
+            Logger.warning("Empty set");
             return;
         }
 
@@ -65,7 +64,7 @@ public class FfzChannelEmoteSet extends ApiCallback<FfzResponse> implements Emot
                 continue;
 
             if (TextUtils.isEmpty(emoticon.getName())) {
-                Log.w(LOG_TAG, "Bad emote " + emoticon.getId() + ": empty name");
+                Logger.warning("Bad emote " + emoticon.getId() + ": empty name");
                 continue;
             }
 
@@ -88,13 +87,12 @@ public class FfzChannelEmoteSet extends ApiCallback<FfzResponse> implements Emot
             FfzEmote emote = new FfzEmote(emoticon.getName(), String.valueOf(emoticon.getId()), url);
             addEmote(emote);
         }
-
-        Log.i(LOG_TAG, "res: " + mEmoteMap.toString());
+        Logger.info("res: " + mEmoteMap.toString());
     }
 
     @Override
     public void onRequestFail(FailReason reason) {
-        Log.e(LOG_TAG, "requestError");
+        Logger.error(reason.name());
     }
 
     @Override
@@ -102,7 +100,7 @@ public class FfzChannelEmoteSet extends ApiCallback<FfzResponse> implements Emot
         if (emote != null && !TextUtils.isEmpty(emote.getCode()))
             mEmoteMap.put(emote.getCode(), emote);
         else {
-            Log.d(LOG_TAG, "Bad emote: " + emote);
+            Logger.debug("Bad emote: " + emote);
         }
     }
 

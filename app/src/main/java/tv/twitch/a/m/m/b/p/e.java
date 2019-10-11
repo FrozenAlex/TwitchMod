@@ -32,7 +32,7 @@ public class e {
         if (drawable != null) {
             drawable.draw(canvas);
             if (drawable instanceof c) {
-                // ((c) drawable).start(); // TODO: remove call
+                ((c) drawable).start(); // TODO: __REMOVE
             }
         }
     }

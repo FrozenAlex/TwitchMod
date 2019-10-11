@@ -1,9 +1,9 @@
 package tv.twitch.android.mod.utils;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ConcurrentHashMap;
 
 import tv.twitch.android.mod.models.UserInfoCallback;
@@ -13,8 +13,6 @@ import tv.twitch.android.mod.models.api.TwitchResponse;
 import tv.twitch.android.mod.models.api.TwitchUser;
 
 public class TwitchUsers {
-    private static final String LOG_TAG = TwitchUsers.class.getName();
-
     private final ConcurrentHashMap<Integer, String> cache = new ConcurrentHashMap<>();
 
     private TwitchUsers() {
@@ -59,7 +57,7 @@ public class TwitchUsers {
 
         @Override
         public void onRequestFail(FailReason reason) {
-            Log.d(LOG_TAG, String.format("Request for %d fail: %s", mChannelId, reason.name()));
+            Logger.debug(String.format(Locale.ENGLISH, "Request for %d fail: %s", mChannelId, reason.name()));
         }
 
         public void fetch() {
@@ -69,7 +67,7 @@ public class TwitchUsers {
     }
 
     private void request(int channelId, UserInfoCallback callback) {
-        Log.i(LOG_TAG, "New API request for id: " + channelId);
+        Logger.info("New API request for id: " + channelId);
         UserInfo userInfo = new UserInfo(channelId, callback);
         userInfo.fetch();
     }

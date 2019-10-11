@@ -4,15 +4,15 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import tv.twitch.android.mod.models.Emote;
 import tv.twitch.android.mod.models.UserInfoCallback;
+import tv.twitch.android.mod.utils.Logger;
 import tv.twitch.android.mod.utils.TwitchUsers;
 
 
 class Room implements UserInfoCallback {
-    private final static String LOG_TAG = Room.class.getName();
-
     private final int mChannelId;
 
     private BttvChannelEmoteSet mBttvSet;
@@ -28,7 +28,7 @@ class Room implements UserInfoCallback {
     }
 
     private void update(String userName, int userId) {
-        Log.i(LOG_TAG, String.format("Fetching %s [%d] emoticons...", userName, userId));
+        Logger.debug(String.format(Locale.ENGLISH, "Fetching %s [%d] emoticons...", userName, userId));
         mBttvSet = new BttvChannelEmoteSet(userName);
         mBttvSet.fetch();
         mFfzSet = new FfzChannelEmoteSet(userName);
@@ -63,6 +63,6 @@ class Room implements UserInfoCallback {
 
     @Override
     public void fail(int userId) {
-        Log.e(LOG_TAG, String.format("Error fetching emoticons for channel %d", userId));
+        Logger.error(String.format(Locale.ENGLISH, "Error fetching emoticons for channel %d", userId));
     }
 }

@@ -1,18 +1,16 @@
 package tv.twitch.android.mod.emotes;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import tv.twitch.android.mod.models.Emote;
+import tv.twitch.android.mod.utils.Logger;
 
 public class EmotesManager {
-    private final static String LOG_TAG = EmotesManager.class.getName();
-
     private BttvGlobalEmoteSet mBttvGlobal;
     private FfzGlobalEmoteSet mFfzGlobal;
 
@@ -51,7 +49,7 @@ public class EmotesManager {
     }
 
     private void fetchGlobalEmotes() {
-        Log.i(LOG_TAG, "Fetching global emoticons...");
+        Logger.info("Fetching global emoticons...");
         if (mBttvGlobal == null) {
             mBttvGlobal = new BttvGlobalEmoteSet();
             mBttvGlobal.fetch();
@@ -95,7 +93,7 @@ public class EmotesManager {
             return;
 
         mCurrentRoomRequests.add(channelId);
-        Log.i(LOG_TAG, String.format("New request for channel(room): %d", channelId));
+        Logger.info(String.format(Locale.ENGLISH, "New request for channel(room): %d", channelId));
         mRooms.put(channelId, new Room(channelId));
         mCurrentRoomRequests.remove(channelId);
     }

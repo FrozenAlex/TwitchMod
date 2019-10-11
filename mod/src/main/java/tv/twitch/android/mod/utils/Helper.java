@@ -3,11 +3,11 @@ package tv.twitch.android.mod.utils;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.SpannedString;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import tv.twitch.android.mod.bridges.ChatMessageFactory;
 import tv.twitch.android.mod.emotes.EmotesManager;
@@ -17,8 +17,6 @@ import tv.twitch.chat.ChatEmoticonSet;
 import tv.twitch.chat.ChatEmoticonUrl;
 
 public class Helper {
-    private static final String LOG_TAG = Helper.class.getName();
-
     private int currentChannel = 0;
 
     private Helper() {
@@ -27,7 +25,7 @@ public class Helper {
     public static Spanned injectEmotes(Spanned orgMessage, int channelID, ChatMessageFactory factory) {
         EmotesManager emotesManager = EmotesManager.getInstance();
         if (emotesManager == null) {
-            Log.e(LOG_TAG, "emotesManger is null");
+            Logger.error("emotesManager==null");
             return orgMessage;
         }
         try {
@@ -84,17 +82,16 @@ public class Helper {
     }
 
     public static ChatEmoticonSet[] injectEmotes(ChatEmoticonSet[] orgArr) {
-        Log.d(LOG_TAG, "widget");
+        Logger.debug("widget");
         if (orgArr == null || orgArr.length == 0)
             return orgArr;
 
-        Log.d(LOG_TAG, "orgArr length: " + orgArr.length);
+        Logger.debug("orgArr length: " + orgArr.length);
         List<ChatEmoticonSet> sets = new ArrayList<>(Arrays.asList(orgArr));
 
         try {
             List<Emote> globalEmotes = EmotesManager.getInstance().getGlobalEmotes();
             if (globalEmotes != null && globalEmotes.size() > 0) {
-                Log.d(LOG_TAG, "G-emotes:" + globalEmotes.toString());
                 ChatEmoticonSet set = new ChatEmoticonSet();
                 set.emoticonSetId = -799;
                 ChatEmoticon[] arr = convert(globalEmotes);
@@ -107,11 +104,10 @@ public class Helper {
 
         try {
             int channelId = getInstance().getCurrentChannel();
-            Log.d(LOG_TAG, "channelId: " + channelId);
+            Logger.debug("channelId: " + channelId);
             if (channelId != 0) {
                 List<Emote> roomEmotes = EmotesManager.getInstance().getEmotes(channelId);
                 if (roomEmotes != null && roomEmotes.size() > 0) {
-                    Log.d(LOG_TAG, "R-emotes:" + roomEmotes.toString());
                     ChatEmoticonSet set = new ChatEmoticonSet();
                     set.emoticonSetId = -800;
                     ChatEmoticon[] arr = convert(roomEmotes);
@@ -124,7 +120,7 @@ public class Helper {
         }
 
         ChatEmoticonSet[] ret = sets.toArray(new ChatEmoticonSet[0]);
-        Log.d(LOG_TAG, String.format("ret size: %d", ret.length));
+        Logger.debug(String.format(Locale.ENGLISH, "ret size: %d", ret.length));
         return ret;
     }
 
@@ -137,7 +133,7 @@ public class Helper {
     }
 
     public void setCurrentChannel(int currentChannel) {
-        Log.d(LOG_TAG, "Set currentChannel=" + currentChannel);
+        Logger.debug("Set currentChannel=" + currentChannel);
         this.currentChannel = currentChannel;
     }
 
