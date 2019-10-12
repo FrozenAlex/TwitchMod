@@ -1,6 +1,6 @@
 package tv.twitch.android.app.core;
 
-public class u1 {
+public class w1 {
     public enum b {
         b("chat"),
         c("whisper"),
