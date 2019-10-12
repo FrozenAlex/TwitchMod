@@ -13,9 +13,8 @@ public class a implements ChatMessageFactory { // TODO: __IMPLEMENT
         return null;
     }
 
-    // replace original a method in synthetic
-    //
-    private final Spanned hook(tv.twitch.a.m.d.e eVar, boolean z, boolean z2, boolean z3, int i2, int i3, tv.twitch.a.m.d.h0.b bVar, TwitchURLSpan.a aVar, u1.b bVar2, String str, boolean z4, tv.twitch.a.m.d.u0.c cVar, Integer num) {
+
+    private final Spanned hook(tv.twitch.a.m.d.e eVar, boolean z, boolean z2, boolean z3, int i2, int i3, tv.twitch.a.m.d.h0.b bVar, TwitchURLSpan.a aVar, u1.b bVar2, String str, boolean z4, tv.twitch.a.m.d.u0.c cVar, Integer num) {  // TODO: __ADD__SYNTHETIC
         Spanned ret = a(eVar, z, z2, z3, i2, i3, bVar, aVar, bVar2, str, z4, cVar, num);
         return Helper.injectEmotes(ret, i3, this);
     }
@@ -25,7 +24,7 @@ public class a implements ChatMessageFactory { // TODO: __IMPLEMENT
     }
 
     @Override
-    public CharSequence getSpannedEmote(String url) {
+    public CharSequence getSpannedEmote(String url) { // TODO: __ADD
         return a(this, url, e.b.b, null, false, 12, null);
     }
 }

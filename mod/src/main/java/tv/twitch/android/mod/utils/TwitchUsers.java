@@ -13,7 +13,7 @@ import tv.twitch.android.mod.models.api.TwitchResponse;
 import tv.twitch.android.mod.models.api.TwitchUser;
 
 public class TwitchUsers {
-    private final ConcurrentHashMap<Integer, String> cache = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Integer, String> mChache = new ConcurrentHashMap<>();
 
     private TwitchUsers() {
     }
@@ -51,7 +51,7 @@ public class TwitchUsers {
                 this.mCallback.fail(mChannelId);
                 return;
             }
-            cache.put(twitchUser.getId(), twitchUser.getLogin());
+            mChache.put(twitchUser.getId(), twitchUser.getLogin());
             this.mCallback.userInfo(twitchUser.getLogin(), twitchUser.getId());
         }
 
@@ -73,11 +73,11 @@ public class TwitchUsers {
     }
 
     public void getUserName(int id, UserInfoCallback callback) {
-        if (!cache.containsKey(id)) {
+        if (!mChache.containsKey(id)) {
             request(id, callback);
             return;
         }
 
-        callback.userInfo(cache.get(id), id);
+        callback.userInfo(mChache.get(id), id);
     }
 }

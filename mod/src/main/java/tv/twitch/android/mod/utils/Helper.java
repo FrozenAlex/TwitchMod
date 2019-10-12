@@ -28,6 +28,11 @@ public class Helper {
             Logger.error("emotesManager==null");
             return orgMessage;
         }
+        if (factory == null) {
+            Logger.error("factory==null");
+            return orgMessage;
+        }
+
         try {
             final SpannableStringBuilder ssb = new SpannableStringBuilder(orgMessage);
 
@@ -61,6 +66,7 @@ public class Helper {
 
             return SpannedString.valueOf(ssb);
         } catch (Exception e) {
+            Logger.debug(String.format(Locale.ENGLISH, "msg: '%s'", orgMessage));
             e.printStackTrace();
         }
 
@@ -82,21 +88,21 @@ public class Helper {
     }
 
     public static ChatEmoticonSet[] injectEmotes(ChatEmoticonSet[] orgArr) {
-        Logger.debug("widget");
+        Logger.info("Injecting emotes in widget...");
         if (orgArr == null || orgArr.length == 0)
             return orgArr;
 
-        Logger.debug("orgArr length: " + orgArr.length);
-        List<ChatEmoticonSet> sets = new ArrayList<>(Arrays.asList(orgArr));
+        Logger.debug(String.format(Locale.ENGLISH, "orgArr length: %d", orgArr.length));
+        List<ChatEmoticonSet> chatEmoticonSetList = new ArrayList<>(Arrays.asList(orgArr));
 
         try {
             List<Emote> globalEmotes = EmotesManager.getInstance().getGlobalEmotes();
             if (globalEmotes != null && globalEmotes.size() > 0) {
-                ChatEmoticonSet set = new ChatEmoticonSet();
-                set.emoticonSetId = -799;
+                ChatEmoticonSet chatEmoticonSet = new ChatEmoticonSet();
+                chatEmoticonSet.emoticonSetId = -799;
                 ChatEmoticon[] arr = convert(globalEmotes);
-                set.emoticons = arr != null ? arr : new ChatEmoticon[0];
-                sets.add(set);
+                chatEmoticonSet.emoticons = arr != null ? arr : new ChatEmoticon[0];
+                chatEmoticonSetList.add(chatEmoticonSet);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,28 +114,28 @@ public class Helper {
             if (channelId != 0) {
                 List<Emote> roomEmotes = EmotesManager.getInstance().getEmotes(channelId);
                 if (roomEmotes != null && roomEmotes.size() > 0) {
-                    ChatEmoticonSet set = new ChatEmoticonSet();
-                    set.emoticonSetId = -800;
+                    ChatEmoticonSet chatEmoticonSet = new ChatEmoticonSet();
+                    chatEmoticonSet.emoticonSetId = -800;
                     ChatEmoticon[] arr = convert(roomEmotes);
-                    set.emoticons = arr != null ? arr : new ChatEmoticon[0];
-                    sets.add(set);
+                    chatEmoticonSet.emoticons = arr != null ? arr : new ChatEmoticon[0];
+                    chatEmoticonSetList.add(chatEmoticonSet);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        ChatEmoticonSet[] ret = sets.toArray(new ChatEmoticonSet[0]);
-        Logger.debug(String.format(Locale.ENGLISH, "ret size: %d", ret.length));
+        ChatEmoticonSet[] ret = chatEmoticonSetList.toArray(new ChatEmoticonSet[0]);
+        Logger.debug(String.format(Locale.ENGLISH, "ret length: %d", ret.length));
         return ret;
     }
 
     private static class Holder {
-        static final Helper instance = new Helper();
+        static final Helper mInstance = new Helper();
     }
 
     public static Helper getInstance() {
-        return Holder.instance;
+        return Holder.mInstance;
     }
 
     public void setCurrentChannel(int currentChannel) {
@@ -142,11 +148,7 @@ public class Helper {
     }
 
     public static void newRequest(int channelId) {
-        try {
-            EmotesManager.getInstance().request(channelId);
-            Helper.getInstance().setCurrentChannel(channelId);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        EmotesManager.getInstance().request(channelId);
+        Helper.getInstance().setCurrentChannel(channelId);
     }
 }

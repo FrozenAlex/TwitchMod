@@ -1,6 +1,5 @@
 package tv.twitch.a.k;
 
-import tv.twitch.android.mod.emotes.EmotesManager;
 import tv.twitch.android.mod.utils.Helper;
 import tv.twitch.chat.ChatEmoticonSet;
 

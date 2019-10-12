@@ -4,7 +4,7 @@ public class ChatEmoticonUrl extends ChatEmoticon { //TODO: __ADD
     private String url;
 
     public ChatEmoticonUrl(String match, String url) {
-        this.emoticonId = "-1"; // TODO: test
+        this.emoticonId = "-1";
         this.isRegex = false;
         this.match = match;
         this.url = url;

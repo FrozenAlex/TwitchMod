@@ -13,7 +13,7 @@ public enum o {
         public final o a(String str) {
             j.b(str, "name");
             if (j.a((Object) str, (Object) o.c.a)) {
-                return o.d; // Always exo player
+                return o.d; // TODO: __REPLACE
             }
             if (j.a((Object) str, (Object) o.d.a)) {
                 return o.d;
