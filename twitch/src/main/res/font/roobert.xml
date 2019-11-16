@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:twitch="http://schemas.android.com/apk/res-auto">
+    <font twitch:font="@font/roobert_light" twitch:fontStyle="normal" twitch:fontWeight="300" />
+    <font twitch:font="@font/roobert_lightitalic" twitch:fontStyle="italic" twitch:fontWeight="300" />
+    <font twitch:font="@font/roobert_regular" twitch:fontStyle="normal" twitch:fontWeight="400" />
+    <font twitch:font="@font/roobert_regularitalic" twitch:fontStyle="italic" twitch:fontWeight="400" />
+    <font twitch:font="@font/roobert_medium" twitch:fontStyle="normal" twitch:fontWeight="500" />
+    <font twitch:font="@font/roobert_mediumitalic" twitch:fontStyle="italic" twitch:fontWeight="500" />
+    <font twitch:font="@font/roobert_semibold" twitch:fontStyle="normal" twitch:fontWeight="600" />
+    <font twitch:font="@font/roobert_bold" twitch:fontStyle="normal" twitch:fontWeight="700" />
+    <font twitch:font="@font/roobert_heavy" twitch:fontStyle="normal" twitch:fontWeight="800" />
+</font-family>

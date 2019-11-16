@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/mod_chat_settings_chat_category">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_EMOTES"
+            android:title="@string/mod_chat_settings_emotes" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_DISABLE_GIFS"
+            android:title="@string/mod_chat_settings_disable_gifs" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_SHOW_DEL_MESSAGES"
+            android:title="@string/mod_chat_settings_show_del_messages" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_EMOTE_PICKER"
+            android:title="@string/mod_chat_settings_widget" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_POINTS"
+            android:title="@string/mod_chat_settings_points" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_TIMESTAMPS"
+            android:title="@string/mod_chat_settings_timestamps" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_EMOTE_TOAST"
+            android:title="@string/mod_chat_settings_emote_toast" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/mod_chat_settings_player_category">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="MOD_DISABLE_ADS"
+            android:enabled="false"
+            android:title="@string/mod_chat_settings_disable_ads" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_EXOPLAYER"
+            android:title="@string/mod_chat_settings_use_exoplayer" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_STAT"
+            android:title="@string/mod_chat_settings_stat" />
+    </PreferenceCategory>
+</PreferenceScreen>

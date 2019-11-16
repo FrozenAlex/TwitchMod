@@ -38,7 +38,7 @@ public class Helper {
 
             final String msg = ssb.toString();
 
-            int startMessagePos = msg.indexOf(": ");
+            int startMessagePos = msg.indexOf(" ");
             if (startMessagePos == -1) {
                 return orgMessage;
             }
