@@ -112,7 +112,7 @@ public class Helper {
             int channelId = getInstance().getCurrentChannel();
             Logger.debug("channelId: " + channelId);
             if (channelId != 0) {
-                List<Emote> roomEmotes = EmotesManager.getInstance().getEmotes(channelId);
+                List<Emote> roomEmotes = EmotesManager.getInstance().getRoomEmotes(channelId);
                 if (roomEmotes != null && roomEmotes.size() > 0) {
                     ChatEmoticonSet chatEmoticonSet = new ChatEmoticonSet();
                     chatEmoticonSet.emoticonSetId = -800;

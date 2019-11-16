@@ -39,7 +39,7 @@ public class EmotesManager {
         return list;
     }
 
-    public List<Emote> getEmotes(int channelId) {
+    public List<Emote> getRoomEmotes(int channelId) {
         List<Emote> list = new ArrayList<>();
         Room room = mRooms.get(channelId);
         if (room == null)
@@ -61,6 +61,25 @@ public class EmotesManager {
     }
 
     public Emote getEmote(String code, int channelId) {
+
+        if (code == null) {
+            Logger.error("code is null");
+            return null;
+        } else if (code.isEmpty()) {
+            Logger.warning("empty code");
+            return null;
+        }
+
+        Emote emote = findRoomEmote(code, channelId);
+        if (emote != null)
+            return emote;
+
+        emote = findGlobalEmote(code);
+
+        return emote;
+    }
+
+    private Emote findRoomEmote(String code, int channelId) {
         Emote emote = null;
 
         if (!mRooms.containsKey(channelId))
@@ -73,7 +92,11 @@ public class EmotesManager {
                 return emote;
         }
 
-        emote = mBttvGlobal.getEmote(code);
+        return emote;
+    }
+
+    private Emote findGlobalEmote(String code) {
+        Emote emote = mBttvGlobal.getEmote(code);
         if (emote != null)
             return emote;
 

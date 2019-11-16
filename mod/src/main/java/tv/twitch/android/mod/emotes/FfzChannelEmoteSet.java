@@ -3,9 +3,11 @@ package tv.twitch.android.mod.emotes;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import tv.twitch.android.mod.models.Emote;
 import tv.twitch.android.mod.models.EmoteSet;
@@ -20,7 +22,7 @@ import tv.twitch.android.mod.utils.Logger;
 import static tv.twitch.android.mod.net.ServiceFactory.getFfzApi;
 
 public class FfzChannelEmoteSet extends ApiCallback<FfzResponse> implements EmoteSet {
-    private final LinkedHashMap<String, Emote> mEmoteMap = new LinkedHashMap<>();
+    private final Map<String, Emote> mEmoteMap = Collections.synchronizedMap(new LinkedHashMap<String, Emote>());
     private final String mChannelName;
 
     public FfzChannelEmoteSet(String channelName) {
