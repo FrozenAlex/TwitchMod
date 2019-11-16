@@ -2,6 +2,7 @@
     <!-- Category -->
     <string name="mod_chat_settings_chat_category">Chat</string>
     <string name="mod_chat_settings_player_category">Player</string>
+    <string name="mod_chat_settings_patch">Patch</string>
     <!-- Chat -->
     <string name="mod_chat_settings_emotes">BetterTTV/FFZ Emotes</string>
     <string name="mod_chat_settings_widget">Inject bttv/ffz emotes in emote widget</string>
@@ -14,4 +15,6 @@
     <string name="mod_chat_settings_disable_ads">Disable ads</string>
     <string name="mod_chat_settings_use_exoplayer">Enable ExoPlayer V2</string>
     <string name="mod_chat_settings_stat">Show debug info</string>
+    <!-- Patch -->
+    <string name="mod_chat_settings_disable_recommendations">Disable recommendations</string>
 </resources>
