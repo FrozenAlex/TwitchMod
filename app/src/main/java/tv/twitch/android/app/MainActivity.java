@@ -3,6 +3,7 @@ package tv.twitch.android.app;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import tv.twitch.android.mod.activities.Settings;
@@ -10,6 +11,7 @@ import tv.twitch.android.mod.emotes.EmotesManager;
 import tv.twitch.android.mod.settings.PrefManager;
 import tv.twitch.android.mod.utils.Helper;
 import tv.twitch.android.mod.utils.Loader;
+import tv.twitch.android.mod.utils.Logger;
 
 public class MainActivity extends Activity {
 
@@ -36,7 +38,5 @@ public class MainActivity extends Activity {
         });
         th.setDaemon(true);
         th.start();
-        Intent intent = new Intent(this, Settings.class);
-        startActivity(intent);
     }
 }

@@ -7,7 +7,7 @@ import static tv.twitch.android.mod.utils.Helper.injectEmotes;
 
 // Source: ChatController
 public class c0 {
-    public ChatEmoticonSet[] o = null; // widget set
+    public ChatEmoticonSet[] k = null; // widget set
 
 
 
@@ -19,8 +19,8 @@ public class c0 {
     }
 
 
-    public ChatEmoticonSet[] c() { // TODO: __REPLACE
-        return injectEmotes(this.o);
+    public ChatEmoticonSet[] b() { // TODO: __REPLACE
+        return injectEmotes(this.k);
     }
 
 

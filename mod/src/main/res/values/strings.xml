@@ -7,7 +7,6 @@
     <string name="mod_chat_settings_emotes">BetterTTV/FFZ Emotes</string>
     <string name="mod_chat_settings_widget">Inject bttv/ffz emotes in emote widget</string>
     <string name="mod_chat_settings_disable_gifs">Disable GIFs</string>
-    <string name="mod_chat_settings_emote_toast">Show emotes info</string>
     <string name="mod_chat_settings_show_del_messages">Show deleted messages</string>
     <string name="mod_chat_settings_points">Points autoclicker</string>
     <string name="mod_chat_settings_timestamps">Add timestamps to messages</string>

@@ -22,8 +22,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled false // false for build runnable apk
-            shrinkResources false // false for build runnable apk
+            minifyEnabled true // false for build runnable apk
+            shrinkResources true // false for build runnable apk
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -39,4 +39,5 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':mod')
     implementation project(path: ':twitch')
+    implementation 'com.android.support:appcompat-v7:28.0.0'
 }

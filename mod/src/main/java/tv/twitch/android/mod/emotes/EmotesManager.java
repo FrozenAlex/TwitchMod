@@ -29,6 +29,11 @@ public class EmotesManager {
         return Holder.mInstanse;
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static void init() {
+        getInstance();
+    }
+
     public List<Emote> getGlobalEmotes() {
         List<Emote> list = new ArrayList<>();
         if (mBttvGlobal != null)

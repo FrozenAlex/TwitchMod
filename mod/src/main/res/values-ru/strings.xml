@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Category -->
+    <string name="mod_chat_settings_chat_category">Чат</string>
+    <string name="mod_chat_settings_player_category">Плеер</string>
+    <string name="mod_chat_settings_patch">Патчи</string>
+    <!-- Chat -->
+    <string name="mod_chat_settings_emotes">Смайлы BetterTTV/FFZ</string>
+    <string name="mod_chat_settings_widget">Добавить смайлы в виджет</string>
+    <string name="mod_chat_settings_disable_gifs">Отключить анимированные смайлы</string>
+    <string name="mod_chat_settings_show_del_messages">Просмотр удаленных сообщений</string>
+    <string name="mod_chat_settings_points">Включить автокликер для поинтов</string>
+    <string name="mod_chat_settings_timestamps">Отображать временные метки</string>
+    <!-- Player -->
+    <string name="mod_chat_settings_disable_ads">Заблокировать рекламу</string>
+    <string name="mod_chat_settings_use_exoplayer">Всегда использовать ExoPlayer V2</string>
+    <string name="mod_chat_settings_stat">Статистика</string>
+    <!-- Patch -->
+    <string name="mod_chat_settings_disable_recommendations">Отключить рекомендации</string>
+</resources>

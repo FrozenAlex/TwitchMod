@@ -26,10 +26,6 @@
             android:defaultValue="false"
             android:key="MOD_TIMESTAMPS"
             android:title="@string/mod_chat_settings_timestamps" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="MOD_EMOTE_TOAST"
-            android:title="@string/mod_chat_settings_emote_toast" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/mod_chat_settings_player_category">
         <CheckBoxPreference
@@ -41,10 +37,6 @@
             android:defaultValue="false"
             android:key="MOD_EXOPLAYER"
             android:title="@string/mod_chat_settings_use_exoplayer" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="MOD_STAT"
-            android:title="@string/mod_chat_settings_stat" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/mod_chat_settings_patch">
         <CheckBoxPreference

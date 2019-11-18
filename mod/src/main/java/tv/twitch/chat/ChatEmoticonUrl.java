@@ -1,6 +1,6 @@
 package tv.twitch.chat;
 
-public class ChatEmoticonUrl extends ChatEmoticon { //TODO: __ADD
+public class ChatEmoticonUrl extends ChatEmoticon {
     private String url;
 
     public ChatEmoticonUrl(String match, String url) {

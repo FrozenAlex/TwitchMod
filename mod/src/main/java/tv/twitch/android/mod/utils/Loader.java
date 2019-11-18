@@ -12,6 +12,6 @@ public class Loader {
             return;
         }
         PrefManager.init(context);
-        EmotesManager.getInstance(); // TODO: fix
+        EmotesManager.init();
     }
 }
