@@ -27,9 +27,9 @@ public abstract class ApiCallback<T> implements Callback<T> {
                 return;
             }
             onRequestSuccess(response.body());
+        } else {
+            onRequestFail(FailReason.UNSUCCESSFUL);
         }
-
-        onRequestFail(FailReason.UNSUCCESSFUL);
     }
 
     public abstract void fetch();
