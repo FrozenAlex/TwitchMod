@@ -1,5 +1,6 @@
 package tv.twitch.android.models.communitypoints;
 
+// Source: ActiveClaimModel
 public final class ActiveClaimModel {
     private int basePoints;
     private int pointsEarned;

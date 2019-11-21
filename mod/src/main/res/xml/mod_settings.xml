@@ -26,6 +26,10 @@
             android:defaultValue="false"
             android:key="MOD_TIMESTAMPS"
             android:title="@string/mod_chat_settings_timestamps" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_COPY_MSG"
+            android:title="@string/mod_chat_settings_copymsg" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/mod_chat_settings_player_category">
         <CheckBoxPreference

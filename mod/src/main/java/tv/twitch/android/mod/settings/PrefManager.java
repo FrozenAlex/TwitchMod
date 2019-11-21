@@ -16,6 +16,7 @@ public class PrefManager {
     private static final String PREF_KEY_DISABLE_ADS = "MOD_DISABLE_ADS";
     private static final String PREF_KEY_EXOPLAYER = "MOD_EXOPLAYER";
     private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
+    private static final String PREF_KEY_COPY_MSG = "MOD_COPY_MSG";
 
     private static SharedPreferences mPref;
 
@@ -49,7 +50,7 @@ public class PrefManager {
         return getBoolean(PREF_KEY_SHOW_DEL_MESSAGES, false);
     }
 
-    public static boolean isEmotePickerOn() {
+    public static boolean isHookEmoticonSetOn() {
         return getBoolean(PREF_KEY_EMOTE_PICKER, false);
     }
 
@@ -71,5 +72,9 @@ public class PrefManager {
 
     public static boolean isDisRec() {
         return getBoolean(PREF_KEY_DISABLE_RECOMMENDATIONS, false);
+    }
+
+    public static boolean isCopyMsgOn() {
+        return getBoolean(PREF_KEY_COPY_MSG, false);
     }
 }

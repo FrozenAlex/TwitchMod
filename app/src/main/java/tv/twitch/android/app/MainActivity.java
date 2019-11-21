@@ -12,6 +12,7 @@ import tv.twitch.android.mod.settings.PrefManager;
 import tv.twitch.android.mod.utils.Helper;
 import tv.twitch.android.mod.utils.Loader;
 import tv.twitch.android.mod.utils.Logger;
+import tv.twitch.android.models.channel.ChannelInfo;
 
 public class MainActivity extends Activity {
 
@@ -19,7 +20,23 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Loader.init(this); // TODO: __ADD_ONCREATE
-        Helper.newRequest(22484632);
+        ChannelInfo channelInfo = new ChannelInfo() {
+            @Override
+            public String getDisplayName() {
+                return null;
+            }
+
+            @Override
+            public int getId() {
+                return 22484632;
+            }
+
+            @Override
+            public String getName() {
+                return null;
+            }
+        };
+        Helper.newRequest(channelInfo);
         final String[] emotes = {"PedoBear", "YooHoo", "forsenShuffle", "LULW"};
         Thread th = new Thread(new Runnable() {
             @Override

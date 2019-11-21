@@ -11,10 +11,10 @@
     <string name="mod_chat_settings_show_del_messages">Просмотр удаленных сообщений</string>
     <string name="mod_chat_settings_points">Включить автокликер для поинтов</string>
     <string name="mod_chat_settings_timestamps">Отображать временные метки</string>
+    <string name="mod_chat_settings_copymsg">Скопировать сообщение при клике</string>
     <!-- Player -->
     <string name="mod_chat_settings_disable_ads">Заблокировать рекламу</string>
     <string name="mod_chat_settings_use_exoplayer">Всегда использовать ExoPlayer V2</string>
-    <string name="mod_chat_settings_stat">Статистика</string>
     <!-- Patch -->
     <string name="mod_chat_settings_disable_recommendations">Отключить рекомендации</string>
 </resources>

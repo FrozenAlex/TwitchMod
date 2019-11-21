@@ -1,27 +1,13 @@
 package tv.twitch.a.k;
 
-import tv.twitch.android.mod.utils.Helper;
+import tv.twitch.android.mod.utils.ChatUtils;
 import tv.twitch.chat.ChatEmoticonSet;
-
-import static tv.twitch.android.mod.utils.Helper.injectEmotes;
 
 // Source: ChatController
 public class c0 {
     public ChatEmoticonSet[] k = null; // widget set
 
-
-
-    // i2 - user id?
-    // i3 - channel id
-    private boolean a(int i2, int i3) {
-        Helper.newRequest(i3); // TODO: __ADD
-        return false;
-    }
-
-
     public ChatEmoticonSet[] b() { // TODO: __REPLACE
-        return injectEmotes(this.k);
+        return ChatUtils.hookChatEmoticonSet(this.k);
     }
-
-
 }

@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import tv.twitch.android.mod.models.Emote;
 import tv.twitch.android.mod.utils.Logger;
+import tv.twitch.android.models.channel.ChannelInfo;
 
 public class EmotesManager {
     private BttvGlobalEmoteSet mBttvGlobal;
@@ -46,6 +47,9 @@ public class EmotesManager {
 
     public List<Emote> getRoomEmotes(int channelId) {
         List<Emote> list = new ArrayList<>();
+        if (channelId <= 0)
+            return list;
+
         Room room = mRooms.get(channelId);
         if (room == null)
             return list;
@@ -109,8 +113,12 @@ public class EmotesManager {
         return emote;
     }
 
-    public void request(int channelId) {
-        request(channelId, true);
+    public void request(ChannelInfo channelInfo) {
+        if (channelInfo != null)
+            request(channelInfo.getId(), true);
+        else {
+            Logger.error("channelInfo is null");
+        }
     }
 
     private void request(int channelId, boolean forced) {

@@ -17,7 +17,6 @@
         <item name="colorControlHighlight">@color/pressed</item>
         <item name="colorPrimary">@color/background_accent</item>
         <item name="colorPrimaryDark">@color/black</item>
-        <!-- <item name="colorSurface">@color/background_base</item> TODO: fix -->
         <item name="fontFamily">@font/roobert_medium</item>
     </style>
     <style name="TwitchInputStyle" parent="@style/Widget.AppCompat.AutoCompleteTextView">

@@ -10,10 +10,10 @@
     <string name="mod_chat_settings_show_del_messages">Show deleted messages</string>
     <string name="mod_chat_settings_points">Points autoclicker</string>
     <string name="mod_chat_settings_timestamps">Add timestamps to messages</string>
+    <string name="mod_chat_settings_copymsg">Tap on message to copy</string>
     <!-- Player -->
     <string name="mod_chat_settings_disable_ads">Disable ads</string>
     <string name="mod_chat_settings_use_exoplayer">Enable ExoPlayer V2</string>
-    <string name="mod_chat_settings_stat">Show debug info</string>
     <!-- Patch -->
     <string name="mod_chat_settings_disable_recommendations">Disable recommendations</string>
 </resources>
