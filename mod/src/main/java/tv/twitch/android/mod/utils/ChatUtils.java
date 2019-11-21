@@ -243,12 +243,12 @@ public class ChatUtils {
         ChatEmoticon[] roomEmoticons = emotesToChatEmoticonArr(roomEmotes);
 
         ChatEmoticonSet globalEmoticonSet = new ChatEmoticonSet();
-        globalEmoticonSet.emoticonSetId = -1;
+        globalEmoticonSet.emoticonSetId = -100;
         globalEmoticonSet.emoticons = globalEmoticons != null ? globalEmoticons : new ChatEmoticon[0];
         newSet[newSet.length-2] = globalEmoticonSet;
 
         ChatEmoticonSet roomEmoticonSet = new ChatEmoticonSet();
-        roomEmoticonSet.emoticonSetId = -2;
+        roomEmoticonSet.emoticonSetId = -101;
         roomEmoticonSet.emoticons = roomEmoticons != null ? roomEmoticons : new ChatEmoticon[0];
         newSet[newSet.length-1] = roomEmoticonSet;
 
