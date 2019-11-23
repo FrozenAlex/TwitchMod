@@ -20,6 +20,10 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
--keep class okhttp3.** { *; }
 -keep class tv.twitch.** { *; }
+-keep class okhttp3.** { *; }
 -keep class androidx.appcompat.app.AppCompatActivity { *; }
+
+# Twitch obfuscation
+-keep public interface retrofit2.Callback {*;}
+-applymapping mapping.txt

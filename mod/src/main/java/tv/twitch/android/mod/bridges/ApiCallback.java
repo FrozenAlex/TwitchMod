@@ -21,15 +21,15 @@ public abstract class ApiCallback<T> implements Callback<T> {
     public abstract void onRequestFail(FailReason reason);
 
     public void onResponse(Call<T> call, Response<T> response) {
-        if (response.isSuccessful()) {
-            if (response.body() == null) {
-                onRequestFail(FailReason.NULL_BODY);
-                return;
-            }
-            onRequestSuccess(response.body());
-        } else {
+        if (!response.isSuccessful()) {
             onRequestFail(FailReason.UNSUCCESSFUL);
+            return;
         }
+        if (response.body() == null) {
+            onRequestFail(FailReason.NULL_BODY);
+            return;
+        }
+        onRequestSuccess(response.body());
     }
 
     public abstract void fetch();

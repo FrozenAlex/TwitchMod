@@ -1,13 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+
     compileSdkVersion 29
     defaultConfig {
         applicationId "tv.twitch.android.app"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "8.1.0"
+        versionName "1.0"
 
         externalNativeBuild {
             cmake {
@@ -15,16 +16,41 @@ android {
             }
         }
     }
+
+    flavorDimensions "version"
+    productFlavors {
+        apk {
+            applicationIdSuffix ".run"
+            dimension "version"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        module {
+            applicationIdSuffix ".module"
+            dimension "version"
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules-module.pro'
+        }
+    }
+
+    afterEvaluate {
+        generateModuleReleaseBuildConfig.enabled = false
+        generateModuleDebugBuildConfig.enabled = false
+        generateModuleReleaseResValues.enabled = false
+        generateModuleDebugResValues.enabled = false
+
+        generateApkReleaseBuildConfig.enabled = false
+        generateApkDebugBuildConfig.enabled = false
+        generateApkReleaseResValues.enabled = false
+        generateApkDebugResValues.enabled = false
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            minifyEnabled true // false for build runnable apk
-            shrinkResources true // false for build runnable apk
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled true
+            shrinkResources true
         }
     }
     //    externalNativeBuild {

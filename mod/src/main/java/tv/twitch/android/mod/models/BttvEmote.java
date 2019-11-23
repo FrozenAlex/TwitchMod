@@ -1,5 +1,7 @@
 package tv.twitch.android.mod.models;
 
+import androidx.annotation.NonNull;
+
 public final class BttvEmote implements Emote {
     private final String mCode;
     private final String mTemplateUrl;
@@ -37,6 +39,7 @@ public final class BttvEmote implements Emote {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "{Code: " + getCode() + ", Url: " + getUrl() + ", Id: " + getId() + ", isGif: " + isGif() + "}";
     }

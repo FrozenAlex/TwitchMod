@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import tv.twitch.a.m.e.e;
 import tv.twitch.android.mod.bridges.ChatMessageFactory;
 import tv.twitch.android.mod.bridges.ContextHelper;
 import tv.twitch.android.mod.emotes.EmotesManager;
@@ -34,23 +35,19 @@ public class ChatUtils {
 
     public static int findMsgStartPos(Spanned orgMessage) {
         int startMessagePos = -1;
+
         Object[] spans = orgMessage.getSpans(0, orgMessage.length(), tv.twitch.a.m.e.y0.f.class);
-        if (spans != null && spans.length == 1) {
+        if (spans != null && spans.length >= 1) {
             startMessagePos = orgMessage.getSpanEnd(spans[0]);
         }
-        if (startMessagePos != -1) {
-            if (startMessagePos + 2 < orgMessage.length()) {
-                if (orgMessage.charAt(startMessagePos) == ':' && orgMessage.charAt(startMessagePos + 1) == ' ') {
-                    startMessagePos++;
-                }
-            } else {
-                return -1;
-            }
-        }
 
-        if (startMessagePos == -1) {
-            Logger.debug(String.format(Locale.ENGLISH, "Debug msg: {{%s}}", orgMessage));
-            startMessagePos = TextUtils.indexOf(orgMessage, ' ');
+        if (startMessagePos != -1) {
+            if (startMessagePos + 3 < orgMessage.length()) {
+                if (orgMessage.charAt(startMessagePos) == ':' && orgMessage.charAt(startMessagePos+1) == ' ')
+                    startMessagePos += 2;
+                else if (orgMessage.charAt(startMessagePos) == ' ')
+                    startMessagePos += 1;
+            }
         }
 
         return startMessagePos;
@@ -79,7 +76,6 @@ public class ChatUtils {
     }
 
     public static String getMessage(List<MessageToken> tokens) {
-        Logger.debug(tokens.toString());
         StringBuilder stringBuilder = new StringBuilder();
         for (MessageToken messageToken : tokens) {
             if (messageToken instanceof MessageToken.TextToken)
@@ -98,7 +94,7 @@ public class ChatUtils {
         return stringBuilder.toString();
     }
 
-    public static SpannedString addCopy(final ContextHelper contextHelper, SpannedString spannedString, final List<MessageToken> tokens) {
+    public static SpannedString injectCopySpan(SpannedString spannedString, final List<MessageToken> tokens, final ContextHelper contextHelper) {
         if (TextUtils.isEmpty(spannedString)) {
             Logger.warning("spannedString is null");
             return spannedString;
@@ -149,15 +145,28 @@ public class ChatUtils {
             mClaims.add(claimModel.getId());
         }
 
-        Logger.info("Click! Get: " + claimModel.getPointsEarned());
+        Logger.info(String.format(Locale.ENGLISH, "Click! Got %d points", claimModel.getPointsEarned()));
         view.performClick();
     }
 
-    public static Spanned injectEmotes(Spanned orgMessage, int channelID, ChatMessageFactory factory) {
-        // Logger.debug(String.format(Locale.ENGLISH, "msg: {{%s}}", orgMessage));
-        if (!PrefManager.isEmotesOn()) {
-            return orgMessage;
+    public static SpannableStringBuilder checkAndInjectEmote(SpannableStringBuilder ssb, final Spanned orgMessage, final int startWordPos, final int endWordPos, final int channelID, final EmotesManager manager, final ChatMessageFactory factory) {
+        Emote emote = manager.getEmote(TextUtils.substring(orgMessage, startWordPos, endWordPos), channelID);
+        if (emote != null) {
+            if (emote.isGif() && PrefManager.isDontLoadGifs())
+                return ssb;
+            SpannableString emoteSpan = (SpannableString) factory.getSpannedEmote(emote.getUrl());
+            if (ssb == null) {
+                ssb = new SpannableStringBuilder(orgMessage);
+            }
+            ssb.replace(startWordPos, endWordPos, emoteSpan);
         }
+
+        return ssb;
+    }
+
+
+    public static Spanned injectEmotesSpan(Spanned orgMessage, int channelID, ChatMessageFactory factory, e chatMessageInterface) {
+        // Logger.debug(String.format(Locale.ENGLISH, "msg: {{%s}}", orgMessage));
 
         if (orgMessage == null) {
             Logger.error("orgMessage is null");
@@ -174,49 +183,43 @@ public class ChatUtils {
             return orgMessage;
         }
 
-        try {
-            SpannableStringBuilder ssb = null;
+        SpannableStringBuilder ssb = null;
 
-            if (TextUtils.isEmpty(orgMessage))
-                return orgMessage;
+        if (TextUtils.isEmpty(orgMessage))
+            return orgMessage;
 
-            int startMessagePos = findMsgStartPos(orgMessage);
-            if (startMessagePos == -1) {
-                return orgMessage;
-            }
+        int startPos = findMsgStartPos(orgMessage);
+        if (startPos == -1) {
+            Logger.debug(String.format(Locale.ENGLISH, "Msg: {{%s}}, isAction: %s", orgMessage, chatMessageInterface.isAction()));
+            startPos = 0;
+        }
 
-            boolean newWord = false;
-            int endWordPos = orgMessage.length();
-            for (int i = orgMessage.length() - 1; i >= startMessagePos; i--) {
-                if (orgMessage.charAt(i) != ' ') {
-                    if (!newWord) {
-                        newWord = true;
-                        endWordPos = i + 1;
-                    }
-                } else {
-                    if (newWord) {
-                        newWord = false;
-                        int startWordPos = i + 1;
-                        final Emote emote = emotesManager.getEmote(TextUtils.substring(orgMessage, startWordPos, endWordPos), channelID);
-                        if (emote != null) {
-                            SpannableString emoteSpan = (SpannableString) factory.getSpannedEmote(emote.getUrl());
-                            if (ssb == null) {
-                                ssb = new SpannableStringBuilder(orgMessage);
-                            }
-                            ssb.replace(startWordPos, endWordPos, emoteSpan);
-                        }
-                    }
+        boolean inWord = false;
+        int endPos = orgMessage.length();
+        for (int i = endPos-1; i>=startPos; i--) {
+            final boolean isSpace = orgMessage.charAt(i) == ' ';
+
+            if (isSpace) {
+                if (inWord) {
+                    inWord = false;
+                    ssb = checkAndInjectEmote(ssb, orgMessage, i+1, endPos, channelID, emotesManager, factory);
+                }
+            } else {
+                if (!inWord) {
+                    inWord = true;
+                    endPos = i + 1;
                 }
             }
-
-            if (ssb != null)
-                return SpannedString.valueOf(ssb);
-
-            return orgMessage;
-        } catch (Exception e) {
-            Logger.debug(String.format(Locale.ENGLISH, "msg: {{%s}}", orgMessage));
-            e.printStackTrace();
+            if (i == startPos) {
+                if (inWord) {
+                    inWord = false;
+                    ssb = checkAndInjectEmote(ssb, orgMessage, startPos, endPos, channelID, emotesManager, factory);
+                }
+            }
         }
+
+        if (ssb != null)
+            return SpannedString.valueOf(ssb);
 
         return orgMessage;
     }

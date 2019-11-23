@@ -3,15 +3,16 @@ package tv.twitch.android.mod.emotes;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import tv.twitch.android.mod.models.Emote;
+import tv.twitch.android.mod.models.UserInfoCallback;
 import tv.twitch.android.mod.utils.Logger;
+import tv.twitch.android.mod.utils.TwitchUsers;
 import tv.twitch.android.models.channel.ChannelInfo;
 
-public class EmotesManager {
+public class EmotesManager implements UserInfoCallback {
     private BttvGlobalEmoteSet mBttvGlobal;
     private FfzGlobalEmoteSet mFfzGlobal;
 
@@ -23,11 +24,11 @@ public class EmotesManager {
     }
 
     private static class Holder {
-        static final EmotesManager mInstanse = new EmotesManager();
+        static final EmotesManager mInstance = new EmotesManager();
     }
 
     public static EmotesManager getInstance() {
-        return Holder.mInstanse;
+        return Holder.mInstance;
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -70,7 +71,6 @@ public class EmotesManager {
     }
 
     public Emote getEmote(String code, int channelId) {
-
         if (code == null) {
             Logger.error("code is null");
             return null;
@@ -80,11 +80,11 @@ public class EmotesManager {
         }
 
         Emote emote = findRoomEmote(code, channelId);
-        if (emote != null)
+        if (emote != null) {
             return emote;
+        }
 
         emote = findGlobalEmote(code);
-
         return emote;
     }
 
@@ -92,7 +92,7 @@ public class EmotesManager {
         Emote emote = null;
 
         if (!mRooms.containsKey(channelId))
-            request(channelId, false);
+            request(channelId);
         else {
             Room room = mRooms.get(channelId);
             if (room != null)
@@ -114,23 +114,57 @@ public class EmotesManager {
     }
 
     public void request(ChannelInfo channelInfo) {
-        if (channelInfo != null)
-            request(channelInfo.getId(), true);
-        else {
+        if (channelInfo != null) {
+            int channelId = channelInfo.getId();
+            if (channelId <= 0) {
+                Logger.debug("Bad channelInfo: " + channelInfo.toString());
+                return;
+            }
+
+            if (mCurrentRoomRequests.contains(channelId))
+                return;
+
+            if (channelInfo.getName() == null || channelInfo.getName().isEmpty()) {
+                Logger.warning("channelInfo: getName() is null. Request name by id");
+                request(channelId);
+                return;
+            }
+
+            userInfo(channelInfo.getName(), channelInfo.getId());
+            TwitchUsers.getInstance().checkAndAddUsername(channelInfo.getId(), channelInfo.getName());
+        } else {
             Logger.error("channelInfo is null");
         }
     }
 
-    private void request(int channelId, boolean forced) {
-        if (!forced && mRooms.containsKey(channelId))
-            return;
-
+    private void request(int channelId) {
         if (mCurrentRoomRequests.contains(channelId))
             return;
 
         mCurrentRoomRequests.add(channelId);
-        Logger.info(String.format(Locale.ENGLISH, "New request for channel(room): %d", channelId));
-        mRooms.put(channelId, new Room(channelId));
-        mCurrentRoomRequests.remove(channelId);
+        TwitchUsers.getInstance().getUserName(channelId, this);
+    }
+
+    @Override
+    public void userInfo(String userName, int userId) {
+        Logger.info(String.format("Fetching %s emoticons...", userName));
+        if (userId <= 0) {
+            Logger.error("Bad userId: " + userId);
+            return;
+        }
+        if (userName == null || userName.isEmpty()) {
+            Logger.error("onCreateuserName is empty");
+            mCurrentRoomRequests.remove(userId);
+            return;
+        }
+
+        Room room = new Room(userId, userName);
+        mRooms.put(userId, room);
+        mCurrentRoomRequests.remove(userId);
+    }
+
+    @Override
+    public void fail(int userId) {
+        Logger.error("Error fetching data for id: " + userId);
     }
 }

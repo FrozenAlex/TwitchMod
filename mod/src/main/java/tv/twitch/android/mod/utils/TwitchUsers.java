@@ -13,7 +13,7 @@ import tv.twitch.android.mod.models.api.TwitchResponse;
 import tv.twitch.android.mod.models.api.TwitchUser;
 
 public class TwitchUsers {
-    private final ConcurrentHashMap<Integer, String> mChache = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<Integer, String> mCache = new ConcurrentHashMap<>();
 
     private TwitchUsers() {
     }
@@ -51,7 +51,7 @@ public class TwitchUsers {
                 this.mCallback.fail(mChannelId);
                 return;
             }
-            mChache.put(twitchUser.getId(), twitchUser.getLogin());
+            mCache.put(twitchUser.getId(), twitchUser.getLogin());
             this.mCallback.userInfo(twitchUser.getLogin(), twitchUser.getId());
         }
 
@@ -67,17 +67,28 @@ public class TwitchUsers {
     }
 
     private void request(int channelId, UserInfoCallback callback) {
-        Logger.info("New API request for id: " + channelId);
         UserInfo userInfo = new UserInfo(channelId, callback);
         userInfo.fetch();
     }
 
     public void getUserName(int id, UserInfoCallback callback) {
-        if (!mChache.containsKey(id)) {
+        if (!mCache.containsKey(id)) {
             request(id, callback);
             return;
         }
 
-        callback.userInfo(mChache.get(id), id);
+        callback.userInfo(mCache.get(id), id);
+    }
+
+    public void checkAndAddUsername(int userId, String userName) {
+        if (userName != null && !userName.isEmpty()) {
+            if (userId > 0) {
+                synchronized (mCache) {
+                    if (!mCache.containsKey(userId)) {
+                        mCache.put(userId, userName);
+                    }
+                }
+            }
+        }
     }
 }

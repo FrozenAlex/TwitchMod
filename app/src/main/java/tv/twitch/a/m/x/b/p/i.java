@@ -13,9 +13,9 @@ public class i {
     private Drawable a;
 
     public enum b {
-        c(24.0f),
-        d(18.0f),
-        e(18.0f);
+        c(24.0f), // Emote
+        d(18.0f), // Badge
+        e(18.0f); // Reward
 
         private final float b;
 

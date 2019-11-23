@@ -5,8 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.HashMap;
 import java.util.List;
 
-import tv.twitch.android.mod.models.Emote;
-
 public class FfzGlobalResponse {
     @SerializedName("default_sets")
     private List<Integer> defaultSets;

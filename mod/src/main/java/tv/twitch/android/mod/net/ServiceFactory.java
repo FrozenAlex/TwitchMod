@@ -1,7 +1,5 @@
 package tv.twitch.android.mod.net;
 
-import retrofit2.Retrofit;
-
 import static tv.twitch.android.mod.bridges.RetrofitUtils.getRetrofitClient;
 
 public class ServiceFactory {

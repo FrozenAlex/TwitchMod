@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <PreferenceCategory android:title="@string/mod_chat_settings_chat_category">
+    <PreferenceCategory android:title="@string/mod_chat_settings_chat_bttv">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_EMOTES"
-            android:title="@string/mod_chat_settings_emotes" />
+            android:title="@string/mod_chat_settings_bttv_emotes" />
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="MOD_DISABLE_GIFS"
-            android:title="@string/mod_chat_settings_disable_gifs" />
+            android:key="MOD_EMOTE_PICKER"
+            android:title="@string/mod_chat_settings_bttv_widget" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_DONT_LOAD_GIFS"
+            android:title="@string/mod_chat_settings_bttv_off_gifs" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/mod_chat_settings_chat_category">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_SHOW_DEL_MESSAGES"
             android:title="@string/mod_chat_settings_show_del_messages" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="MOD_EMOTE_PICKER"
-            android:title="@string/mod_chat_settings_widget" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="MOD_POINTS"
-            android:title="@string/mod_chat_settings_points" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_TIMESTAMPS"
@@ -30,6 +27,14 @@
             android:defaultValue="false"
             android:key="MOD_COPY_MSG"
             android:title="@string/mod_chat_settings_copymsg" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_DISABLE_GIFS"
+            android:title="@string/mod_chat_settings_disable_animated_gifs" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_POINTS"
+            android:title="@string/mod_chat_settings_points" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/mod_chat_settings_player_category">
         <CheckBoxPreference

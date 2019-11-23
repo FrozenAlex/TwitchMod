@@ -1,16 +1,19 @@
 <resources>
     <!-- Category -->
+    <string name="mod_chat_settings_chat_bttv">BetterTTV/FFZ</string>
     <string name="mod_chat_settings_chat_category">Chat</string>
     <string name="mod_chat_settings_player_category">Player</string>
     <string name="mod_chat_settings_patch">Patch</string>
+    <!-- BTTV -->
+    <string name="mod_chat_settings_bttv_emotes">Enable</string>
+    <string name="mod_chat_settings_bttv_widget">Add emotes to widget</string>
+    <string name="mod_chat_settings_bttv_off_gifs">Turn off GIFs</string>
     <!-- Chat -->
-    <string name="mod_chat_settings_emotes">BetterTTV/FFZ Emotes</string>
-    <string name="mod_chat_settings_widget">Inject bttv/ffz emotes in emote widget</string>
-    <string name="mod_chat_settings_disable_gifs">Disable GIFs</string>
     <string name="mod_chat_settings_show_del_messages">Show deleted messages</string>
-    <string name="mod_chat_settings_points">Points autoclicker</string>
     <string name="mod_chat_settings_timestamps">Add timestamps to messages</string>
     <string name="mod_chat_settings_copymsg">Tap on message to copy</string>
+    <string name="mod_chat_settings_disable_animated_gifs">Disable GIF animations in chat</string>
+    <string name="mod_chat_settings_points">Points autoclicker</string>
     <!-- Player -->
     <string name="mod_chat_settings_disable_ads">Disable ads</string>
     <string name="mod_chat_settings_use_exoplayer">Enable ExoPlayer V2</string>

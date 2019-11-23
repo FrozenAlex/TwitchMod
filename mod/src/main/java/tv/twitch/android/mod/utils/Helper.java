@@ -24,7 +24,6 @@ public class Helper {
     }
 
     public void setCurrentChannel(ChannelInfo channelInfo) {
-        Logger.debug("ChannelInfo -> " + channelInfo);
         this.currentChannel = channelInfo.getId();
     }
 

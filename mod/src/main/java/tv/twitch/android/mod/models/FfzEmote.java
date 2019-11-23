@@ -1,5 +1,7 @@
 package tv.twitch.android.mod.models;
 
+import androidx.annotation.NonNull;
+
 public class FfzEmote implements Emote {
     private final String mCode;
     private final String mId;
@@ -32,6 +34,7 @@ public class FfzEmote implements Emote {
     }
 
     @Override
+    @NonNull
     public String toString() {
         return "{Code: " + getCode() + ", Url: " + getUrl() + ", Id: " + getId() + ", isGif: " + isGif() + "}";
     }
