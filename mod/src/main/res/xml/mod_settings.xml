@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="@string/mod_chat_settings_chat_bttv">
+    <PreferenceScreen android:title="@string/mod_chat_settings_chat_bttv">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_EMOTES"
@@ -13,8 +13,8 @@
             android:defaultValue="false"
             android:key="MOD_DONT_LOAD_GIFS"
             android:title="@string/mod_chat_settings_bttv_off_gifs" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/mod_chat_settings_chat_category">
+    </PreferenceScreen>
+    <PreferenceScreen android:title="@string/mod_chat_settings_chat_category">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_SHOW_DEL_MESSAGES"
@@ -35,8 +35,8 @@
             android:defaultValue="false"
             android:key="MOD_POINTS"
             android:title="@string/mod_chat_settings_points" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/mod_chat_settings_player_category">
+    </PreferenceScreen>
+    <PreferenceScreen android:title="@string/mod_chat_settings_player_category">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="MOD_DISABLE_ADS"
@@ -44,13 +44,17 @@
             android:title="@string/mod_chat_settings_disable_ads" />
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="MOD_DISABLE_AUTOPLAY"
+            android:title="@string/mod_chat_settings_disable_autoplay" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="MOD_EXOPLAYER"
             android:title="@string/mod_chat_settings_use_exoplayer" />
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/mod_chat_settings_patch">
+    </PreferenceScreen>
+    <PreferenceScreen android:title="@string/mod_chat_settings_patch">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_DISABLE_RECOMMENDATIONS"
             android:title="@string/mod_chat_settings_disable_recommendations" />
-    </PreferenceCategory>
+    </PreferenceScreen>
 </PreferenceScreen>

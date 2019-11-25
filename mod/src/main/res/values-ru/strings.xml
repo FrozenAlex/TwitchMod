@@ -17,6 +17,7 @@
     <string name="mod_chat_settings_points">Включить автокликер для поинтов</string>
     <!-- Player -->
     <string name="mod_chat_settings_disable_ads">Заблокировать рекламу</string>
+    <string name="mod_chat_settings_disable_autoplay">Отключить автовоспроизведение рекомендаций</string>
     <string name="mod_chat_settings_use_exoplayer">Включить ExoPlayer V2</string>
     <!-- Patch -->
     <string name="mod_chat_settings_disable_recommendations">Отключить рекомендации</string>

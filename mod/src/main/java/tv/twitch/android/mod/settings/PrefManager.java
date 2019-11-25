@@ -18,6 +18,7 @@ public class PrefManager {
     private static final String PREF_KEY_EXOPLAYER = "MOD_EXOPLAYER";
     private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
     private static final String PREF_KEY_COPY_MSG = "MOD_COPY_MSG";
+    private static final String PREF_KET_DISABLE_PLAYER_AUTOPLAY = "MOD_DISABLE_AUTOPLAY";
 
     private static SharedPreferences mPref;
 
@@ -81,5 +82,9 @@ public class PrefManager {
 
     public static boolean isCopyMsgOn() {
         return getBoolean(PREF_KEY_COPY_MSG, false);
+    }
+
+    public static boolean isDisableAutoplay() {
+        return getBoolean(PREF_KET_DISABLE_PLAYER_AUTOPLAY, false);
     }
 }

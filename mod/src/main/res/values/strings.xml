@@ -16,6 +16,7 @@
     <string name="mod_chat_settings_points">Points autoclicker</string>
     <!-- Player -->
     <string name="mod_chat_settings_disable_ads">Disable ads</string>
+    <string name="mod_chat_settings_disable_autoplay">Disable autoplay recommendations</string>
     <string name="mod_chat_settings_use_exoplayer">Enable ExoPlayer V2</string>
     <!-- Patch -->
     <string name="mod_chat_settings_disable_recommendations">Disable recommendations</string>
