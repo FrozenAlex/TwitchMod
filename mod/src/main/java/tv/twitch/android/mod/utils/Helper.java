@@ -32,6 +32,11 @@ public class Helper {
     }
 
     public static void newRequest(ChannelInfo channelInfo) {
+        if (channelInfo == null) {
+            Logger.error("channelInfo is null");
+            return;
+        }
+        Logger.debug(String.format("New request for %s...", channelInfo.getName()));
         EmotesManager.getInstance().request(channelInfo);
         Helper.getInstance().setCurrentChannel(channelInfo);
     }
