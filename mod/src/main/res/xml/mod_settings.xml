@@ -56,5 +56,9 @@
             android:defaultValue="false"
             android:key="MOD_DISABLE_RECOMMENDATIONS"
             android:title="@string/mod_chat_settings_disable_recommendations" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_DISABLE_RECENT_SEARCH"
+            android:title="@string/mod_chat_settings_disable_recent_search" />
     </PreferenceScreen>
 </PreferenceScreen>

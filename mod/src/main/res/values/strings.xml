@@ -20,4 +20,5 @@
     <string name="mod_chat_settings_use_exoplayer">Enable ExoPlayer V2</string>
     <!-- Patch -->
     <string name="mod_chat_settings_disable_recommendations">Disable recommendations</string>
+    <string name="mod_chat_settings_disable_recent_search">Disable recent searches</string>
 </resources>

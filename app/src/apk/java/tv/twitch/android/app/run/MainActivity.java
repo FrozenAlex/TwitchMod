@@ -26,6 +26,11 @@ public class MainActivity extends Activity {
             }
 
             @Override
+            public String getGame() {
+                return null;
+            }
+
+            @Override
             public int getId() {
                 return 22484632;
             }
@@ -33,6 +38,21 @@ public class MainActivity extends Activity {
             @Override
             public String getName() {
                 return null;
+            }
+
+            @Override
+            public boolean isPartner() {
+                return false;
+            }
+
+            @Override
+            public boolean isRecommendation() {
+                return false;
+            }
+
+            @Override
+            public void setRecommendation(boolean z) {
+
             }
         };
         Helper.newRequest(channelInfo);
