@@ -23,8 +23,9 @@ public final class BttvEmote implements Emote {
 
     @Override
     public String getUrl() {
-        if (url == null)
+        if (url == null) {
             this.url = mTemplateUrl.replace("{{id}}", this.mId).replace("{{image}}", "3x");
+        }
         return this.url;
     }
 

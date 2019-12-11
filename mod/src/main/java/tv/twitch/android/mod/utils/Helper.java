@@ -3,8 +3,10 @@ package tv.twitch.android.mod.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.widget.Toast;
 
+import tv.twitch.android.app.core.f0;
 import tv.twitch.android.mod.activities.Settings;
 import tv.twitch.android.mod.emotes.EmotesManager;
 import tv.twitch.android.models.channel.ChannelInfo;
@@ -66,5 +68,15 @@ public class Helper {
 
     public static void showToast(final Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+    }
+
+    public static boolean isLowDensity() {
+        Context context = f0.c().a();
+        if (context == null) {
+            Logger.error("context is null");
+            return false;
+        }
+        Resources resources = context.getResources();
+        return resources.getDisplayMetrics().density < 2.0f;
     }
 }

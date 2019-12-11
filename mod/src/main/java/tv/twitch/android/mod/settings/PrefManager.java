@@ -23,6 +23,10 @@ public class PrefManager {
     private static SharedPreferences mPref;
 
     public static synchronized void init(Context context) {
+        if (context == null) {
+            Logger.error("context is null");
+            return;
+        }
         if (mPref == null) {
             mPref = PreferenceManager.getDefaultSharedPreferences(context);
         }
