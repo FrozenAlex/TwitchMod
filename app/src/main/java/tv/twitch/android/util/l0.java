@@ -5,7 +5,7 @@ import android.util.Log;
 import java.util.Arrays;
 
 // Source: Logger
-public class l0 { // TODO: __REPLACE
+public class l0 { // TODO: __DEBUG_REPLACE
     public static void a(String str, Throwable th) {
         b(k0.c, str, th);
         (new Exception()).printStackTrace();

@@ -1,15 +1,15 @@
-package tv.twitch.a.b.y;
-
+package tv.twitch.a.b.w;
 
 import androidx.fragment.app.FragmentActivity;
 
 import static tv.twitch.android.mod.utils.Helper.openSettings;
 
+// Source: QuickSettingsPresenter
 public class b {
     public final FragmentActivity e = null;
 
     public static final class a {
-        final /* synthetic */ b a;
+        final b a;
 
         a(b bVar) {
             this.a = bVar;
@@ -21,9 +21,9 @@ public class b {
 
 //                  how get fragment
 //
-//                  iget-object p1, p0, Ltv/twitch/a/b/y/b$a;->a:Ltv/twitch/a/b/y/b;
+//                  iget-object p1, p0, Ltv/twitch/a/b/w/b$a;->a:Ltv/twitch/a/b/w/b;
 //
-//                  invoke-static {p1}, Ltv/twitch/a/b/y/b;->a(Ltv/twitch/a/b/y/b;)Landroidx/fragment/app/FragmentActivity;
+//                  invoke-static {p1}, Ltv/twitch/a/b/w/b;->a(Ltv/twitch/a/b/w/b;)Landroidx/fragment/app/FragmentActivity;
 //
 //                  move-result-object p1
 

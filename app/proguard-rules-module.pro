@@ -22,6 +22,7 @@
 
 -keep class tv.twitch.** { *; }
 -keep class okhttp3.** { *; }
+-keep class io.branch.** { *; }
 -keep class androidx.appcompat.app.AppCompatActivity { *; }
 
 # Twitch obfuscation

@@ -1,10 +1,9 @@
 package tv.twitch.android.models.player;
 
-import h.v.d.j;
 import tv.twitch.android.mod.settings.PrefManager;
 
 public enum PlayerImplementation {
-    Core("playercore", "c"),
+    Core("playercore", "d"),
     Exo2("exoplayer_2", "e2");
 
     public static final Companion Companion = null;
