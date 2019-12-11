@@ -2,11 +2,12 @@ package tv.twitch.a.m.e;
 
 import java.util.List;
 
+import tv.twitch.android.models.chat.MessageBadge;
 import tv.twitch.android.models.chat.MessageToken;
 
 // Source: ChatMessageInterface
 public interface e {
-    //List<MessageBadge> getBadges();
+    List<MessageBadge> getBadges();
 
     String getDisplayName();
 

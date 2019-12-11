@@ -1,5 +1,6 @@
 package tv.twitch.android.util;
 
+// Source: LogTag
 public enum k0 {
     c("Twitch"),
     d("AdsStreamPresenter"),

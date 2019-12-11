@@ -1,6 +1,6 @@
-package tv.twitch.a.m.x.b.p;
+package tv.twitch.a.m.w.b.p;
 
 // Source: TwitchUrlSpanClickListener
-public interface h {
+public interface g {
     void a(String str);
 }

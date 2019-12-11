@@ -2,12 +2,11 @@ package tv.twitch.android.util;
 
 import java.util.Date;
 
-import tv.twitch.android.models.BuildConfig;
 
-
+// Source: BuildConfigUtil
 public final class a {
     public final String a() {
-        return BuildConfig.VERSION_NAME;
+        return "8.4.0";
     }
 
     public final boolean a(boolean z) {

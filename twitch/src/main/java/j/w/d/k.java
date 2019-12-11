@@ -1,12 +1,8 @@
-package h.v.d;
+package j.w.d;
 
 // Source: Intrinsics
-public class j {
+public class k {
     public static void b(Object obj, String str) {
-        if (obj == null) {
-            // a(str);
-            throw null;
-        }
     }
 
     public static boolean a(Object obj, Object obj2) {
@@ -15,6 +11,4 @@ public class j {
         }
         return obj.equals(obj2);
     }
-
-
 }
