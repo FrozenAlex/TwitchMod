@@ -1,2 +1,2 @@
-include ':app', ':mod', ':libwrapper', ':twitch'
+include ':app', ':mod', ':libwrapper', ':twitch', ':fakelibs2'
 rootProject.name='TwitchMod'
