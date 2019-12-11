@@ -2,7 +2,7 @@
 
 com.google.gson.annotations.SerializedName -> g.j.b.y.c:
 com.google.gson.Gson -> g.j.b.f:
-retrofit2.Call -> l.b:
+retrofit2.Call -> n.b:
     void enqueue(retrofit2.Callback) -> a
 retrofit2.Callback -> n.d:
 retrofit2.Response -> n.m:
