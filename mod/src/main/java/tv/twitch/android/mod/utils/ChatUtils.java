@@ -241,19 +241,21 @@ public class ChatUtils {
         List<Emote> globalEmotes = EmotesManager.getInstance().getGlobalEmotes();
         List<Emote> roomEmotes = EmotesManager.getInstance().getRoomEmotes(Helper.getInstance().getCurrentChannel());
 
-        ChatEmoticonSet[] newSet = Arrays.copyOf(orgSet, orgSet.length+2);
+        ChatEmoticonSet[] newSet = new ChatEmoticonSet[orgSet.length+2];
+        java.lang.System.arraycopy(orgSet, 0, newSet, 1, orgSet.length);
+
         ChatEmoticon[] globalEmoticons = emotesToChatEmoticonArr(globalEmotes);
         ChatEmoticon[] roomEmoticons = emotesToChatEmoticonArr(roomEmotes);
 
-        ChatEmoticonSet globalEmoticonSet = new ChatEmoticonSet();
-        globalEmoticonSet.emoticonSetId = -100;
-        globalEmoticonSet.emoticons = globalEmoticons != null ? globalEmoticons : new ChatEmoticon[0];
-        newSet[newSet.length-2] = globalEmoticonSet;
-
         ChatEmoticonSet roomEmoticonSet = new ChatEmoticonSet();
-        roomEmoticonSet.emoticonSetId = -101;
+        roomEmoticonSet.emoticonSetId = -102;
         roomEmoticonSet.emoticons = roomEmoticons != null ? roomEmoticons : new ChatEmoticon[0];
-        newSet[newSet.length-1] = roomEmoticonSet;
+        newSet[0] = roomEmoticonSet;
+
+        ChatEmoticonSet globalEmoticonSet = new ChatEmoticonSet();
+        globalEmoticonSet.emoticonSetId = -103;
+        globalEmoticonSet.emoticons = globalEmoticons != null ? globalEmoticons : new ChatEmoticon[0];
+        newSet[newSet.length-1] = globalEmoticonSet;
 
         return newSet;
     }
