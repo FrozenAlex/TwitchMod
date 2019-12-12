@@ -21,5 +21,6 @@
     <string name="mod_chat_settings_use_exoplayer">Включить ExoPlayer V2</string>
     <!-- Patch -->
     <string name="mod_chat_settings_disable_recommendations">Отключить рекомендации</string>
+    <string name="mod_chat_settings_disable_resume_watching">Скрыть вкладку «Продолжить просмотр»</string>
     <string name="mod_chat_settings_disable_recent_search">Отключить историю недавнего поиска</string>
 </resources>

@@ -20,6 +20,7 @@ public class PrefManager {
     private static final String PREF_KEY_COPY_MSG = "MOD_COPY_MSG";
     private static final String PREF_KEY_DISABLE_PLAYER_AUTOPLAY = "MOD_DISABLE_AUTOPLAY";
     private static final String PREF_KEY_DISABLE_RECENT_SEARCH = "MOD_DISABLE_RECENT_SEARCH";
+    private static final String PREF_KEY_DISABLE_RECENT_WATCHING = "MOD_DISABLE_RECENT_WATCHING";
 
     private static SharedPreferences mPref;
 
@@ -95,5 +96,9 @@ public class PrefManager {
 
     public static boolean isDisableRecentSearch() {
         return getBoolean(PREF_KEY_DISABLE_RECENT_SEARCH, false);
+    }
+
+    public static boolean isDisableRecentWatching() {
+        return getBoolean(PREF_KEY_DISABLE_RECENT_WATCHING, false);
     }
 }
