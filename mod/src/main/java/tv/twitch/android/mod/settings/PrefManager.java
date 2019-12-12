@@ -16,11 +16,15 @@ public class PrefManager {
     private static final String PREF_KEY_TIMESTAMPS = "MOD_TIMESTAMPS";
     private static final String PREF_KEY_DISABLE_ADS = "MOD_DISABLE_ADS";
     private static final String PREF_KEY_EXOPLAYER = "MOD_EXOPLAYER";
-    private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
     private static final String PREF_KEY_COPY_MSG = "MOD_COPY_MSG";
     private static final String PREF_KEY_DISABLE_PLAYER_AUTOPLAY = "MOD_DISABLE_AUTOPLAY";
     private static final String PREF_KEY_DISABLE_RECENT_SEARCH = "MOD_DISABLE_RECENT_SEARCH";
-    private static final String PREF_KEY_DISABLE_RECENT_WATCHING = "MOD_DISABLE_RECENT_WATCHING";
+
+    private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
+    private static final String PREF_KEY_DISABLE_RECENT_WATCHING = "MOD_DISABLE_RESUME_WATCHING";
+    private static final String PREF_KEY_DISABLE_FOLLOWED_CHANNELS = "MOD_DISABLE_FOLLOWED_CHANNELS";
+    private static final String PREF_KEY_DISABLE_FOLLOWED_STREAMS = "MOD_DISABLE_FOLLOWED_STREAMS";
+    private static final String PREF_KEY_DISABLE_FOLLOWED_GAMES = "MOD_DISABLE_FOLLOWED_GAMES";
 
     private static SharedPreferences mPref;
 
@@ -82,10 +86,6 @@ public class PrefManager {
         return getBoolean(PREF_KEY_EXOPLAYER, false);
     }
 
-    public static boolean isDisRec() {
-        return getBoolean(PREF_KEY_DISABLE_RECOMMENDATIONS, false);
-    }
-
     public static boolean isCopyMsgOn() {
         return getBoolean(PREF_KEY_COPY_MSG, false);
     }
@@ -100,5 +100,17 @@ public class PrefManager {
 
     public static boolean isDisableRecentWatching() {
         return getBoolean(PREF_KEY_DISABLE_RECENT_WATCHING, false);
+    }
+
+    public static boolean isDisableRecommendations() {
+        return getBoolean(PREF_KEY_DISABLE_RECOMMENDATIONS, false);
+    }
+
+    public static boolean isDisableFollowedGames() {
+        return getBoolean(PREF_KEY_DISABLE_FOLLOWED_GAMES, false);
+    }
+
+    public static boolean isDisableFollowedStreams() {
+        return getBoolean(PREF_KEY_DISABLE_FOLLOWED_STREAMS, false);
     }
 }

@@ -52,14 +52,24 @@
             android:title="@string/mod_chat_settings_use_exoplayer" />
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/mod_chat_settings_patch">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="MOD_DISABLE_RECOMMENDATIONS"
-            android:title="@string/mod_chat_settings_disable_recommendations" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="MOD_DISABLE_RECENT_WATCHING"
-            android:title="@string/mod_chat_settings_disable_resume_watching" />
+        <PreferenceScreen android:title="@string/mod_chat_settings_following">
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="MOD_DISABLE_FOLLOWED_GAMES"
+                android:title="@string/mod_chat_settings_disable_followed_games" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="MOD_DISABLE_FOLLOWED_STREAMS"
+                android:title="@string/mod_chat_settings_disable_followed_streams" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="MOD_DISABLE_RECOMMENDATIONS"
+                android:title="@string/mod_chat_settings_disable_recommendations" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="MOD_DISABLE_RESUME_WATCHING"
+                android:title="@string/mod_chat_settings_disable_resume_watching" />
+        </PreferenceScreen>
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_DISABLE_RECENT_SEARCH"
