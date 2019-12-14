@@ -7,8 +7,9 @@ import tv.twitch.android.mod.settings.PrefManager;
 public class c {
     public String b(String str) { // TODO: __REPLACE
         if (PrefManager.isForcedQuality()) {
-            if (str != null && str.contains("audio")) {
-                return org(str);
+            if (str != null)
+                if (str.contains("audio") || str.toLowerCase().equals("auto")) {
+                    return org(str);
             }
             if (this.t() != null) {
                 for (j sm : this.t()) {
