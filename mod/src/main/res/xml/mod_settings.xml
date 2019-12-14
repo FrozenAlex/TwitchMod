@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceScreen android:title="@string/mod_chat_settings_chat_bttv">
+    <PreferenceScreen android:title="@string/mod_category_settings_chat_bttv">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_EMOTES"
-            android:title="@string/mod_chat_settings_bttv_emotes" />
+            android:title="@string/mod_bttv_settings_bttv_emotes" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_EMOTE_PICKER"
-            android:title="@string/mod_chat_settings_bttv_widget" />
+            android:title="@string/mod_bttv_settings_bttv_widget" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_DONT_LOAD_GIFS"
-            android:title="@string/mod_chat_settings_bttv_off_gifs" />
+            android:title="@string/mod_bttv_settings_bttv_off_gifs" />
     </PreferenceScreen>
-    <PreferenceScreen android:title="@string/mod_chat_settings_chat_category">
+    <PreferenceScreen android:title="@string/mod_category_settings_chat_category">
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_SHOW_DEL_MESSAGES"
@@ -36,47 +36,47 @@
             android:key="MOD_POINTS"
             android:title="@string/mod_chat_settings_points" />
     </PreferenceScreen>
-    <PreferenceScreen android:title="@string/mod_chat_settings_player_category">
+    <PreferenceScreen android:title="@string/mod_category_settings_player_category">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="MOD_DISABLE_ADS"
             android:enabled="false"
-            android:title="@string/mod_chat_settings_disable_ads" />
+            android:title="@string/mod_player_settings_disable_ads" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_DISABLE_AUTOPLAY"
-            android:title="@string/mod_chat_settings_disable_autoplay" />
+            android:title="@string/mod_player_settings_disable_autoplay" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_FORCED_QUALITY"
-            android:title="@string/mod_chat_settings_forced_quality" />
+            android:title="@string/mod_player_settings_forced_quality" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_EXOPLAYER"
-            android:title="@string/mod_chat_settings_use_exoplayer" />
+            android:title="@string/mod_player_settings_use_exoplayer" />
     </PreferenceScreen>
-    <PreferenceScreen android:title="@string/mod_chat_settings_patch">
-        <PreferenceScreen android:title="@string/mod_chat_settings_following">
+    <PreferenceScreen android:title="@string/mod_category_settings_patch">
+        <PreferenceScreen android:title="@string/mod_category_settings_following">
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="MOD_DISABLE_FOLLOWED_GAMES"
-                android:title="@string/mod_chat_settings_disable_followed_games" />
+                android:title="@string/mod_following_settings_disable_followed_games" />
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="MOD_DISABLE_FOLLOWED_STREAMS"
-                android:title="@string/mod_chat_settings_disable_followed_streams" />
+                android:title="@string/mod_following_settings_disable_followed_streams" />
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="MOD_DISABLE_RECOMMENDATIONS"
-                android:title="@string/mod_chat_settings_disable_recommendations" />
+                android:title="@string/mod_following_settings_disable_recommendations" />
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="MOD_DISABLE_RESUME_WATCHING"
-                android:title="@string/mod_chat_settings_disable_resume_watching" />
+                android:title="@string/mod_following_settings_disable_resume_watching" />
         </PreferenceScreen>
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="MOD_DISABLE_RECENT_SEARCH"
-            android:title="@string/mod_chat_settings_disable_recent_search" />
+            android:title="@string/mod_patch_settings_disable_recent_search" />
     </PreferenceScreen>
 </PreferenceScreen>

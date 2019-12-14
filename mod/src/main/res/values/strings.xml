@@ -1,14 +1,14 @@
 <resources>
     <!-- Category -->
-    <string name="mod_chat_settings_chat_bttv">BetterTTV/FFZ</string>
-    <string name="mod_chat_settings_chat_category">Chat</string>
-    <string name="mod_chat_settings_player_category">Player</string>
-    <string name="mod_chat_settings_patch">Patch</string>
-    <string name="mod_chat_settings_following">Following</string>
+    <string name="mod_category_settings_chat_bttv">BetterTTV/FFZ</string>
+    <string name="mod_category_settings_chat_category">Chat</string>
+    <string name="mod_category_settings_player_category">Player</string>
+    <string name="mod_category_settings_patch">Patch</string>
+    <string name="mod_category_settings_following">Following</string>
     <!-- BTTV -->
-    <string name="mod_chat_settings_bttv_emotes">Enable</string>
-    <string name="mod_chat_settings_bttv_widget">Add emotes to widget</string>
-    <string name="mod_chat_settings_bttv_off_gifs">Turn off GIFs</string>
+    <string name="mod_bttv_settings_bttv_emotes">Enable</string>
+    <string name="mod_bttv_settings_bttv_widget">Add emotes to widget</string>
+    <string name="mod_bttv_settings_bttv_off_gifs">Turn off GIFs</string>
     <!-- Chat -->
     <string name="mod_chat_settings_show_del_messages">Show deleted messages</string>
     <string name="mod_chat_settings_timestamps">Add timestamps to messages</string>
@@ -16,16 +16,16 @@
     <string name="mod_chat_settings_disable_animated_gifs">Disable GIF animations in chat</string>
     <string name="mod_chat_settings_points">Points autoclicker</string>
     <!-- Player -->
-    <string name="mod_chat_settings_disable_ads">Disable ads</string>
-    <string name="mod_chat_settings_disable_autoplay">Disable autoplay recommendations</string>
-    <string name="mod_chat_settings_use_exoplayer">Enable ExoPlayer V2</string>
-    <string name="mod_chat_settings_forced_quality">Force player into Source quality</string>
+    <string name="mod_player_settings_disable_ads">Disable ads</string>
+    <string name="mod_player_settings_disable_autoplay">Disable autoplay recommendations</string>
+    <string name="mod_player_settings_use_exoplayer">Enable ExoPlayer V2</string>
+    <string name="mod_player_settings_forced_quality">Force player into Source quality</string>
 
     <!-- Patch -->
-    <string name="mod_chat_settings_disable_recent_search">Disable recent searches</string>
+    <string name="mod_patch_settings_disable_recent_search">Disable recent searches</string>
     <!-- Following -->
-    <string name="mod_chat_settings_disable_recommendations">Hide «Recommended Streams»</string>
-    <string name="mod_chat_settings_disable_resume_watching">Hide «Recent Watching»</string>
-    <string name="mod_chat_settings_disable_followed_streams">Hide «Followed Streams»</string>
-    <string name="mod_chat_settings_disable_followed_games">Hide «Followed Games»</string>
+    <string name="mod_following_settings_disable_recommendations">Hide «Recommended Streams»</string>
+    <string name="mod_following_settings_disable_resume_watching">Hide «Recent Watching»</string>
+    <string name="mod_following_settings_disable_followed_streams">Hide «Followed Streams»</string>
+    <string name="mod_following_settings_disable_followed_games">Hide «Followed Games»</string>
 </resources>

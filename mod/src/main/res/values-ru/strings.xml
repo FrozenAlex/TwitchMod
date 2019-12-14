@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Category -->
-    <string name="mod_chat_settings_chat_bttv">BetterTTV/FFZ</string>
-    <string name="mod_chat_settings_chat_category">Чат</string>
-    <string name="mod_chat_settings_player_category">Плеер</string>
-    <string name="mod_chat_settings_patch">Патчи</string>
-    <string name="mod_chat_settings_following">Остлеживаемое</string>
+    <string name="mod_category_settings_chat_bttv">BetterTTV/FFZ</string>
+    <string name="mod_category_settings_chat_category">Чат</string>
+    <string name="mod_category_settings_player_category">Плеер</string>
+    <string name="mod_category_settings_patch">Патчи</string>
+    <string name="mod_category_settings_following">Остлеживаемое</string>
     <!-- BTTV -->
-    <string name="mod_chat_settings_bttv_emotes">Включить</string>
-    <string name="mod_chat_settings_bttv_widget">Добавить смайлы в виджет</string>
-    <string name="mod_chat_settings_bttv_off_gifs">Отключить загрузку GIF смайлов</string>
+    <string name="mod_bttv_settings_bttv_emotes">Включить</string>
+    <string name="mod_bttv_settings_bttv_widget">Добавить смайлы в виджет</string>
+    <string name="mod_bttv_settings_bttv_off_gifs">Отключить загрузку GIF смайлов</string>
     <!-- Chat -->
     <string name="mod_chat_settings_show_del_messages">Показывать удаленные сообщения</string>
     <string name="mod_chat_settings_timestamps">Показывать время отправки сообщения</string>
@@ -17,16 +17,16 @@
     <string name="mod_chat_settings_disable_animated_gifs">Отключить анимацию смайлов</string>
     <string name="mod_chat_settings_points">Включить автокликер для поинтов</string>
     <!-- Player -->
-    <string name="mod_chat_settings_disable_ads">Заблокировать рекламу</string>
-    <string name="mod_chat_settings_disable_autoplay">Отключить автовоспроизведение рекомендаций</string>
-    <string name="mod_chat_settings_use_exoplayer">Включить ExoPlayer V2</string>
-    <string name="mod_chat_settings_forced_quality">Принудительно выбирать лучшее качество</string>
+    <string name="mod_player_settings_disable_ads">Заблокировать рекламу</string>
+    <string name="mod_player_settings_disable_autoplay">Отключить автовоспроизведение рекомендаций</string>
+    <string name="mod_player_settings_use_exoplayer">Включить ExoPlayer V2</string>
+    <string name="mod_player_settings_forced_quality">Принудительно выбирать лучшее качество</string>
 
     <!-- Patch -->
-    <string name="mod_chat_settings_disable_recent_search">Отключить историю недавнего поиска</string>
+    <string name="mod_patch_settings_disable_recent_search">Отключить историю недавнего поиска</string>
     <!-- Following -->
-    <string name="mod_chat_settings_disable_recommendations">Скрыть «Рекомендуемые каналы»</string>
-    <string name="mod_chat_settings_disable_resume_watching">Скрыть «Продолжить просмотр»</string>
-    <string name="mod_chat_settings_disable_followed_streams">Скрыть «Активные каналы»</string>
-    <string name="mod_chat_settings_disable_followed_games">Скрыть «Отслеживаемые категории»</string>
+    <string name="mod_following_settings_disable_recommendations">Скрыть «Рекомендуемые каналы»</string>
+    <string name="mod_following_settings_disable_resume_watching">Скрыть «Продолжить просмотр»</string>
+    <string name="mod_following_settings_disable_followed_streams">Скрыть «Активные каналы»</string>
+    <string name="mod_following_settings_disable_followed_games">Скрыть «Отслеживаемые категории»</string>
 </resources>
