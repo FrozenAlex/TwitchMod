@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -23,8 +24,7 @@ public class ClickableMessage extends ClickableSpan {
         this.tokens = tokens;
     }
 
-    @Override
-    public void onClick(@NonNull View view) {
+    void onLongClick(@NonNull View view) {
         Context context = contextHelper.getAppContext();
         if (context != null) {
             String message = ChatUtils.getMessage(tokens);
@@ -37,6 +37,11 @@ public class ClickableMessage extends ClickableSpan {
         } else {
             Logger.debug("context is null");
         }
+    }
+
+    @Override
+    public void onClick(@NonNull View view) {
+        Logger.debug("click!");
     }
 
     @Override

@@ -12,7 +12,7 @@
     <!-- Chat -->
     <string name="mod_chat_settings_show_del_messages">Show deleted messages</string>
     <string name="mod_chat_settings_timestamps">Add timestamps to messages</string>
-    <string name="mod_chat_settings_copymsg">Tap on message to copy</string>
+    <string name="mod_chat_settings_copymsg">Long tap on message to copy</string>
     <string name="mod_chat_settings_disable_animated_gifs">Disable GIF animations in chat</string>
     <string name="mod_chat_settings_points">Points autoclicker</string>
     <!-- Player -->

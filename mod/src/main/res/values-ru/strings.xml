@@ -13,7 +13,7 @@
     <!-- Chat -->
     <string name="mod_chat_settings_show_del_messages">Показывать удаленные сообщения</string>
     <string name="mod_chat_settings_timestamps">Показывать время отправки сообщения</string>
-    <string name="mod_chat_settings_copymsg">Копировать текст сообщения при клике</string>
+    <string name="mod_chat_settings_copymsg">Копировать текст сообщения на долгий тап</string>
     <string name="mod_chat_settings_disable_animated_gifs">Отключить анимацию смайлов</string>
     <string name="mod_chat_settings_points">Включить автокликер для поинтов</string>
     <!-- Player -->
