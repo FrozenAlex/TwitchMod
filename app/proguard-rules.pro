@@ -22,6 +22,9 @@
 
 -keep class okhttp3.** { *; }
 -keep class tv.twitch.** { *; }
+
 -keep class io.branch.** { *; }
+-keep class com.amazon.** { *; }
+
 
 -keep class androidx.appcompat.app.AppCompatActivity { *; }
