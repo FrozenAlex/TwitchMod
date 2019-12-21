@@ -35,32 +35,6 @@ public class ChatUtils {
 
     private static final EmotesManager sEmotesManager = EmotesManager.getInstance();
     private static final Helper sHelper = Helper.getInstance();
-    private static final Class clickableUsernameSpan = tv.twitch.a.m.e.y0.f.class;
-
-
-    public static int findMsgStartPos(Spanned orgMessage) {
-        int startMessagePos = -1;
-
-        Object[] spans = orgMessage.getSpans(0, orgMessage.length(), clickableUsernameSpan);
-        if (spans != null && spans.length >= 1) {
-            startMessagePos = orgMessage.getSpanEnd(spans[0]);
-        }
-
-        if (startMessagePos == -1) {
-            startMessagePos = TextUtils.indexOf(orgMessage, ": ");
-        }
-
-        if (startMessagePos != -1) {
-            if (startMessagePos + 3 < orgMessage.length()) {
-                if (orgMessage.charAt(startMessagePos) == ':' && orgMessage.charAt(startMessagePos + 1) == ' ')
-                    startMessagePos += 2;
-                else if (orgMessage.charAt(startMessagePos) == ' ')
-                    startMessagePos += 1;
-            }
-        }
-
-        return startMessagePos;
-    }
 
     private static ChatEmoticon[] emotesToChatEmoticonArr(List<Emote> emoteList) {
         if (emoteList == null)
@@ -173,12 +147,12 @@ public class ChatUtils {
         return ssb;
     }
 
-    private static List<Pair<Integer, Integer>> getPositions(final Spanned message, int startPos) {
+    private static List<Pair<Integer, Integer>> getPositions(final Spanned message) {
         List<Pair<Integer, Integer>> res = new ArrayList<>();
 
         boolean inWord = false;
         int endPos = message.length();
-        for (int i = endPos-1; i>=startPos; i--) {
+        for (int i = endPos-1; i >= 0; i--) {
             final boolean isSpace = message.charAt(i) == ' ';
 
             if (isSpace) {
@@ -192,10 +166,10 @@ public class ChatUtils {
                     endPos = i + 1;
                 }
             }
-            if (i == startPos) {
+            if (i == 0) {
                 if (inWord) {
                     inWord = false;
-                    res.add(new Pair<>(startPos, endPos));
+                    res.add(new Pair<>(0, endPos));
                 }
             }
         }
@@ -203,7 +177,7 @@ public class ChatUtils {
         return res;
     }
 
-    public static Spanned injectEmotesSpan(Spanned orgMessage, int channelID, ChatMessageFactory factory) {
+    public static SpannedString injectEmotesSpan(SpannedString orgMessage, int channelID, ChatMessageFactory factory) {
         // Logger.debug(String.format(Locale.ENGLISH, "msg: {{%s}}", orgMessage));
 
         if (orgMessage == null) {
@@ -216,13 +190,7 @@ public class ChatUtils {
         if (TextUtils.isEmpty(orgMessage))
             return orgMessage;
 
-        int startPos = findMsgStartPos(orgMessage);
-        if (startPos == -1) {
-            Logger.debug(String.format(Locale.ENGLISH, "Message for debug: {{%s}}", orgMessage));
-            startPos = 0;
-        }
-
-        for(Pair<Integer, Integer> pos : getPositions(orgMessage, startPos)) {
+        for(Pair<Integer, Integer> pos : getPositions(orgMessage)) {
             ssb = checkAndInjectEmote(ssb, orgMessage, pos.first, pos.second, channelID, factory);
         }
 

@@ -2,7 +2,6 @@ package tv.twitch.a.o;
 
 import android.content.Context;
 
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.SpannedString;
 
@@ -47,38 +46,36 @@ public class a implements ChatMessageFactory, ContextHelper { // TODO: __IMPLEME
         return null;
     }
 
-    public final SpannedString a(tv.twitch.a.m.e.e eVar, boolean z, boolean z2, boolean z3, WebViewSource webViewSource, tv.twitch.a.m.w.b.p.g gVar, String str, b bVar, int i2, tv.twitch.a.m.e.w0.c cVar, Integer num) { // TODO: __ADD
-        SpannedString spannableString = org(eVar, z, z2, z3, webViewSource, gVar, str, bVar, i2, cVar, num);
-        if (PrefManager.isCopyMsgOn())
-            spannableString = injectCopySpan(spannableString, eVar.getTokens(), this);
+    private final Spanned a(tv.twitch.a.m.e.e eVar, boolean z, boolean z2, boolean z3, int i2, int i3, tv.twitch.a.m.e.h0.a aVar, tv.twitch.a.m.w.b.p.g gVar, WebViewSource webViewSource, String str, boolean z4, tv.twitch.a.m.e.w0.c cVar, Integer num) {
+        // TODO: __REPLACE_METHOD_RESULT
+//        invoke-static/range {v8 .. v21}, Ltv/twitch/a/o/a;->a(Ltv/twitch/a/o/a;Ltv/twitch/a/m/e/e;ZZZLtv/twitch/android/models/webview/WebViewSource;Ltv/twitch/a/m/w/b/p/g;Ljava/lang/String;Ltv/twitch/a/o/a$b;ILtv/twitch/a/m/e/w0/c;Ljava/lang/Integer;ILjava/lang/Object;)Landroid/text/SpannedString;
+//
+//        move-result-object v4
+//
+//        move-object/from16 v5, p1
+//
+//        move/from16 v6, p6
+//
+//        invoke-direct {v8, v4, v5, v6}, Ltv/twitch/a/o/a;->hook(Landroid/text/SpannedString;Ltv/twitch/a/m/e/e;I)Landroid/text/SpannedString;
+//
+//        move-result-object v4
 
-        return spannableString;
+        SpannedString a = new SpannedString("KEKW");
+        a = hook(a, eVar, i3);
+
+        return null;
     }
 
-    private final Spanned a(tv.twitch.a.m.e.e eVar, boolean z, boolean z2, boolean z3, int i2, int i3, tv.twitch.a.m.e.h0.a aVar, tv.twitch.a.m.w.b.p.g gVar, WebViewSource webViewSource, String str, boolean z4, tv.twitch.a.m.e.w0.c cVar, Integer num) { // TODO: __RENAME
-        Spanned ret = org(eVar, z, z2, z3, i2, i3, aVar, gVar, webViewSource, str, z4, cVar, num);
-
-        if (eVar.isDeleted()) {
-            SpannableStringBuilder ssb = new SpannableStringBuilder(ret);
-            ssb.append(" (server)");
-            ret = SpannedString.valueOf(ssb);
-        }
-
-        if (eVar.isDeleted())
-            return ret;
+    private final SpannedString hook(SpannedString spannedString, tv.twitch.a.m.e.e chatMessageInterface, int channelId) {
+        if (chatMessageInterface.isDeleted())
+            return spannedString;
 
         if (PrefManager.isEmotesOn())
-            ret = injectEmotesSpan(ret, i3, this);
+            spannedString = injectEmotesSpan(spannedString, channelId, this);
 
-        return ret;
-    }
+        if (PrefManager.isCopyMsgOn())
+            spannedString = injectCopySpan(spannedString, chatMessageInterface.getTokens(), this);
 
-    public final SpannedString org(tv.twitch.a.m.e.e eVar, boolean z, boolean z2, boolean z3, WebViewSource webViewSource, tv.twitch.a.m.w.b.p.g gVar, String str, b bVar, int i2, tv.twitch.a.m.e.w0.c cVar, Integer num) { // TODO: __RENAME
-        return null;
-    }
-
-
-    private final Spanned org(tv.twitch.a.m.e.e eVar, boolean z, boolean z2, boolean z3, int i2, int i3, tv.twitch.a.m.e.h0.a aVar, tv.twitch.a.m.w.b.p.g gVar, WebViewSource webViewSource, String str, boolean z4, tv.twitch.a.m.e.w0.c cVar, Integer num) { // TODO: __RENAME
-        return null;
+        return spannedString;
     }
 }

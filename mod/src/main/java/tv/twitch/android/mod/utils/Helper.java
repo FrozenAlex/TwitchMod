@@ -31,6 +31,14 @@ public class Helper {
     }
 
     public void setCurrentChannel(ChannelInfo channelInfo) {
+        if (channelInfo == null) {
+            Logger.error("channelInfo is null");
+            return;
+        }
+        if (channelInfo.getId() == 0) {
+            Logger.error("Bad channelId");
+            return;
+        }
         this.currentChannel = channelInfo.getId();
     }
 
@@ -43,6 +51,7 @@ public class Helper {
     }
 
     public void newRequest(final f1 playableModelParser, final Playable playable) {
+        Logger.debug("New playable request...");
         if (playableModelParser == null) {
             Logger.error("playableModelParser is null");
             return;
