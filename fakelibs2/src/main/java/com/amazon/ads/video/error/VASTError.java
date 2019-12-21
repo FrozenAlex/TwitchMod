@@ -20,12 +20,12 @@ public enum VASTError implements AmazonVideoAdsError {
 
     @Override
     public ErrorType getErrorType() {
-        return null;
+        return ErrorType.HTTP_ERROR;
     }
 
     @Override
     public boolean isFatal() {
-        return false;
+        return true;
     }
 
     @Override

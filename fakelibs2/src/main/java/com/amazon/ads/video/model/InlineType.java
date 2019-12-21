@@ -22,7 +22,7 @@ public class InlineType {
 
     public static class Creatives {
         public List<CreativeInlineType> getCreatives() {
-            return new ArrayList<>();
+            return null;
         }
     }
 
@@ -40,5 +40,9 @@ public class InlineType {
 
         public void setValue(String str) {
         }
+    }
+
+    public Creatives getCreatives() {
+        return new Creatives();
     }
 }

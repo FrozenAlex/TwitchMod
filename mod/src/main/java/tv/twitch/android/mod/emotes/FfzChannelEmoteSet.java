@@ -14,7 +14,7 @@ import tv.twitch.android.mod.utils.Logger;
 
 import static tv.twitch.android.mod.net.ServiceFactory.getFfzApi;
 
-public class FfzChannelEmoteSet extends BaseEmoteSet<FfzResponse> {
+public class FfzChannelEmoteSet extends BaseChannelEmoteSet<FfzResponse> {
     public FfzChannelEmoteSet(String channelName) {
         super(channelName);
     }
@@ -29,7 +29,7 @@ public class FfzChannelEmoteSet extends BaseEmoteSet<FfzResponse> {
         FfzRoom room = ffzResponse.getRoom();
 
         if (room == null) {
-            Logger.error("room==null");
+            Logger.warning("room is null");
             return;
         }
 
@@ -37,7 +37,7 @@ public class FfzChannelEmoteSet extends BaseEmoteSet<FfzResponse> {
         HashMap<Integer, FfzSet> ffzSets = ffzResponse.getSets();
 
         if (ffzSets == null || ffzSets.isEmpty()) {
-            Logger.error("No sets in room");
+            Logger.warning("Empty sets");
             return;
         }
 
@@ -61,7 +61,6 @@ public class FfzChannelEmoteSet extends BaseEmoteSet<FfzResponse> {
                 continue;
 
             if (TextUtils.isEmpty(emoticon.getName())) {
-                Logger.warning("Bad emote " + emoticon.getId() + ": empty name");
                 continue;
             }
 
@@ -75,6 +74,7 @@ public class FfzChannelEmoteSet extends BaseEmoteSet<FfzResponse> {
                 url = urls.get(1);
             else
                 continue;
+
             if (url == null || url.isEmpty())
                 continue;
 

@@ -10,20 +10,21 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 
 public class LongClickLinkMovementMethod extends LinkMovementMethod {
-    private static final int LONG_CLICK_TIME = 799;
+    private static final Object lock = new Object();
+    private static final int LONG_CLICK_TIME = 800;
 
-    private static LongClickLinkMovementMethod instance;
+    private static LongClickLinkMovementMethod sInstance;
 
-    private Handler longClickHandler;
-    private boolean itsLongPress = false;
+    private Handler mLongClickHandler;
+    private boolean bItsLongPress = false;
 
     @Override
     public boolean onTouchEvent(final TextView widget, Spannable buffer, MotionEvent event) {
         int action = event.getAction();
 
         if (action == MotionEvent.ACTION_CANCEL) {
-            if (longClickHandler != null) {
-                longClickHandler.removeCallbacksAndMessages(null);
+            if (mLongClickHandler != null) {
+                mLongClickHandler.removeCallbacksAndMessages(null);
             }
         }
 
@@ -44,36 +45,36 @@ public class LongClickLinkMovementMethod extends LinkMovementMethod {
             final ClickableSpan[] link = buffer.getSpans(off, off, ClickableSpan.class);
 
             if (link.length > 0) {
-                ClickableMessage clickableMessage = null;
+                LongClickableMessage longClickableMessage = null;
                 ClickableSpan childClickableSpan = null;
 
                 for (ClickableSpan clickableSpan : link) {
-                    if (clickableSpan instanceof ClickableMessage) {
-                        if (clickableMessage == null)
-                            clickableMessage = (ClickableMessage) clickableSpan;
+                    if (clickableSpan instanceof LongClickableMessage) {
+                        if (longClickableMessage == null)
+                            longClickableMessage = (LongClickableMessage) clickableSpan;
                     } else if (childClickableSpan == null){
                         childClickableSpan = clickableSpan;
                     }
                 }
 
                 if (action == MotionEvent.ACTION_UP) {
-                    if (longClickHandler != null) {
-                        longClickHandler.removeCallbacksAndMessages(null);
+                    if (mLongClickHandler != null) {
+                        mLongClickHandler.removeCallbacksAndMessages(null);
                     }
-                    if (!itsLongPress) {
+                    if (!bItsLongPress) {
                         if (childClickableSpan != null) {
                             childClickableSpan.onClick(widget);
                         }
                     }
-                    itsLongPress = false;
+                    bItsLongPress = false;
                 } else {
-                    if (clickableMessage != null) {
-                        final ClickableMessage cm = clickableMessage;
-                        longClickHandler.postDelayed(new Runnable() {
+                    if (longClickableMessage != null) {
+                        final LongClickableMessage cm = longClickableMessage;
+                        mLongClickHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 cm.onLongClick(widget);
-                                itsLongPress = true;
+                                bItsLongPress = true;
                             }
                         }, LONG_CLICK_TIME);
                     }
@@ -86,11 +87,13 @@ public class LongClickLinkMovementMethod extends LinkMovementMethod {
     }
 
     public static MovementMethod getInstance() {
-        if (instance == null) {
-            instance = new LongClickLinkMovementMethod();
-            instance.longClickHandler = new Handler();
-        }
+        synchronized (lock) {
+            if (sInstance == null) {
+                sInstance = new LongClickLinkMovementMethod();
+                sInstance.mLongClickHandler = new Handler();
+            }
 
-        return instance;
+            return sInstance;
+        }
     }
 }

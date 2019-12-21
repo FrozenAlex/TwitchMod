@@ -8,6 +8,6 @@ import tv.twitch.android.models.channel.ChannelInfo;
 public class a {
 
     private final void a(ChannelInfo channelInfo) {
-        Helper.newRequest(channelInfo); // TODO: __ADD_END
+        Helper.getInstance().newRequest(channelInfo); // TODO: __ADD_START
     }
 }

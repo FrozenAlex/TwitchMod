@@ -9,7 +9,7 @@ public class RetrofitUtils {
     public static Retrofit getRetrofitClient(String baseUrl) {
         return new retrofit2.Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(new Gson()))
+                .addConverterFactory(GsonConverterFactory.create(new Gson())) // new Gson() because Twitch proguard removed builder class
                 .build();
     }
 }

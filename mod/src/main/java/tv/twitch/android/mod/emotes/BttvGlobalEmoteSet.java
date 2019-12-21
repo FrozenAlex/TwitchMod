@@ -13,10 +13,6 @@ import tv.twitch.android.mod.utils.Logger;
 import static tv.twitch.android.mod.net.ServiceFactory.getBttvApi;
 
 public class BttvGlobalEmoteSet extends BaseEmoteSet<BttvResponse> {
-    public BttvGlobalEmoteSet() {
-        super(null);
-    }
-
     @Override
     public void fetch() {
         getBttvApi().getGlobalEmotes().enqueue(this);
@@ -30,8 +26,8 @@ public class BttvGlobalEmoteSet extends BaseEmoteSet<BttvResponse> {
         }
 
         String templateUrl = bttvResponse.getUrlTemplate();
-        if (templateUrl == null || templateUrl.isEmpty()) {
-            Logger.error("Bad templateUrl: " + templateUrl);
+        if (TextUtils.isEmpty(templateUrl)) {
+            Logger.error("Empty templateUrl");
             return;
         }
         if (templateUrl.startsWith("//"))
@@ -39,7 +35,7 @@ public class BttvGlobalEmoteSet extends BaseEmoteSet<BttvResponse> {
 
         List<BttvEmoteResponse> emoticons = bttvResponse.getBttvEmotes();
         if (emoticons == null || emoticons.isEmpty()) {
-            Logger.error("Empty global set");
+            Logger.error("Empty set");
             return;
         }
 
@@ -47,11 +43,11 @@ public class BttvGlobalEmoteSet extends BaseEmoteSet<BttvResponse> {
             if (emoticon == null)
                 continue;
 
-            if (emoticon.getId() == null || TextUtils.isEmpty(emoticon.getId())) {
+            if (TextUtils.isEmpty(emoticon.getId())) {
                 continue;
             }
 
-            if (emoticon.getCode() == null || TextUtils.isEmpty(emoticon.getCode())) {
+            if (TextUtils.isEmpty(emoticon.getCode())) {
                 continue;
             }
 

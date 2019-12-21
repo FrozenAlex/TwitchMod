@@ -15,10 +15,8 @@ import tv.twitch.android.mod.utils.Logger;
 
 public abstract class BaseEmoteSet<T> extends ApiCallback<T> implements EmoteSet {
     private final Map<String, Emote> mEmoteMap = Collections.synchronizedMap(new LinkedHashMap<String, Emote>());
-    private final String mChannelName;
 
-    public BaseEmoteSet(String channelName) {
-        this.mChannelName = channelName;
+    public BaseEmoteSet() {
     }
 
     @Override
@@ -38,14 +36,6 @@ public abstract class BaseEmoteSet<T> extends ApiCallback<T> implements EmoteSet
     @Override
     public List<Emote> getEmotes() {
         return new ArrayList<>(mEmoteMap.values());
-    }
-
-    public String getChannelName() {
-        return mChannelName;
-    }
-
-    public Map<String, Emote> getEmoteMap() {
-        return mEmoteMap;
     }
 
     @Override

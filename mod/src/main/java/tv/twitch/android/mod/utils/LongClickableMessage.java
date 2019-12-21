@@ -15,11 +15,11 @@ import java.util.List;
 import tv.twitch.android.mod.bridges.ContextHelper;
 import tv.twitch.android.models.chat.MessageToken;
 
-public class ClickableMessage extends ClickableSpan {
+public class LongClickableMessage extends ClickableSpan {
     private final ContextHelper contextHelper;
     private final List<MessageToken> tokens;
 
-    public ClickableMessage(ContextHelper ch, List<MessageToken> tokens) {
+    public LongClickableMessage(ContextHelper ch, List<MessageToken> tokens) {
         this.contextHelper = ch;
         this.tokens = tokens;
     }

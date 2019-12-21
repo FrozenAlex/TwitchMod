@@ -19,7 +19,8 @@
     <string name="mod_player_settings_disable_ads">Disable ads</string>
     <string name="mod_player_settings_disable_autoplay">Disable autoplay recommendations</string>
     <string name="mod_player_settings_use_exoplayer">Enable ExoPlayer V2</string>
-    <string name="mod_player_settings_forced_quality">Force player into Source quality</string>
+    <string name="mod_player_settings_use_exoplayer_summary">Disable fix PIP mode bug</string>
+    <string name="mod_player_settings_forced_quality">Higher quality for "Auto"</string>
 
     <!-- Patch -->
     <string name="mod_patch_settings_disable_recent_search">Disable recent searches</string>

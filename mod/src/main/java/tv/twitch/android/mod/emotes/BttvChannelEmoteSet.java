@@ -11,10 +11,11 @@ import tv.twitch.android.mod.utils.Logger;
 
 import static tv.twitch.android.mod.net.ServiceFactory.getBttvApi;
 
-public class BttvChannelEmoteSet extends BaseEmoteSet<BttvResponse> {
+public class BttvChannelEmoteSet extends BaseChannelEmoteSet<BttvResponse> {
     public BttvChannelEmoteSet(String channelName) {
         super(channelName);
     }
+
 
     @Override
     public void fetch() {
@@ -29,8 +30,8 @@ public class BttvChannelEmoteSet extends BaseEmoteSet<BttvResponse> {
         }
 
         String templateUrl = bttvResponse.getUrlTemplate();
-        if (templateUrl == null || templateUrl.isEmpty()) {
-            Logger.error("Bad templateUrl: " + templateUrl);
+        if (TextUtils.isEmpty(templateUrl)) {
+            Logger.error("Empty templateUrl");
             return;
         }
         if (templateUrl.startsWith("//"))
@@ -38,7 +39,7 @@ public class BttvChannelEmoteSet extends BaseEmoteSet<BttvResponse> {
 
         List<BttvEmoteResponse> emoticons = bttvResponse.getBttvEmotes();
         if (emoticons == null || emoticons.isEmpty()) {
-            Logger.error("Empty channel set");
+            Logger.error("Empty set");
             return;
         }
 
@@ -46,11 +47,11 @@ public class BttvChannelEmoteSet extends BaseEmoteSet<BttvResponse> {
             if (emoticon == null)
                 continue;
 
-            if (emoticon.getId() == null || TextUtils.isEmpty(emoticon.getId())) {
+            if (TextUtils.isEmpty(emoticon.getId())) {
                 continue;
             }
 
-            if (emoticon.getCode() == null || TextUtils.isEmpty(emoticon.getCode())) {
+            if (TextUtils.isEmpty(emoticon.getCode())) {
                 continue;
             }
 

@@ -64,11 +64,11 @@ public class a implements ChatMessageFactory, ContextHelper { // TODO: __IMPLEME
             ret = SpannedString.valueOf(ssb);
         }
 
-        if (eVar.isDeleted() || eVar.isSystemMessage())
+        if (eVar.isDeleted())
             return ret;
 
         if (PrefManager.isEmotesOn())
-            ret = injectEmotesSpan(ret, i3, this, eVar);
+            ret = injectEmotesSpan(ret, i3, this);
 
         return ret;
     }

@@ -1,5 +1,7 @@
 package tv.twitch.android.mod.emotes;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +21,8 @@ public class EmotesManager implements UserInfoCallback {
     private final ConcurrentHashMap<Integer, Room> mRooms = new ConcurrentHashMap<>();
     private final Set<Integer> mCurrentRoomRequests = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>());
 
+    private static final TwitchUsers sTwitchUsers = TwitchUsers.getInstance();
+
     private EmotesManager() {
         fetchGlobalEmotes();
     }
@@ -29,11 +33,6 @@ public class EmotesManager implements UserInfoCallback {
 
     public static EmotesManager getInstance() {
         return Holder.mInstance;
-    }
-
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static void init() {
-        getInstance();
     }
 
     public List<Emote> getGlobalEmotes() {
@@ -71,26 +70,17 @@ public class EmotesManager implements UserInfoCallback {
     }
 
     public Emote getEmote(String code, int channelId) {
-        if (code == null) {
-            Logger.error("code is null");
-            return null;
-        } else if (code.isEmpty()) {
-            Logger.warning("empty code");
+        if (TextUtils.isEmpty(code)) {
+            Logger.error("empty code");
             return null;
         }
 
-        Emote emote = findRoomEmote(code, channelId);
-        if (emote != null) {
-            return emote;
+        if (channelId <= 0) {
+            Logger.warning("Bad channel id: " + channelId);
+            return null;
         }
 
-        emote = findGlobalEmote(code);
-        return emote;
-    }
-
-    private Emote findRoomEmote(String code, int channelId) {
         Emote emote = null;
-
         if (!mRooms.containsKey(channelId))
             request(channelId);
         else {
@@ -101,11 +91,7 @@ public class EmotesManager implements UserInfoCallback {
                 return emote;
         }
 
-        return emote;
-    }
-
-    private Emote findGlobalEmote(String code) {
-        Emote emote = mBttvGlobal.getEmote(code);
+        emote = mBttvGlobal.getEmote(code);
         if (emote != null)
             return emote;
 
@@ -117,21 +103,21 @@ public class EmotesManager implements UserInfoCallback {
         if (channelInfo != null) {
             int channelId = channelInfo.getId();
             if (channelId <= 0) {
-                Logger.debug("Bad channelInfo: " + channelInfo.toString());
+                Logger.debug("Bad id: " + channelId);
                 return;
             }
 
             if (mCurrentRoomRequests.contains(channelId))
                 return;
 
-            if (channelInfo.getName() == null || channelInfo.getName().isEmpty()) {
-                Logger.warning("channelInfo: getName() is null. Request name by id");
+            if (TextUtils.isEmpty(channelInfo.getName())) {
+                Logger.warning("channelInfo: empty name. Request name by id");
                 request(channelId);
                 return;
             }
 
             userInfo(channelInfo.getName(), channelInfo.getId());
-            TwitchUsers.getInstance().checkAndAddUsername(channelInfo.getId(), channelInfo.getName());
+            sTwitchUsers.checkAndAddUsername(channelInfo.getId(), channelInfo.getName());
         } else {
             Logger.error("channelInfo is null");
         }
@@ -142,22 +128,22 @@ public class EmotesManager implements UserInfoCallback {
             return;
 
         mCurrentRoomRequests.add(channelId);
-        TwitchUsers.getInstance().getUserName(channelId, this);
+        sTwitchUsers.getUserName(channelId, this);
     }
 
     @Override
     public void userInfo(String userName, int userId) {
-        Logger.info(String.format("Fetching %s emoticons...", userName));
         if (userId <= 0) {
             Logger.error("Bad userId: " + userId);
             return;
         }
-        if (userName == null || userName.isEmpty()) {
-            Logger.error("onCreateuserName is empty");
+        if (TextUtils.isEmpty(userName)) {
+            Logger.error("empty userName");
             mCurrentRoomRequests.remove(userId);
             return;
         }
 
+        Logger.info(String.format("Fetching %s emoticons...", userName));
         Room room = new Room(userId, userName);
         mRooms.put(userId, room);
         mCurrentRoomRequests.remove(userId);

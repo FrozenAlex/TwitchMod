@@ -14,6 +14,8 @@ import tv.twitch.android.models.channel.ChannelInfo;
 public class Helper {
     private int currentChannel = 0;
 
+    private static final EmotesManager sEmotesManager = EmotesManager.getInstance();
+
     private Helper() {
     }
 
@@ -29,18 +31,22 @@ public class Helper {
         this.currentChannel = channelInfo.getId();
     }
 
+    public void setCurrentChannel(int channelId) {
+        this.currentChannel = channelId;
+    }
+
     public int getCurrentChannel() {
         return this.currentChannel;
     }
 
-    public static void newRequest(ChannelInfo channelInfo) {
+    public void newRequest(ChannelInfo channelInfo) {
         if (channelInfo == null) {
             Logger.error("channelInfo is null");
             return;
         }
         Logger.debug(String.format("New request for %s...", channelInfo.getName()));
-        EmotesManager.getInstance().request(channelInfo);
-        Helper.getInstance().setCurrentChannel(channelInfo);
+        sEmotesManager.request(channelInfo);
+        setCurrentChannel(channelInfo);
     }
 
     public static void openSettings(Activity fragmentActivity) {
@@ -57,10 +63,15 @@ public class Helper {
     }
 
     public static void startActivity(Context context, Class activity) {
-        if (context == null || activity == null) {
-            Logger.warning("null args");
+        if (context == null) {
+            Logger.error("context is null");
             return;
         }
+        if (activity == null) {
+            Logger.error("activity is null");
+            return;
+        }
+
         Intent intent = new Intent(context, activity);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);

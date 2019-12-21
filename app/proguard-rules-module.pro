@@ -23,8 +23,10 @@
 -keep class tv.twitch.** { *; }
 -keep class okhttp3.** { *; }
 
+# FakeLibs
 -keep class io.branch.** { *; }
 -keep class com.amazon.** { *; }
+-keep class com.google.android.gms.ads.** { *; }
 
 -keep class androidx.appcompat.app.AppCompatActivity { *; }
 

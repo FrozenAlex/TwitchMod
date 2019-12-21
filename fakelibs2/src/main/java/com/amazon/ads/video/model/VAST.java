@@ -14,7 +14,7 @@ public class VAST {
         }
 
         public InlineType getInLine() {
-            return new InlineType();
+            return null;
         }
     }
 }

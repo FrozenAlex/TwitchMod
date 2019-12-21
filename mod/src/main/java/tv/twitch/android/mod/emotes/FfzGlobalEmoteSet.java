@@ -14,10 +14,6 @@ import tv.twitch.android.mod.utils.Logger;
 import static tv.twitch.android.mod.net.ServiceFactory.getFfzApi;
 
 public class FfzGlobalEmoteSet extends BaseEmoteSet<FfzGlobalResponse> {
-    public FfzGlobalEmoteSet() {
-        super(null);
-    }
-
     public void fetch() {
         getFfzApi().getGlobalEmotes().enqueue(this);
     }
@@ -27,13 +23,13 @@ public class FfzGlobalEmoteSet extends BaseEmoteSet<FfzGlobalResponse> {
         List<Integer> defaultSetsId = ffzGlobalResponse.getDefaultSets();
 
         if (defaultSetsId == null || defaultSetsId.isEmpty()) {
-            Logger.error("No ids. API error?");
+            Logger.error("No ids. Check API.");
             return;
         }
 
         HashMap<Integer, FfzSet> ffzSets = ffzGlobalResponse.getSets();
         if (ffzSets == null || ffzSets.isEmpty()) {
-            Logger.error("Empty or null sets. API error?");
+            Logger.error("Empty sets. Check API.");
             return;
         }
 
@@ -54,7 +50,6 @@ public class FfzGlobalEmoteSet extends BaseEmoteSet<FfzGlobalResponse> {
                     continue;
 
                 if (TextUtils.isEmpty(emoticon.getName())) {
-                    Logger.warning("Bad emote " + emoticon.getId() + ": empty emote name");
                     continue;
                 }
 
@@ -68,6 +63,7 @@ public class FfzGlobalEmoteSet extends BaseEmoteSet<FfzGlobalResponse> {
                     url = urls.get(1);
                 else
                     continue;
+
                 if (url == null || url.isEmpty())
                     continue;
 

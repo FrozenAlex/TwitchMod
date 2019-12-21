@@ -5,7 +5,8 @@ import tv.twitch.android.mod.settings.PrefManager;
 public class a {
 
     public final void a(Object fVar) {
-        //         if (fVar instanceof f.a) {
+        // "content"
+        // "recentSearchSuggestionsKey"
         if (!PrefManager.isDisableRecentSearch()) {} // TODO: __ADD
 
     }

@@ -14,7 +14,6 @@ public class PrefManager {
     private static final String PREF_KEY_EMOTE_PICKER = "MOD_EMOTE_PICKER";
     private static final String PREF_KEY_POINTS = "MOD_POINTS";
     private static final String PREF_KEY_TIMESTAMPS = "MOD_TIMESTAMPS";
-    private static final String PREF_KEY_DISABLE_ADS = "MOD_DISABLE_ADS";
     private static final String PREF_KEY_EXOPLAYER = "MOD_EXOPLAYER";
     private static final String PREF_KEY_COPY_MSG = "MOD_COPY_MSG";
     private static final String PREF_KEY_DISABLE_PLAYER_AUTOPLAY = "MOD_DISABLE_AUTOPLAY";
@@ -23,7 +22,6 @@ public class PrefManager {
 
     private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
     private static final String PREF_KEY_DISABLE_RECENT_WATCHING = "MOD_DISABLE_RESUME_WATCHING";
-    private static final String PREF_KEY_DISABLE_FOLLOWED_CHANNELS = "MOD_DISABLE_FOLLOWED_CHANNELS";
     private static final String PREF_KEY_DISABLE_FOLLOWED_STREAMS = "MOD_DISABLE_FOLLOWED_STREAMS";
     private static final String PREF_KEY_DISABLE_FOLLOWED_GAMES = "MOD_DISABLE_FOLLOWED_GAMES";
 
@@ -77,10 +75,6 @@ public class PrefManager {
 
     public static boolean isTimestampsOn() {
         return getBoolean(PREF_KEY_TIMESTAMPS, false);
-    }
-
-    public static boolean isAdblockOn() {
-        return getBoolean(PREF_KEY_DISABLE_ADS, true);
     }
 
     public static boolean isExoPlayerOn() {
