@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.widget.Toast;
 
+import tv.twitch.android.api.i1.f1;
 import tv.twitch.android.app.core.f0;
 import tv.twitch.android.mod.activities.Settings;
 import tv.twitch.android.mod.emotes.EmotesManager;
+import tv.twitch.android.models.Playable;
 import tv.twitch.android.models.channel.ChannelInfo;
+import tv.twitch.android.models.clips.ClipModel;
 
 public class Helper {
     private int currentChannel = 0;
@@ -37,6 +40,30 @@ public class Helper {
 
     public int getCurrentChannel() {
         return this.currentChannel;
+    }
+
+    public void newRequest(final f1 playableModelParser, final Playable playable) {
+        if (playableModelParser == null) {
+            Logger.error("playableModelParser is null");
+            return;
+        }
+        if (playable == null) {
+            Logger.error("playable is null");
+            return;
+        }
+
+        String channelName;
+        int channelId;
+        if (playable instanceof ClipModel) {
+            channelName = ((ClipModel) playable).getBroadcasterName();
+            channelId = ((ClipModel) playable).getBroadcasterId();
+        } else {
+            channelName = playableModelParser.b(playable);
+            channelId = playableModelParser.a(playable);
+        }
+
+        sEmotesManager.request(channelName, channelId);
+        setCurrentChannel(channelId);
     }
 
     public void newRequest(ChannelInfo channelInfo) {

@@ -46,6 +46,10 @@ public class ChatUtils {
             startMessagePos = orgMessage.getSpanEnd(spans[0]);
         }
 
+        if (startMessagePos == -1) {
+            startMessagePos = TextUtils.indexOf(orgMessage, ": ");
+        }
+
         if (startMessagePos != -1) {
             if (startMessagePos + 3 < orgMessage.length()) {
                 if (orgMessage.charAt(startMessagePos) == ':' && orgMessage.charAt(startMessagePos + 1) == ' ')

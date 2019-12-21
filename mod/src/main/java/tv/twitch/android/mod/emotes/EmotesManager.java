@@ -99,15 +99,36 @@ public class EmotesManager implements UserInfoCallback {
         return emote;
     }
 
+    public void request(final String channelName, final int channelId) {
+        if (channelId == 0) {
+            Logger.error("Bad channelId");
+            return;
+        }
+
+        if (TextUtils.isEmpty(channelName)) {
+            Logger.error("Empty channelName");
+            return;
+        }
+
+        if (mCurrentRoomRequests.contains(channelId))
+            return;
+
+        userInfo(channelName, channelId);
+        sTwitchUsers.checkAndAddUsername(channelId, channelName);
+    }
+
     public void request(ChannelInfo channelInfo) {
         if (channelInfo != null) {
             int channelId = channelInfo.getId();
-            if (channelId <= 0) {
-                Logger.debug("Bad id: " + channelId);
+            if (channelId == 0) {
+                Logger.debug("Bad channelId");
                 return;
             }
 
             if (mCurrentRoomRequests.contains(channelId))
+                return;
+
+            if (mRooms.containsKey(channelId))
                 return;
 
             if (TextUtils.isEmpty(channelInfo.getName())) {
