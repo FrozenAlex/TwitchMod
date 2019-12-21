@@ -48,10 +48,6 @@
             android:title="@string/mod_player_settings_disable_autoplay" />
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="MOD_FORCED_QUALITY"
-            android:title="@string/mod_player_settings_forced_quality" />
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="MOD_EXOPLAYER"
             android:title="@string/mod_player_settings_use_exoplayer"
             android:summary="@string/mod_player_settings_use_exoplayer_summary" />
