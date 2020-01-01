@@ -2,18 +2,37 @@ package tv.twitch.android.mod.models;
 
 import androidx.annotation.NonNull;
 
+import java.util.Locale;
+
+import tv.twitch.android.mod.models.api.BttvEmoteResponse;
+
 public final class BttvEmote implements Emote {
+    private static final String sUrlTemplate = "https://cdn.betterttv.net/emote/%s/%dx";
     private final String mCode;
-    private final String mTemplateUrl;
     private final String mId;
     private final boolean isGif;
     private String url;
 
-    public BttvEmote(String code, String template, String id, String imageType) {
+    public enum SIZE {
+        SMALL(1),
+        MEDIUM(2),
+        LARGE(3);
+
+        private final int value;
+
+        SIZE(int size) {
+            this.value = size;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
+    public BttvEmote(String code, String id, BttvEmoteResponse.ImageType imageType) {
         this.mCode = code;
-        this.mTemplateUrl = template;
         this.mId = id;
-        this.isGif = imageType != null && imageType.equalsIgnoreCase("gif");
+        this.isGif = imageType == BttvEmoteResponse.ImageType.GIF;
     }
 
     @Override
@@ -24,7 +43,7 @@ public final class BttvEmote implements Emote {
     @Override
     public String getUrl() {
         if (url == null) {
-            this.url = mTemplateUrl.replace("{{id}}", this.mId).replace("{{image}}", "3x");
+            this.url = String.format(Locale.ENGLISH, sUrlTemplate, this.mId, SIZE.LARGE.getValue());
         }
         return this.url;
     }

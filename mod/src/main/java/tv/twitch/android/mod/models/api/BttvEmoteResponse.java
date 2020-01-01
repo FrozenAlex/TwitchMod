@@ -1,47 +1,76 @@
 package tv.twitch.android.mod.models.api;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class BttvEmoteResponse {
     @SerializedName("id")
-    private String id;
+    private String emoteId;
     @SerializedName("code")
     private String code;
     @SerializedName("imageType")
-    private String imageType;
-    @SerializedName("restrictions")
-    private BttvRestrictions restrictions;
+    private ImageType imageType;
+    @SerializedName("userId")
+    @Expose
+    private Object userId;
+    @SerializedName("user")
+    @Expose
+    private Object user;
 
+    public enum ImageType {
+        @SerializedName("png")
+        PNG("png"),
+        @SerializedName("gif")
+        GIF("gif");
 
-    public String getId() {
-        return id;
-    }
+        private final String mValue;
 
-    public void setId(String id) {
-        this.id = id;
+        ImageType(String value) {
+            mValue = value;
+        }
+
+        public String getValue() {
+            return mValue;
+        }
     }
 
     public String getCode() {
         return code;
     }
 
+    public String getId() {
+        return emoteId;
+    }
+
+    public Object getUser() {
+        return user;
+    }
+
+    public Object getUserId() {
+        return userId;
+    }
+
+    public ImageType getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(ImageType imageType) {
+        this.imageType = imageType;
+    }
+
+    public void setUserId(Object userId) {
+        this.userId = userId;
+    }
+
+    public void setId(String emoteId) {
+        this.emoteId = emoteId;
+    }
+
     public void setCode(String code) {
         this.code = code;
     }
 
-    public String getImageType() {
-        return imageType;
-    }
-
-    public void setImageType(String imageType) {
-        this.imageType = imageType;
-    }
-
-    public BttvRestrictions getRestrictions() {
-        return restrictions;
-    }
-
-    public void setRestrictions(BttvRestrictions restrictions) {
-        this.restrictions = restrictions;
+    public void setUser(Object user) {
+        this.user = user;
     }
 }

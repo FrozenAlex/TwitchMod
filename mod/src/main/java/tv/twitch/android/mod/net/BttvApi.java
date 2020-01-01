@@ -1,14 +1,18 @@
 package tv.twitch.android.mod.net;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import tv.twitch.android.mod.models.api.BttvResponse;
+import tv.twitch.android.mod.models.api.BttvChannelResponse;
+import tv.twitch.android.mod.models.api.BttvEmoteResponse;
+
 
 public interface BttvApi {
-    @GET("/2/emotes")
-    Call<BttvResponse> getGlobalEmotes();
+    @GET("/3/cached/emotes/global")
+    Call<List<BttvEmoteResponse>> getGlobalEmotes();
 
-    @GET("/2/channels/{id}")
-    Call<BttvResponse> getChannelEmotes(@Path("id") String channelId);
+    @GET("/3/cached/users/twitch/{id}")
+    Call<BttvChannelResponse> getChannelEmotes(@Path("id") int channelId);
 }

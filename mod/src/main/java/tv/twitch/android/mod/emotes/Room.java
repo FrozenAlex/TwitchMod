@@ -20,9 +20,9 @@ class Room {
     }
 
     private void requestEmotes() {
-        mBttvSet = new BttvChannelEmoteSet(this.mChannelName);
+        mBttvSet = new BttvChannelEmoteSet(this.mChannelName, this.mChannelId);
         mBttvSet.fetch();
-        mFfzSet = new FfzChannelEmoteSet(this.mChannelName);
+        mFfzSet = new FfzChannelEmoteSet(this.mChannelName, this.mChannelId);
         mFfzSet.fetch();
     }
 
@@ -50,5 +50,13 @@ class Room {
             list.addAll(mFfzSet.getEmotes());
 
         return list;
+    }
+
+    public int getChannelId() {
+        return mChannelId;
+    }
+
+    public String getChannelName() {
+        return mChannelName;
     }
 }

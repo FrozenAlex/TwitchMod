@@ -4,42 +4,25 @@ import android.text.TextUtils;
 
 import java.util.List;
 
-
-import tv.twitch.android.mod.models.BttvEmote;
 import tv.twitch.android.mod.models.api.BttvEmoteResponse;
-import tv.twitch.android.mod.models.api.BttvResponse;
 import tv.twitch.android.mod.utils.Logger;
 
 import static tv.twitch.android.mod.net.ServiceFactory.getBttvApi;
 
-public class BttvGlobalEmoteSet extends BaseEmoteSet<BttvResponse> {
+public class BttvGlobalEmoteSet extends BaseEmoteSet<List<BttvEmoteResponse>> {
     @Override
     public void fetch() {
         getBttvApi().getGlobalEmotes().enqueue(this);
     }
 
     @Override
-    public void onRequestSuccess(BttvResponse bttvResponse) {
-        if (bttvResponse.getStatus() == null || !bttvResponse.getStatus().equals("200")) {
-            Logger.error("Bad bttv server status code: " + bttvResponse.getStatus());
+    public void onRequestSuccess(List<BttvEmoteResponse> bttvResponse) {
+        if (bttvResponse == null) {
+            Logger.error("bttvResponse is null");
             return;
         }
 
-        String templateUrl = bttvResponse.getUrlTemplate();
-        if (TextUtils.isEmpty(templateUrl)) {
-            Logger.error("Empty templateUrl");
-            return;
-        }
-        if (templateUrl.startsWith("//"))
-            templateUrl = "https:" + templateUrl;
-
-        List<BttvEmoteResponse> emoticons = bttvResponse.getBttvEmotes();
-        if (emoticons == null || emoticons.isEmpty()) {
-            Logger.error("Empty set");
-            return;
-        }
-
-        for (BttvEmoteResponse emoticon : emoticons) {
+        for (BttvEmoteResponse emoticon : bttvResponse) {
             if (emoticon == null)
                 continue;
 
@@ -51,7 +34,7 @@ public class BttvGlobalEmoteSet extends BaseEmoteSet<BttvResponse> {
                 continue;
             }
 
-            addEmote(new BttvEmote(emoticon.getCode(), templateUrl, emoticon.getId(), emoticon.getImageType()));
+            addEmote(new tv.twitch.android.mod.models.BttvEmote(emoticon.getCode(), emoticon.getId(), emoticon.getImageType()));
         }
     }
 }
