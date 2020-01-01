@@ -55,8 +55,8 @@ public class MainActivity extends Activity {
 
             }
         };
-        Helper.newRequest(channelInfo);
-        final String[] emotes = {"PedoBear", "YooHoo", "forsenShuffle", "LULW"};
+        Helper.getInstance().newRequest(channelInfo);
+        final String[] emotes = {"PedoBear", "pajaDank", "forsenShuffle", "LULW"};
         Thread th = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -67,7 +67,7 @@ public class MainActivity extends Activity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    Log.i("settings", "adblock=" + PrefManager.isAdblockOn() + "; gifs=" + PrefManager.isDisableGifs());
+                    Log.i("settings", "gifs=" + PrefManager.isDisableGifs());
                     Log.i("emote", String.valueOf(EmotesManager.getInstance().getEmote(emotes[i++%emotes.length], 22484632)));
                 }
             }
