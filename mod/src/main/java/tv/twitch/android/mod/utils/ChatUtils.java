@@ -132,19 +132,16 @@ public class ChatUtils {
         Logger.info(String.format(Locale.ENGLISH, "Click! Got %d points", claimModel.getPointsEarned()));
     }
 
-    private static SpannableStringBuilder checkAndInjectEmote(SpannableStringBuilder ssb, final Spanned orgMessage, final int startWordPos, final int endWordPos, final int channelID, final ChatMessageFactory factory) {
-        Emote emote = sEmotesManager.getEmote(TextUtils.substring(orgMessage, startWordPos, endWordPos), channelID);
+    private static SpannableString getEmoteSpan(final String word, final int channelID, final ChatMessageFactory factory) {
+        Emote emote = sEmotesManager.getEmote(word, channelID);
         if (emote != null) {
             if (emote.isGif() && PrefManager.isDontLoadGifs())
-                return ssb;
-            SpannableString emoteSpan = (SpannableString) factory.getSpannedEmote(emote.getUrl());
-            if (ssb == null) {
-                ssb = new SpannableStringBuilder(orgMessage);
-            }
-            ssb.replace(startWordPos, endWordPos, emoteSpan);
+                return null;
+
+            return (SpannableString) factory.getSpannedEmote(emote.getUrl());
         }
 
-        return ssb;
+        return null;
     }
 
     private static List<Pair<Integer, Integer>> getPositions(final Spanned message) {
@@ -178,20 +175,25 @@ public class ChatUtils {
     }
 
     public static SpannedString injectEmotesSpan(SpannedString orgMessage, int channelID, ChatMessageFactory factory) {
-        // Logger.debug(String.format(Locale.ENGLISH, "msg: {{%s}}", orgMessage));
-
-        if (orgMessage == null) {
-            Logger.error("orgMessage is null");
+        if (TextUtils.isEmpty(orgMessage)) {
+            Logger.warning("empty orgMessage");
+            return orgMessage;
+        }
+        if (channelID == 0) {
+            Logger.error("Bad channelID");
             return orgMessage;
         }
 
         SpannableStringBuilder ssb = null;
 
-        if (TextUtils.isEmpty(orgMessage))
-            return orgMessage;
-
         for(Pair<Integer, Integer> pos : getPositions(orgMessage)) {
-            ssb = checkAndInjectEmote(ssb, orgMessage, pos.first, pos.second, channelID, factory);
+            SpannableString ss = getEmoteSpan(String.valueOf(orgMessage.subSequence(pos.first, pos.second)), channelID, factory);
+            if (ss != null) {
+                if (ssb == null)
+                    ssb = new SpannableStringBuilder(orgMessage);
+
+                ssb.replace(pos.first, pos.second, ss);
+            }
         }
 
         if (ssb != null)
@@ -224,14 +226,14 @@ public class ChatUtils {
         ChatEmoticon[] roomEmoticons = emotesToChatEmoticonArr(roomEmotes);
 
         ChatEmoticonSet roomEmoticonSet = new ChatEmoticonSet();
-        roomEmoticonSet.emoticonSetId = -104;
+        roomEmoticonSet.emoticonSetId = -106;
         roomEmoticonSet.emoticons = roomEmoticons != null ? roomEmoticons : new ChatEmoticon[0];
-        newSet[newSet.length-2] = roomEmoticonSet;
+        newSet[newSet.length-1] = roomEmoticonSet;
 
         ChatEmoticonSet globalEmoticonSet = new ChatEmoticonSet();
-        globalEmoticonSet.emoticonSetId = -105;
+        globalEmoticonSet.emoticonSetId = -107;
         globalEmoticonSet.emoticons = globalEmoticons != null ? globalEmoticons : new ChatEmoticon[0];
-        newSet[newSet.length-1] = globalEmoticonSet;
+        newSet[newSet.length-2] = globalEmoticonSet;
 
         return newSet;
     }

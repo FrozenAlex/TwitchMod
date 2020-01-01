@@ -20,7 +20,7 @@
     <string name="mod_player_settings_disable_ads">Заблокировать рекламу</string>
     <string name="mod_player_settings_disable_autoplay">Отключить автовоспроизведение рекомендаций</string>
     <string name="mod_player_settings_use_exoplayer">Включить ExoPlayer V2</string>
-    <string name="mod_player_settings_use_exoplayer_summary">Внимание! При использовании режима «Картинка в картинке» есть баг со звуком.</string>
+    <string name="mod_player_settings_use_exoplayer_summary">Внимание! В режиме «Картинка в картинке» есть баг при закрытии окна</string>
     <!-- Patch -->
     <string name="mod_patch_settings_disable_recent_search">Отключить историю недавнего поиска</string>
     <!-- Following -->

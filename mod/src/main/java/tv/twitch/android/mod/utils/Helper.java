@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import tv.twitch.android.api.i1.f1;
@@ -15,7 +16,7 @@ import tv.twitch.android.models.channel.ChannelInfo;
 import tv.twitch.android.models.clips.ClipModel;
 
 public class Helper {
-    private int currentChannel = 0;
+    private int mCurrentChannel = 0;
 
     private static final EmotesManager sEmotesManager = EmotesManager.getInstance();
 
@@ -39,15 +40,15 @@ public class Helper {
             Logger.error("Bad channelId");
             return;
         }
-        this.currentChannel = channelInfo.getId();
+        this.mCurrentChannel = channelInfo.getId();
     }
 
     public void setCurrentChannel(int channelId) {
-        this.currentChannel = channelId;
+        this.mCurrentChannel = channelId;
     }
 
     public int getCurrentChannel() {
-        return this.currentChannel;
+        return this.mCurrentChannel;
     }
 
     public void newRequest(final f1 playableModelParser, final Playable playable) {
@@ -71,8 +72,10 @@ public class Helper {
             channelId = playableModelParser.a(playable);
         }
 
+        if (channelId != 0)
+            setCurrentChannel(channelId);
+
         sEmotesManager.request(channelName, channelId);
-        setCurrentChannel(channelId);
     }
 
     public void newRequest(ChannelInfo channelInfo) {
@@ -81,8 +84,9 @@ public class Helper {
             return;
         }
         Logger.debug(String.format("New request for %s...", channelInfo.getName()));
-        sEmotesManager.request(channelInfo);
+
         setCurrentChannel(channelInfo);
+        sEmotesManager.request(channelInfo);
     }
 
     public static void openSettings(Activity fragmentActivity) {
@@ -115,15 +119,5 @@ public class Helper {
 
     public static void showToast(final Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-    }
-
-    public static boolean isLowDensity() {
-        Context context = f0.c().a();
-        if (context == null) {
-            Logger.error("context is null");
-            return false;
-        }
-        Resources resources = context.getResources();
-        return resources.getDisplayMetrics().density < 2.0f;
     }
 }

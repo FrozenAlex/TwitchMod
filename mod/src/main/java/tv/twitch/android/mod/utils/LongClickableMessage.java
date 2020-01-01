@@ -5,12 +5,12 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import java.util.List;
+import java.util.Locale;
 
 import tv.twitch.android.mod.bridges.ContextHelper;
 import tv.twitch.android.models.chat.MessageToken;
@@ -32,7 +32,7 @@ public class LongClickableMessage extends ClickableSpan {
             if (clipboard != null) {
                 ClipData clip = ClipData.newPlainText("text", message);
                 clipboard.setPrimaryClip(clip);
-                Helper.showToast(context, message);
+                Helper.showToast(context, String.format(Locale.ENGLISH, "«%s» copied to clipboard", message));
             }
         } else {
             Logger.debug("context is null");

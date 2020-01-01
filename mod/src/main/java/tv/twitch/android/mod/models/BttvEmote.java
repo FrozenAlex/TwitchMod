@@ -13,14 +13,14 @@ public final class BttvEmote implements Emote {
     private final boolean isGif;
     private String url;
 
-    public enum SIZE {
+    public enum EmoteSize {
         SMALL(1),
         MEDIUM(2),
         LARGE(3);
 
         private final int value;
 
-        SIZE(int size) {
+        EmoteSize(int size) {
             this.value = size;
         }
 
@@ -43,7 +43,7 @@ public final class BttvEmote implements Emote {
     @Override
     public String getUrl() {
         if (url == null) {
-            this.url = String.format(Locale.ENGLISH, sUrlTemplate, this.mId, SIZE.LARGE.getValue());
+            this.url = String.format(Locale.ENGLISH, sUrlTemplate, this.mId, EmoteSize.LARGE.getValue());
         }
         return this.url;
     }

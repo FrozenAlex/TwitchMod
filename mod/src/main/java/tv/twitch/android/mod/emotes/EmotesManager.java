@@ -47,7 +47,7 @@ public class EmotesManager implements UserInfoCallback {
 
     public List<Emote> getRoomEmotes(int channelId) {
         List<Emote> list = new ArrayList<>();
-        if (channelId <= 0)
+        if (channelId == 0)
             return list;
 
         Room room = mRooms.get(channelId);
@@ -71,12 +71,12 @@ public class EmotesManager implements UserInfoCallback {
 
     public Emote getEmote(String code, int channelId) {
         if (TextUtils.isEmpty(code)) {
-            Logger.error("empty code");
+            Logger.error("Empty code");
             return null;
         }
 
-        if (channelId <= 0) {
-            Logger.warning("Bad channel id: " + channelId);
+        if (channelId == 0) {
+            Logger.error("Bad channelId");
             return null;
         }
 
@@ -114,7 +114,7 @@ public class EmotesManager implements UserInfoCallback {
             return;
 
         userInfo(channelName, channelId);
-        sTwitchUsers.checkAndAddUsername(channelId, channelName);
+        sTwitchUsers.checkAndAddUsername(channelName, channelId);
     }
 
     public void request(ChannelInfo channelInfo) {
@@ -138,7 +138,7 @@ public class EmotesManager implements UserInfoCallback {
             }
 
             userInfo(channelInfo.getName(), channelInfo.getId());
-            sTwitchUsers.checkAndAddUsername(channelInfo.getId(), channelInfo.getName());
+            sTwitchUsers.checkAndAddUsername(channelInfo.getName(), channelInfo.getId());
         } else {
             Logger.error("channelInfo is null");
         }

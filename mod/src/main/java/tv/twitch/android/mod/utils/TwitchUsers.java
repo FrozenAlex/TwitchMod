@@ -80,13 +80,11 @@ public class TwitchUsers {
         callback.userInfo(mCache.get(id), id);
     }
 
-    public void checkAndAddUsername(int userId, String userName) {
-        if (userName != null && !userName.isEmpty()) {
-            if (userId > 0) {
-                synchronized (mCache) {
-                    if (!mCache.containsKey(userId)) {
-                        mCache.put(userId, userName);
-                    }
+    public void checkAndAddUsername(String userName, int userId) {
+        if (!TextUtils.isEmpty(userName) && (userId != 0)) {
+            synchronized (mCache) {
+                if (!mCache.containsKey(userId)) {
+                    mCache.put(userId, userName);
                 }
             }
         }
