@@ -66,7 +66,7 @@ public class a implements ChatMessageFactory, ContextHelper { // TODO: __IMPLEME
         return null;
     }
 
-    private final SpannedString hook(SpannedString spannedString, tv.twitch.a.m.e.e chatMessageInterface, int channelId) {
+    private SpannedString hook(SpannedString spannedString, tv.twitch.a.m.e.e chatMessageInterface, int channelId) {
         if (chatMessageInterface.isDeleted())
             return spannedString;
 
