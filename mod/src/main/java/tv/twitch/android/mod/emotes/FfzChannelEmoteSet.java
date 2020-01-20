@@ -21,7 +21,7 @@ public class FfzChannelEmoteSet extends BaseChannelEmoteSet<FfzResponse> {
 
     @Override
     public void fetch() {
-        getFfzApi().getChannelEmotes(getChannelName()).enqueue(this);
+        getFfzApi().getChannelEmotes(getChannelId()).enqueue(this);
     }
 
     @Override
