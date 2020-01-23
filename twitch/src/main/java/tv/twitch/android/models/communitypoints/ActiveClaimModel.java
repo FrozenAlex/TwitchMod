@@ -1,21 +1,23 @@
 package tv.twitch.android.models.communitypoints;
 
+import tv.twitch.android.models.channel.ChannelInfo;
+
 // Source: ActiveClaimModel
 public final class ActiveClaimModel {
-    private int basePoints;
-    private int pointsEarned;
-    private String id;
-
-
     public final int getBasePoints() {
-        return this.basePoints;
+        return 0;
     }
 
     public final int getPointsEarned() {
-        return this.pointsEarned;
+        return 0;
     }
 
     public final String getId() {
-        return this.id;
+        return "null";
     }
+
+    public final ChannelInfo getChannelInfo() {
+        return null;
+    }
+
 }

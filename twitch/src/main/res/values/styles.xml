@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-      <style name="Theme.AppCompat.DayNight.NoActionBar" parent="@style/Theme.AppCompat.Light.NoActionBar" />
+    <style name="Theme.AppCompat.DayNight.NoActionBar" parent="@style/Theme.AppCompat.Light.NoActionBar" />
     <style name="Theme.Twitch" parent="@style/Theme.TwitchBase">
         <item name="android:alertDialogTheme">@android:style/Theme.Material.Light.Dialog.Alert</item>
         <item name="android:navigationBarColor">@color/black</item>

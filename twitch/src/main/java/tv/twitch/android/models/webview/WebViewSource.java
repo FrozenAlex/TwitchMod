@@ -9,9 +9,5 @@ public enum WebViewSource {
     Profile("profile"),
     Other("other");
 
-    private String mTrackingString;
-
-    private WebViewSource(String str) {
-        this.mTrackingString = str;
-    }
+    private WebViewSource(String str) {}
 }

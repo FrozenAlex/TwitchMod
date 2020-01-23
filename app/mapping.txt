@@ -1,24 +1,24 @@
-# Version: 8.4.0 (BETA)
+# Version: 8.5.1
 
-com.google.gson.annotations.SerializedName -> g.j.b.y.c:
-com.google.gson.Gson -> g.j.b.f:
-retrofit2.Call -> n.b:
+com.google.gson.annotations.SerializedName -> com.google.gson.v.c:
+com.google.gson.Gson -> com.google.gson.f:
+retrofit2.Call -> retrofit2.b:
     void enqueue(retrofit2.Callback) -> a
-retrofit2.Callback -> n.d:
-retrofit2.Response -> n.m:
+retrofit2.Callback -> retrofit2.d:
+retrofit2.Response -> retrofit2.l:
     125:125:int code() -> b
     140:140:boolean isSuccessful() -> e
     145:145:java.lang.Object body() -> a
-retrofit2.http.Path -> n.s.q:
-retrofit2.http.Headers -> n.s.j:
-retrofit2.http.GET -> n.s.e:
-retrofit2.http.Query -> n.s.r:
-retrofit2.Retrofit -> n.n:
+retrofit2.http.Path -> retrofit2.q.q:
+retrofit2.http.Headers -> etrofit2.q.j:
+retrofit2.http.GET -> etrofit2.q.e:
+retrofit2.http.Query -> etrofit2.q.r:
+retrofit2.Retrofit -> retrofit2.m:
     131:135:java.lang.Object create(java.lang.Class) -> a
-retrofit2.Retrofit$Builder -> n.n$b:
+retrofit2.Retrofit$Builder -> retrofit2.m$b:
     469:470:retrofit2.Retrofit$Builder baseUrl(java.lang.String) -> a
     535:536:retrofit2.Retrofit$Builder addConverterFactory(retrofit2.Converter$Factory) -> a
     586:587:retrofit2.Retrofit build() -> a
-retrofit2.Converter$Factory -> n.e$a:
-retrofit2.converter.gson.GsonConverterFactory -> n.r.a.a:
+retrofit2.Converter$Factory -> retrofit2.e$a:
+retrofit2.converter.gson.GsonConverterFactory -> retrofit2.p.a.a:
     51:51:retrofit2.converter.gson.GsonConverterFactory create(com.google.gson.Gson) -> a
