@@ -10,6 +10,7 @@ public class AdvertisingIdClient {
         return new Info();
     }
 
+    public static void setShouldSkipGmsCoreVersionCheck(boolean z) {}
 
     public static final class Info {
         public Info() {
@@ -18,7 +19,7 @@ public class AdvertisingIdClient {
         }
 
         public final String getId() {
-            return null;
+            return "0";
         }
 
         public final boolean isLimitAdTrackingEnabled() {

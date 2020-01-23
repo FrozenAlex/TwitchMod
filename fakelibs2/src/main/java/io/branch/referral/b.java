@@ -35,15 +35,13 @@ public class b {
     }
 
     public static b a(Context context) {
-        a(context, true, "");
-        return sInstance;
+        return a(context, true, null);
     }
 
     public static b t() {
         return sInstance;
     }
 
-    // TODO: test with empty JSON
     public JSONObject g() {
         return null;
     }
