@@ -1,6 +1,6 @@
 package tv.twitch.chat;
 
 public class ChatEmoticonSet {
-    public int emoticonSetId;
+    public String emoticonSetId;
     public ChatEmoticon[] emoticons;
 }
