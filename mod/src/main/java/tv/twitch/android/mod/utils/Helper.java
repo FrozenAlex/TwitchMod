@@ -4,9 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import tv.twitch.android.api.f1.f1;
+import tv.twitch.android.app.core.w1;
 import tv.twitch.android.mod.activities.Settings;
 import tv.twitch.android.mod.emotes.EmoteManager;
 import tv.twitch.android.models.Playable;
@@ -133,5 +137,19 @@ public class Helper {
         }
 
         return org;
+    }
+
+    public static void showSnackbar(View view, String message) {
+        if (view == null) {
+            Logger.error("view is null");
+            return;
+        }
+        if (TextUtils.isEmpty(message)) {
+            Logger.warning("empty message");
+        }
+        
+        Snackbar snack = Snackbar.a(view, message, -1);
+        w1.b(snack);
+        snack.m();
     }
 }

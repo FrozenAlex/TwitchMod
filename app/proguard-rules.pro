@@ -21,7 +21,10 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class okhttp3.** { *; }
+
+# Twitch
 -keep class tv.twitch.** { *; }
+-keep class com.google.android.material.snackbar.** { *; }
 
 # FakeLibs
 -keep class io.branch.** { *; }
