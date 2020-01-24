@@ -1,4 +1,4 @@
-package tv.twitch.a.k;
+package tv.twitch.android.sdk;
 
 import tv.twitch.android.mod.utils.ChatUtils;
 import tv.twitch.chat.ChatEmoticonSet;

@@ -7,11 +7,11 @@ import tv.twitch.android.shared.chat.communitypoints.models.CommunityPointsModel
 
 // Source: CommunityPointsButtonViewDelegate
 public class r {
-    private final ViewGroup c = null;
+    private final ViewGroup b = null;
 
     private final void e(CommunityPointsModel communityPointsModel) {
-        // TODO: copy communityPointsModel to another register
+        // TODO: copy communityPointsModel to another register (v4)
 
-        ChatUtils.clicker(c, communityPointsModel); // TODO: __ADD_END
+        ChatUtils.clicker(b, communityPointsModel); // TODO: __ADD_END
     }
 }

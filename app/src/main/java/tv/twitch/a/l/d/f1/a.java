@@ -1,4 +1,4 @@
-package tv.twitch.a.m.e.r0;
+package tv.twitch.a.l.d.f1;
 
 
 import tv.twitch.android.mod.utils.Helper;

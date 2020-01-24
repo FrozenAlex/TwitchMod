@@ -1,4 +1,4 @@
-package tv.twitch.a.m.e.y0;
+package tv.twitch.a.l.d.n1;
 
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;

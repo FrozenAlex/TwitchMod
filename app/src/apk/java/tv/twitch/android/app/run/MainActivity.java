@@ -3,15 +3,20 @@ package tv.twitch.android.app.run;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.SpannedString;
 import android.util.Log;
 
 import tv.twitch.android.app.R;
 import tv.twitch.android.mod.activities.Settings;
+import tv.twitch.android.mod.bridges.ChatMessageFactory;
 import tv.twitch.android.mod.emotes.EmotesManager;
 import tv.twitch.android.mod.settings.PrefManager;
 import tv.twitch.android.mod.utils.Helper;
 import tv.twitch.android.mod.utils.Loader;
+import tv.twitch.android.mod.utils.Logger;
 import tv.twitch.android.models.channel.ChannelInfo;
+
+import static tv.twitch.android.mod.utils.ChatUtils.injectBadges;
 
 public class MainActivity extends Activity {
 
@@ -67,6 +72,19 @@ public class MainActivity extends Activity {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    SpannedString ss = new SpannedString("123 ");
+                    ss = injectBadges(ss, "yokobotich", new ChatMessageFactory() {
+                        @Override
+                        public CharSequence getSpannedEmote(String url) {
+                            return "";
+                        }
+
+                        @Override
+                        public CharSequence getSpannedBadge(String url) {
+                            return "Kappa";
+                        }
+                    });
+                    Logger.debug(ss.toString());
                     Log.i("settings", "gifs=" + PrefManager.isDisableGifs());
                     Log.i("emote", String.valueOf(EmotesManager.getInstance().getEmote(emotes[i++%emotes.length], 22484632)));
                 }

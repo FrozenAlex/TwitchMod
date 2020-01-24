@@ -1,4 +1,4 @@
-package tv.twitch.a.b.w;
+package tv.twitch.a.b.u;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -21,9 +21,9 @@ public class b {
 
 //                  how get fragment
 //
-//                  iget-object p1, p0, Ltv/twitch/a/b/w/b$a;->a:Ltv/twitch/a/b/w/b;
+//                  iget-object p1, p0, Ltv/twitch/BuildConfigUtil/b/w/b$BuildConfigUtil;->BuildConfigUtil:Ltv/twitch/BuildConfigUtil/b/w/b;
 //
-//                  invoke-static {p1}, Ltv/twitch/a/b/w/b;->a(Ltv/twitch/a/b/w/b;)Landroidx/fragment/app/FragmentActivity;
+//                  invoke-static {p1}, Ltv/twitch/BuildConfigUtil/b/w/b;->BuildConfigUtil(Ltv/twitch/BuildConfigUtil/b/w/b;)Landroidx/fragment/app/FragmentActivity;
 //
 //                  move-result-object p1
 
