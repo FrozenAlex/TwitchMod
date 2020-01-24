@@ -14,58 +14,73 @@ import tv.twitch.android.mod.utils.Logger;
 import tv.twitch.android.mod.utils.TwitchUsers;
 import tv.twitch.android.models.channel.ChannelInfo;
 
-public class EmotesManager implements UserInfoCallback {
-    private BttvGlobalEmoteSet mBttvGlobal;
-    private FfzGlobalEmoteSet mFfzGlobal;
+public class EmoteManager implements UserInfoCallback {
+    private BttvGlobalEmoteSet mGlobalSet;
 
     private final ConcurrentHashMap<Integer, Room> mRooms = new ConcurrentHashMap<>();
     private final Set<Integer> mCurrentRoomRequests = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>());
 
     private static final TwitchUsers sTwitchUsers = TwitchUsers.getInstance();
 
-    private EmotesManager() {
+    private EmoteManager() {
         fetchGlobalEmotes();
     }
 
     private static class Holder {
-        static final EmotesManager mInstance = new EmotesManager();
+        static final EmoteManager mInstance = new EmoteManager();
     }
 
-    public static EmotesManager getInstance() {
+    public static EmoteManager getInstance() {
         return Holder.mInstance;
     }
 
     public List<Emote> getGlobalEmotes() {
-        List<Emote> list = new ArrayList<>();
-        if (mBttvGlobal != null)
-            list.addAll(mBttvGlobal.getEmotes());
-        if (mFfzGlobal != null)
-            list.addAll(mFfzGlobal.getEmotes());
+        if (mGlobalSet != null)
+            return mGlobalSet.getEmotes();
 
-        return list;
+        return new ArrayList<>();
     }
 
-    public List<Emote> getRoomEmotes(int channelId) {
-        List<Emote> list = new ArrayList<>();
+    public List<Emote> getBttvEmotes(int channelId) {
         if (channelId == 0)
-            return list;
+            return new ArrayList<>();
 
         Room room = mRooms.get(channelId);
         if (room == null)
-            return list;
+            return new ArrayList<>();
+
+        return room.getBttvEmotes();
+    }
+
+    public List<Emote> getFfzEmotes(int channelId) {
+        if (channelId == 0)
+            return new ArrayList<>();
+
+        Room room = mRooms.get(channelId);
+        if (room == null)
+            return new ArrayList<>();
+
+        return room.getFfzEmotes();
+    }
+
+    public List<Emote> getRoomEmotes(int channelId) {
+        if (channelId == 0)
+            return new ArrayList<>();
+
+        Room room = mRooms.get(channelId);
+        if (room == null)
+            return new ArrayList<>();
 
         return room.getEmotes();
     }
 
     private void fetchGlobalEmotes() {
         Logger.info("Fetching global emoticons...");
-        if (mBttvGlobal == null) {
-            mBttvGlobal = new BttvGlobalEmoteSet();
-            mBttvGlobal.fetch();
-        }
-        if (mFfzGlobal == null) {
-            mFfzGlobal = new FfzGlobalEmoteSet();
-            mFfzGlobal.fetch();
+        if (mGlobalSet == null) {
+            mGlobalSet = new BttvGlobalEmoteSet();
+            mGlobalSet.fetch();
+        } else {
+            Logger.warning("mGlobalSet is null");
         }
     }
 
@@ -91,15 +106,14 @@ public class EmotesManager implements UserInfoCallback {
                 return emote;
         }
 
-        emote = mBttvGlobal.getEmote(code);
+        emote = mGlobalSet.getEmote(code);
         if (emote != null)
             return emote;
 
-        emote = mFfzGlobal.getEmote(code);
         return emote;
     }
 
-    public void request(final String channelName, final int channelId) {
+    public void request(String channelName, int channelId) {
         if (channelId == 0) {
             Logger.error("Bad channelId");
             return;
@@ -154,8 +168,8 @@ public class EmotesManager implements UserInfoCallback {
 
     @Override
     public void userInfo(String userName, int userId) {
-        if (userId <= 0) {
-            Logger.error("Bad userId: " + userId);
+        if (userId == 0) {
+            Logger.error("Bad userId");
             return;
         }
         if (TextUtils.isEmpty(userName)) {

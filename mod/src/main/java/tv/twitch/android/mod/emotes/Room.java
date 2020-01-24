@@ -52,6 +52,20 @@ class Room {
         return list;
     }
 
+    public final List<Emote> getBttvEmotes() {
+        if (mBttvSet == null)
+            return new ArrayList<>();
+
+        return mBttvSet.getEmotes();
+    }
+
+    public final List<Emote> getFfzEmotes() {
+        if (mFfzSet == null)
+            return new ArrayList<>();
+
+        return mFfzSet.getEmotes();
+    }
+
     public int getChannelId() {
         return mChannelId;
     }

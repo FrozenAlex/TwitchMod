@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class LongClickLinkMovementMethod extends LinkMovementMethod {
     private static final Object lock = new Object();
-    private static final int LONG_CLICK_TIME = 800;
+    private static final int LONG_CLICK_TIME = 700;
 
     private static LongClickLinkMovementMethod sInstance;
 

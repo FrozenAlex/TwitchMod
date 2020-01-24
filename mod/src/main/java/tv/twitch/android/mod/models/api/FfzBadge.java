@@ -10,7 +10,7 @@ public class FfzBadge {
     @SerializedName("css")
     private String css;
     @SerializedName("id")
-    private long id;
+    private int id;
     @SerializedName("image")
     private String image;
     @SerializedName("name")
@@ -48,11 +48,11 @@ public class FfzBadge {
         this.css = css;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

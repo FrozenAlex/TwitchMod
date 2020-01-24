@@ -18,9 +18,11 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import tv.twitch.android.mod.badges.BadgeManager;
 import tv.twitch.android.mod.bridges.ChatMessageFactory;
 import tv.twitch.android.mod.bridges.ContextHelper;
-import tv.twitch.android.mod.emotes.EmotesManager;
+import tv.twitch.android.mod.emotes.EmoteManager;
+import tv.twitch.android.mod.models.Badge;
 import tv.twitch.android.mod.models.Emote;
 import tv.twitch.android.mod.settings.PrefManager;
 import tv.twitch.android.models.chat.MessageToken;
@@ -31,10 +33,27 @@ import tv.twitch.chat.ChatEmoticonSet;
 import tv.twitch.chat.ChatEmoticonUrl;
 
 public class ChatUtils {
-    private static final Set<String> mClaims = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
+    private static final Set<String> mReceivedClaims = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
 
-    private static final EmotesManager sEmotesManager = EmotesManager.getInstance();
+    private static final EmoteManager sEmoteManager = EmoteManager.getInstance();
+    private static final BadgeManager sBadgeManager = BadgeManager.getInstance();
     private static final Helper sHelper = Helper.getInstance();
+
+    public enum IDS {
+        GLOBAL("-110"),
+        FFZ("-109"),
+        BTTV("-108");
+
+        private final String mId;
+
+        private IDS(String id) {
+            this.mId = id;
+        }
+
+        public String getId() {
+            return mId;
+        }
+    }
 
     private static ChatEmoticon[] emotesToChatEmoticonArr(List<Emote> emoteList) {
         if (emoteList == null)
@@ -69,40 +88,62 @@ public class ChatUtils {
                 stringBuilder.append(((MessageToken.MentionToken) messageToken).getText());
             else if (messageToken instanceof MessageToken.UrlToken)
                 stringBuilder.append(((MessageToken.UrlToken) messageToken).getUrl());
-            else {
-                Logger.debug("Check token: " + messageToken.toString());
-            }
         }
 
         return stringBuilder.toString();
     }
 
-    public static SpannedString injectCopySpan(SpannedString spannedString, final List<MessageToken> tokens, final ContextHelper contextHelper) {
-        if (TextUtils.isEmpty(spannedString)) {
-            Logger.warning("spannedString is null");
-            return spannedString;
+    public static SpannedString injectBadges(SpannedString badgeSpan, final String badgeName, final ChatMessageFactory factory) {
+        List<Badge> badges = sBadgeManager.getBadges(badgeName);
+        if (badges == null || badges.size() == 0)
+            return badgeSpan;
+
+        SpannableStringBuilder ssb = new SpannableStringBuilder(badgeSpan);
+        for (Badge badge : badges) {
+            if (badge == null)
+                continue;
+
+            String url = badge.getUrl();
+            if (TextUtils.isEmpty(url))
+                continue;
+
+            if (ssb.charAt(ssb.length()-1) != ' ')
+                ssb.append(' ');
+            ssb.append(badgeName);
+
+            ssb.replace(ssb.length()-badgeName.length(), ssb.length(), factory.getSpannedBadge(url, badgeName));
+        }
+
+        return SpannedString.valueOf(ssb);
+
+    }
+
+    public static SpannedString injectCopySpan(SpannedString messageSpan, final List<MessageToken> tokens, final ContextHelper contextHelper) {
+        if (TextUtils.isEmpty(messageSpan)) {
+            Logger.warning("messageSpan is null");
+            return messageSpan;
         }
         if (tokens == null) {
             Logger.warning("tokens is null");
-            return spannedString;
+            return messageSpan;
         }
         if (contextHelper == null) {
             Logger.error("contextHelper is null");
-            return spannedString;
+            return messageSpan;
         }
 
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(spannedString);
-        spannableStringBuilder.setSpan(new LongClickableMessage(contextHelper, tokens), 0, spannedString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(messageSpan);
+        spannableStringBuilder.setSpan(new LongClickableMessage(contextHelper, tokens), 0, messageSpan.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return SpannedString.valueOf(spannableStringBuilder);
     }
 
-    public static void clicker(final View view, CommunityPointsModel communityPointsModel) {
+    public static void clicker(final View pointButtonView, CommunityPointsModel communityPointsModel) {
         if (!PrefManager.isClickerOn())
             return;
 
-        if (view == null) {
-            Logger.error("view is null");
+        if (pointButtonView == null) {
+            Logger.error("pointButtonView is null");
             return;
         }
 
@@ -121,24 +162,24 @@ public class ChatUtils {
             return;
         }
 
-        synchronized (mClaims) {
-            if (mClaims.contains(claimModel.getId())) {
+        synchronized (mReceivedClaims) {
+            if (mReceivedClaims.contains(claimModel.getId())) {
                 return;
             }
-            mClaims.add(claimModel.getId());
+            mReceivedClaims.add(claimModel.getId());
         }
 
-        view.performClick();
+        pointButtonView.performClick();
         Logger.info(String.format(Locale.ENGLISH, "Click! Got %d points", claimModel.getPointsEarned()));
     }
 
     private static SpannableString getEmoteSpan(final String word, final int channelID, final ChatMessageFactory factory) {
-        Emote emote = sEmotesManager.getEmote(word, channelID);
+        Emote emote = sEmoteManager.getEmote(word, channelID);
         if (emote != null) {
             if (emote.isGif() && PrefManager.isDontLoadGifs())
                 return null;
 
-            return (SpannableString) factory.getSpannedEmote(emote.getUrl());
+            return (SpannableString) factory.getSpannedEmote(emote.getUrl(), word);
         }
 
         return null;
@@ -174,32 +215,32 @@ public class ChatUtils {
         return res;
     }
 
-    public static SpannedString injectEmotesSpan(SpannedString orgMessage, int channelID, ChatMessageFactory factory) {
-        if (TextUtils.isEmpty(orgMessage)) {
-            Logger.warning("empty orgMessage");
-            return orgMessage;
+    public static SpannedString injectEmotesSpan(SpannedString messageSpan, int channelID, ChatMessageFactory factory) {
+        if (TextUtils.isEmpty(messageSpan)) {
+            Logger.warning("empty messageSpan");
+            return messageSpan;
         }
         if (channelID == 0) {
-            Logger.error("Bad channelID");
-            return orgMessage;
+            Logger.error("Bad channelID. System message?");
+            return messageSpan;
         }
 
         SpannableStringBuilder ssb = null;
 
-        for(Pair<Integer, Integer> pos : getPositions(orgMessage)) {
-            SpannableString ss = getEmoteSpan(String.valueOf(orgMessage.subSequence(pos.first, pos.second)), channelID, factory);
-            if (ss != null) {
+        for(Pair<Integer, Integer> pos : getPositions(messageSpan)) {
+            SpannableString emoteSpan = getEmoteSpan(String.valueOf(messageSpan.subSequence(pos.first, pos.second)), channelID, factory);
+            if (emoteSpan != null) {
                 if (ssb == null)
-                    ssb = new SpannableStringBuilder(orgMessage);
+                    ssb = new SpannableStringBuilder(messageSpan);
 
-                ssb.replace(pos.first, pos.second, ss);
+                ssb.replace(pos.first, pos.second, emoteSpan);
             }
         }
 
         if (ssb != null)
             return SpannedString.valueOf(ssb);
 
-        return orgMessage;
+        return messageSpan;
     }
 
     public static ChatEmoticonSet[] hookChatEmoticonSet(ChatEmoticonSet[] orgSet) {
@@ -216,24 +257,31 @@ public class ChatUtils {
             return orgSet;
         }
 
-        List<Emote> globalEmotes = sEmotesManager.getGlobalEmotes();
-        List<Emote> roomEmotes = sEmotesManager.getRoomEmotes(sHelper.getCurrentChannel());
+        List<Emote> globalEmotes = sEmoteManager.getGlobalEmotes();
+        List<Emote> bttvEmotes = sEmoteManager.getBttvEmotes(sHelper.getCurrentChannel());
+        List<Emote> ffzEmotes = sEmoteManager.getFfzEmotes(sHelper.getCurrentChannel());
 
-        ChatEmoticonSet[] newSet = new ChatEmoticonSet[orgSet.length+2];
+        ChatEmoticonSet[] newSet = new ChatEmoticonSet[orgSet.length+3];
         java.lang.System.arraycopy(orgSet, 0, newSet, 0, orgSet.length);
 
         ChatEmoticon[] globalEmoticons = emotesToChatEmoticonArr(globalEmotes);
-        ChatEmoticon[] roomEmoticons = emotesToChatEmoticonArr(roomEmotes);
+        ChatEmoticon[] bttvEmoticons = emotesToChatEmoticonArr(bttvEmotes);
+        ChatEmoticon[] ffzEmoticons = emotesToChatEmoticonArr(ffzEmotes);
 
-        ChatEmoticonSet roomEmoticonSet = new ChatEmoticonSet();
-        roomEmoticonSet.emoticonSetId = -106;
-        roomEmoticonSet.emoticons = roomEmoticons != null ? roomEmoticons : new ChatEmoticon[0];
-        newSet[newSet.length-1] = roomEmoticonSet;
+        ChatEmoticonSet bttvEmoticonSet = new ChatEmoticonSet();
+        bttvEmoticonSet.emoticonSetId = IDS.BTTV.getId();
+        bttvEmoticonSet.emoticons = bttvEmoticons != null ? bttvEmoticons : new ChatEmoticon[0];
+        newSet[newSet.length-1] = bttvEmoticonSet;
+
+        ChatEmoticonSet ffzEmoticonSet = new ChatEmoticonSet();
+        ffzEmoticonSet.emoticonSetId = IDS.FFZ.getId();
+        ffzEmoticonSet.emoticons = ffzEmoticons != null ? ffzEmoticons : new ChatEmoticon[0];
+        newSet[newSet.length-2] = ffzEmoticonSet;
 
         ChatEmoticonSet globalEmoticonSet = new ChatEmoticonSet();
-        globalEmoticonSet.emoticonSetId = -107;
+        globalEmoticonSet.emoticonSetId = IDS.GLOBAL.getId();
         globalEmoticonSet.emoticons = globalEmoticons != null ? globalEmoticons : new ChatEmoticon[0];
-        newSet[newSet.length-2] = globalEmoticonSet;
+        newSet[newSet.length-3] = globalEmoticonSet;
 
         return newSet;
     }

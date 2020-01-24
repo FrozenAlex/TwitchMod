@@ -3,14 +3,12 @@ package tv.twitch.android.mod.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import tv.twitch.android.api.i1.f1;
-import tv.twitch.android.app.core.f0;
+import tv.twitch.android.api.f1.f1;
 import tv.twitch.android.mod.activities.Settings;
-import tv.twitch.android.mod.emotes.EmotesManager;
+import tv.twitch.android.mod.emotes.EmoteManager;
 import tv.twitch.android.models.Playable;
 import tv.twitch.android.models.channel.ChannelInfo;
 import tv.twitch.android.models.clips.ClipModel;
@@ -18,7 +16,7 @@ import tv.twitch.android.models.clips.ClipModel;
 public class Helper {
     private int mCurrentChannel = 0;
 
-    private static final EmotesManager sEmotesManager = EmotesManager.getInstance();
+    private static final EmoteManager sEmoteManager = EmoteManager.getInstance();
 
     private Helper() {
     }
@@ -40,7 +38,7 @@ public class Helper {
             Logger.error("Bad channelId");
             return;
         }
-        this.mCurrentChannel = channelInfo.getId();
+        setCurrentChannel(channelInfo.getId());
     }
 
     public void setCurrentChannel(int channelId) {
@@ -74,8 +72,11 @@ public class Helper {
 
         if (channelId != 0)
             setCurrentChannel(channelId);
+        else {
+            Logger.warning("channelId == 0");
+        }
 
-        sEmotesManager.request(channelName, channelId);
+        sEmoteManager.request(channelName, channelId);
     }
 
     public void newRequest(ChannelInfo channelInfo) {
@@ -86,7 +87,7 @@ public class Helper {
         Logger.debug(String.format("New request for %s...", channelInfo.getName()));
 
         setCurrentChannel(channelInfo);
-        sEmotesManager.request(channelInfo);
+        sEmoteManager.request(channelInfo);
     }
 
     public static void openSettings(Activity fragmentActivity) {
@@ -119,5 +120,18 @@ public class Helper {
 
     public static void showToast(final Context context, String message) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+    }
+
+    public static String getSetName(String org, String setId) {
+        if (!TextUtils.isEmpty(setId)) {
+            if (setId.equals(ChatUtils.IDS.GLOBAL.getId()))
+                return "BetterTTV Global Emotes";
+            else if (setId.equals(ChatUtils.IDS.FFZ.getId()))
+                return "FFZ Emotes";
+            else if (setId.equals(ChatUtils.IDS.BTTV.getId()))
+                return "BetterTTV Emotes";
+        }
+
+        return org;
     }
 }
