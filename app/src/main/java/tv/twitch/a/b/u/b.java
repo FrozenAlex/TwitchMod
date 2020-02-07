@@ -18,14 +18,11 @@ public class b {
         public void a(Object bVar) {
             switch (2) {
                 case 2:
-
-//                  how get fragment
-//
-//                  iget-object p1, p0, Ltv/twitch/BuildConfigUtil/b/w/b$BuildConfigUtil;->BuildConfigUtil:Ltv/twitch/BuildConfigUtil/b/w/b;
-//
-//                  invoke-static {p1}, Ltv/twitch/BuildConfigUtil/b/w/b;->BuildConfigUtil(Ltv/twitch/BuildConfigUtil/b/w/b;)Landroidx/fragment/app/FragmentActivity;
-//
-//                  move-result-object p1
+                    // :pswitch_4
+                    // iget-object v0, p0, Ltv/twitch/a/b/u/b$a;->a:Ltv/twitch/a/b/u/b;
+                    // invoke-static {v0}, Ltv/twitch/a/b/u/b;->a(Ltv/twitch/a/b/u/b;)Landroidx/fragment/app/FragmentActivity;
+                    // move-result-object v0
+                    // invoke-static {v0}, Ltv/twitch/android/mod/utils/Helper;->openSettings(Landroid/app/Activity;)V
 
                     openSettings(a.e); // TODO: __REPLACE
                     break;

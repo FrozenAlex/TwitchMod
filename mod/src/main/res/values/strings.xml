@@ -9,6 +9,7 @@
     <string name="mod_bttv_settings_bttv_emotes">Enable</string>
     <string name="mod_bttv_settings_bttv_widget">Emote menu</string>
     <string name="mod_bttv_settings_bttv_off_gifs">Disable BetterTTV GIF Emotes</string>
+    <string name="mod_bttv_settings_ffz_badges">FrankerFaceZ supporter badges</string>
     <!-- Chat -->
     <string name="mod_chat_settings_show_del_messages">Show deleted messages</string>
     <string name="mod_chat_settings_timestamps">Add timestamps to messages</string>
@@ -23,6 +24,4 @@
     <!-- Following -->
     <string name="mod_following_settings_disable_recommendations">Hide «Recommended Streams»</string>
     <string name="mod_following_settings_disable_resume_watching">Hide «Recent Watching»</string>
-    <string name="mod_following_settings_disable_followed_streams">Hide «Followed Streams»</string>
-    <string name="mod_following_settings_disable_followed_games">Hide «Followed Games»</string>
 </resources>

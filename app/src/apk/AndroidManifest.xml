@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tv.twitch.android.app">
     <uses-permission android:name="android.permission.INTERNET" />
-    <application>
+    <application android:name="tv.twitch.android.mod.bridges.LoaderLS">
         <activity android:name=".run.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

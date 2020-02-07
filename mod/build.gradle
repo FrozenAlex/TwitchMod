@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 5
-        versionName "1.4"
+        targetSdkVersion 29
+        versionCode 6
+        versionName "1.5"
 
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -18,13 +18,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    buildToolsVersion = '29.0.3'
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'com.google.android.material:material:1.0.0'
     implementation 'com.google.code.gson:gson:2.8.6'
+    //noinspection GradleDependency
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    //noinspection GradleDependency
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
     implementation project(path: ':twitch')
-    implementation 'androidx.appcompat:appcompat:1.1.0'
 }

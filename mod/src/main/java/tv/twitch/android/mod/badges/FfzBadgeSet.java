@@ -3,7 +3,6 @@ package tv.twitch.android.mod.badges;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,6 +49,7 @@ public class FfzBadgeSet extends BaseBadgeSet<FfzBadges> {
 
             if (url.startsWith("//"))
                 url = "https:" + url;
+
             String badgeName = ffzBadge.getName();
             int id = ffzBadge.getId();
 

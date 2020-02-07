@@ -16,16 +16,18 @@ import tv.twitch.android.mod.utils.Logger;
 public abstract class BaseEmoteSet<T> extends ApiCallback<T> implements EmoteSet {
     private final Map<String, Emote> mEmoteMap = Collections.synchronizedMap(new LinkedHashMap<String, Emote>());
 
-    public BaseEmoteSet() {
-    }
-
     @Override
     public synchronized void addEmote(Emote emote) {
-        if (emote != null && !TextUtils.isEmpty(emote.getCode()))
-            mEmoteMap.put(emote.getCode(), emote);
-        else {
-            Logger.debug("Bad emote: " + emote);
+        if (emote == null) {
+            Logger.error("emote is null");
+            return;
         }
+        if (TextUtils.isEmpty(emote.getCode())) {
+            Logger.error("Empty code");
+            return;
+        }
+
+        mEmoteMap.put(emote.getCode(), emote);
     }
 
     @Override
@@ -41,5 +43,10 @@ public abstract class BaseEmoteSet<T> extends ApiCallback<T> implements EmoteSet
     @Override
     public void onRequestFail(FailReason reason) {
         Logger.error(reason.name());
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return mEmoteMap.isEmpty();
     }
 }

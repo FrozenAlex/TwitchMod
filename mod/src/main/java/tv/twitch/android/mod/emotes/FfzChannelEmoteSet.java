@@ -29,7 +29,7 @@ public class FfzChannelEmoteSet extends BaseChannelEmoteSet<FfzResponse> {
         FfzRoom room = ffzResponse.getRoom();
 
         if (room == null) {
-            Logger.warning("room is null");
+            Logger.warning("Room is null");
             return;
         }
 
@@ -84,6 +84,8 @@ public class FfzChannelEmoteSet extends BaseChannelEmoteSet<FfzResponse> {
             FfzEmote emote = new FfzEmote(emoticon.getName(), String.valueOf(emoticon.getId()), url);
             addEmote(emote);
         }
+
+        Logger.debug("done!");
     }
 
 }

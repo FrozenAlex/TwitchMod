@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.widget.TextView;
 
 public class LongClickLinkMovementMethod extends LinkMovementMethod {
-    private static final Object lock = new Object();
     private static final int LONG_CLICK_TIME = 700;
 
     private static LongClickLinkMovementMethod sInstance;
@@ -87,13 +86,15 @@ public class LongClickLinkMovementMethod extends LinkMovementMethod {
     }
 
     public static MovementMethod getInstance() {
-        synchronized (lock) {
-            if (sInstance == null) {
-                sInstance = new LongClickLinkMovementMethod();
-                sInstance.mLongClickHandler = new Handler();
+        if (sInstance == null) {
+            synchronized (LongClickLinkMovementMethod.class) {
+                if (sInstance == null) {
+                    sInstance = new LongClickLinkMovementMethod();
+                    sInstance.mLongClickHandler = new Handler();
+                }
             }
-
-            return sInstance;
         }
+
+        return sInstance;
     }
 }

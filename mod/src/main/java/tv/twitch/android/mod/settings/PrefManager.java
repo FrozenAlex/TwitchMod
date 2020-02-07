@@ -18,25 +18,15 @@ public class PrefManager {
     private static final String PREF_KEY_COPY_MSG = "MOD_COPY_MSG";
     private static final String PREF_KEY_DISABLE_PLAYER_AUTOPLAY = "MOD_DISABLE_AUTOPLAY";
     private static final String PREF_KEY_DISABLE_RECENT_SEARCH = "MOD_DISABLE_RECENT_SEARCH";
+    private static final String PREF_KEY_FFZ_BADGES = "MOD_FFZ_BADGES";
 
     private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
     private static final String PREF_KEY_DISABLE_RECENT_WATCHING = "MOD_DISABLE_RESUME_WATCHING";
-    private static final String PREF_KEY_DISABLE_FOLLOWED_STREAMS = "MOD_DISABLE_FOLLOWED_STREAMS";
-    private static final String PREF_KEY_DISABLE_FOLLOWED_GAMES = "MOD_DISABLE_FOLLOWED_GAMES";
 
     private static SharedPreferences mPref;
 
-    public static synchronized void init(Context context) {
-        if (context == null) {
-            Logger.error("context is null");
-            return;
-        }
-        if (mPref == null) {
-            mPref = PreferenceManager.getDefaultSharedPreferences(context);
-        }
-    }
-
-    private PrefManager() {
+    public PrefManager(Context context) {
+        mPref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     private static boolean getBoolean(String key, boolean def) {
@@ -48,63 +38,59 @@ public class PrefManager {
         return mPref.getBoolean(key, def);
     }
 
-    public static boolean isEmotesOn() {
+    public boolean isEmotesOn() {
         return getBoolean(PREF_KEY_EMOTES, false);
     }
 
-    public static boolean isDisableGifs() {
+    public boolean isDisableGifs() {
         return getBoolean(PREF_KEY_DISABLE_GIFS, false);
     }
 
-    public static boolean isDontLoadGifs() {
+    public boolean isDontLoadGifs() {
         return getBoolean(PREF_KEY_DONT_LOAD_GIFS, false);
     }
 
-    public static boolean isPreventMsg() {
+    public boolean isPreventMsg() {
         return getBoolean(PREF_KEY_SHOW_DEL_MESSAGES, false);
     }
 
-    public static boolean isHookEmoticonSetOn() {
+    public boolean isHookEmoticonSetOn() {
         return getBoolean(PREF_KEY_EMOTE_PICKER, false);
     }
 
-    public static boolean isClickerOn() {
+    public boolean isClickerOn() {
         return getBoolean(PREF_KEY_POINTS, false);
     }
 
-    public static boolean isTimestampsOn() {
+    public boolean isTimestampsOn() {
         return getBoolean(PREF_KEY_TIMESTAMPS, false);
     }
 
-    public static boolean isExoPlayerOn() {
+    public boolean isExoPlayerOn() {
         return getBoolean(PREF_KEY_EXOPLAYER, false);
     }
 
-    public static boolean isCopyMsgOn() {
+    public boolean isCopyMsgOn() {
         return getBoolean(PREF_KEY_COPY_MSG, false);
     }
 
-    public static boolean isDisableAutoplay() {
+    public boolean isDisableAutoplay() {
         return getBoolean(PREF_KEY_DISABLE_PLAYER_AUTOPLAY, false);
     }
 
-    public static boolean isDisableRecentSearch() {
+    public boolean isDisableRecentSearch() {
         return getBoolean(PREF_KEY_DISABLE_RECENT_SEARCH, false);
     }
 
-    public static boolean isDisableRecentWatching() {
+    public boolean isDisableRecentWatching() {
         return getBoolean(PREF_KEY_DISABLE_RECENT_WATCHING, false);
     }
 
-    public static boolean isDisableRecommendations() {
+    public boolean isDisableRecommendations() {
         return getBoolean(PREF_KEY_DISABLE_RECOMMENDATIONS, false);
     }
 
-    public static boolean isDisableFollowedGames() {
-        return getBoolean(PREF_KEY_DISABLE_FOLLOWED_GAMES, false);
-    }
-
-    public static boolean isDisableFollowedStreams() {
-        return getBoolean(PREF_KEY_DISABLE_FOLLOWED_STREAMS, false);
+    public boolean isFfzBadges() {
+        return getBoolean(PREF_KEY_FFZ_BADGES, false);
     }
 }

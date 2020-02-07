@@ -21,8 +21,17 @@ public abstract class BaseBadgeSet<T> extends ApiCallback<T> implements BadgeSet
     }
 
     @Override
-    public synchronized void addBadge(String userName, Badge badge) {
-        if (badge != null && !TextUtils.isEmpty(userName)) {
+    public void addBadge(String userName, Badge badge) {
+        if (badge == null) {
+            Logger.error("badge is null");
+            return;
+        }
+        if (TextUtils.isEmpty(userName)) {
+            Logger.error("Empty userName");
+            return;
+        }
+
+        synchronized (BaseBadgeSet.class) {
             if (mBadges.containsKey(userName)) {
                 List<Badge> badges = mBadges.get(userName);
                 if (badges == null) {
@@ -37,14 +46,16 @@ public abstract class BaseBadgeSet<T> extends ApiCallback<T> implements BadgeSet
                 badges.add(badge);
                 mBadges.put(userName, badges);
             }
-        } else {
-            Logger.debug("debug badges");
         }
-
     }
 
     @Override
     public List<Badge> getBadges(String userName) {
         return mBadges.get(userName);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return mBadges.isEmpty();
     }
 }

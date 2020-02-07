@@ -13,6 +13,10 @@
             android:defaultValue="false"
             android:key="MOD_DONT_LOAD_GIFS"
             android:title="@string/mod_bttv_settings_bttv_off_gifs" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_FFZ_BADGES"
+            android:title="@string/mod_bttv_settings_ffz_badges" />
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/mod_category_settings_chat_category">
         <CheckBoxPreference
@@ -48,14 +52,6 @@
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/mod_category_settings_patch">
         <PreferenceScreen android:title="@string/mod_category_settings_following">
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="MOD_DISABLE_FOLLOWED_GAMES"
-                android:title="@string/mod_following_settings_disable_followed_games" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="MOD_DISABLE_FOLLOWED_STREAMS"
-                android:title="@string/mod_following_settings_disable_followed_streams" />
             <CheckBoxPreference
                 android:defaultValue="false"
                 android:key="MOD_DISABLE_RECOMMENDATIONS"

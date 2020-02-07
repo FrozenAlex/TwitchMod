@@ -14,7 +14,10 @@ public class ServiceFactory {
 
     public static BttvApi getBttvApi() {
         if (mBttvApi == null) {
-            mBttvApi = getRetrofitClient(BTTV_API).create(BttvApi.class);
+            synchronized (ServiceFactory.class) {
+                if (mBttvApi == null)
+                    mBttvApi = getRetrofitClient(BTTV_API).create(BttvApi.class);
+            }
         }
 
         return mBttvApi;
@@ -22,7 +25,10 @@ public class ServiceFactory {
 
     public static FfzApi getFfzApi() {
         if (mFfzApi == null) {
-            mFfzApi = getRetrofitClient(FFZ_API).create(FfzApi.class);
+            synchronized (ServiceFactory.class) {
+                if (mFfzApi == null)
+                    mFfzApi = getRetrofitClient(FFZ_API).create(FfzApi.class);
+            }
         }
 
         return mFfzApi;
@@ -30,7 +36,10 @@ public class ServiceFactory {
 
     public static TwitchApi getTwitchApi() {
         if (mTwitchApi == null) {
-            mTwitchApi = getRetrofitClient(TWITCH_API).create(TwitchApi.class);
+            synchronized (ServiceFactory.class) {
+                if (mTwitchApi == null)
+                    mTwitchApi = getRetrofitClient(TWITCH_API).create(TwitchApi.class);
+            }
         }
 
         return mTwitchApi;

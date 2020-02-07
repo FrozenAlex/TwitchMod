@@ -5,7 +5,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.StrikethroughSpan;
 
-import tv.twitch.android.mod.settings.PrefManager;
+import tv.twitch.android.mod.bridges.LoaderLS;
 
 // Source: ChatUtil
 public class d {
@@ -14,7 +14,7 @@ public class d {
     }
 
     private final Spannable a(Spanned spanned, String str, h hVar) { // TODO: __ADD
-        if (!PrefManager.isPreventMsg())
+        if (!LoaderLS.getInstance().getPrefManager().isPreventMsg())
             return org(spanned, str, hVar);
 
         f[] clickableUsernameSpans = spanned.getSpans(0, spanned.length(), f.class);

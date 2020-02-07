@@ -8,4 +8,6 @@ public interface EmoteSet {
     Emote getEmote(String name);
 
     List<Emote> getEmotes();
+
+    boolean isEmpty();
 }

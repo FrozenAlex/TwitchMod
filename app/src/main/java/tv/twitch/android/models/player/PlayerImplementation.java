@@ -1,6 +1,6 @@
 package tv.twitch.android.models.player;
 
-import tv.twitch.android.mod.settings.PrefManager;
+import tv.twitch.android.mod.bridges.LoaderLS;
 
 public enum PlayerImplementation {
     Core("playercore", "b"),
@@ -17,7 +17,7 @@ public enum PlayerImplementation {
 
     public static final class Companion {
         public final PlayerImplementation getProviderForName(String str) { // TODO: __ADD
-            if (PrefManager.isExoPlayerOn())
+            if (LoaderLS.getInstance().getPrefManager().isExoPlayerOn())
                 return PlayerImplementation.Exo2;
             else
                 return org(str);

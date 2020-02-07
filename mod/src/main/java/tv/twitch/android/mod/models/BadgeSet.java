@@ -6,4 +6,6 @@ public interface BadgeSet {
     void addBadge(String userName, Badge badge);
 
     List<Badge> getBadges(String userName);
+
+    boolean isEmpty();
 }

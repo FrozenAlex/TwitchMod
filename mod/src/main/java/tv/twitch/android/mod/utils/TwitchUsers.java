@@ -13,17 +13,21 @@ import tv.twitch.android.mod.models.api.TwitchResponse;
 import tv.twitch.android.mod.models.api.TwitchUser;
 
 public class TwitchUsers {
-    private final ConcurrentHashMap<Integer, String> mCache = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<Integer, String> mCache = new ConcurrentHashMap<>();
+
+    private static volatile TwitchUsers sInstance;
 
     private TwitchUsers() {
     }
 
-    private static class Holder {
-        static final TwitchUsers mInstance = new TwitchUsers();
-    }
-
     public static TwitchUsers getInstance() {
-        return Holder.mInstance;
+        if (sInstance == null) {
+            synchronized(TwitchUsers.class) {
+                if (sInstance == null)
+                    sInstance = new TwitchUsers();
+            }
+        }
+        return sInstance;
     }
 
     private final class UserInfo extends ApiCallback<TwitchResponse<TwitchUser>> {
@@ -51,7 +55,11 @@ public class TwitchUsers {
                 this.mCallback.fail(mChannelId);
                 return;
             }
-            mCache.put(twitchUser.getId(), twitchUser.getLogin());
+            if (twitchUser.getId() == 0) {
+                this.mCallback.fail(mChannelId);
+                return;
+            }
+            mCache.put(mChannelId, twitchUser.getLogin());
             this.mCallback.userInfo(twitchUser.getLogin(), twitchUser.getId());
         }
 
@@ -63,7 +71,6 @@ public class TwitchUsers {
         public void fetch() {
             ServiceFactory.getTwitchApi().getUsersInfo(mChannelId).enqueue(this);
         }
-
     }
 
     private void request(int channelId, UserInfoCallback callback) {
@@ -78,15 +85,5 @@ public class TwitchUsers {
         }
 
         callback.userInfo(mCache.get(id), id);
-    }
-
-    public void checkAndAddUsername(String userName, int userId) {
-        if (!TextUtils.isEmpty(userName) && (userId != 0)) {
-            synchronized (mCache) {
-                if (!mCache.containsKey(userId)) {
-                    mCache.put(userId, userName);
-                }
-            }
-        }
     }
 }

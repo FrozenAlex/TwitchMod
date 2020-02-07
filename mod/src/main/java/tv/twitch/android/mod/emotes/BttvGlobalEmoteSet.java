@@ -36,5 +36,7 @@ public class BttvGlobalEmoteSet extends BaseEmoteSet<List<BttvEmoteResponse>> {
 
             addEmote(new tv.twitch.android.mod.models.BttvEmote(emoticon.getCode(), emoticon.getId(), emoticon.getImageType()));
         }
+
+        Logger.debug("done!");
     }
 }

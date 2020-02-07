@@ -12,20 +12,18 @@ import androidx.annotation.NonNull;
 import java.util.List;
 import java.util.Locale;
 
-import tv.twitch.android.mod.bridges.ContextHelper;
+import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.models.chat.MessageToken;
 
 public class LongClickableMessage extends ClickableSpan {
-    private final ContextHelper contextHelper;
     private final List<MessageToken> tokens;
 
-    public LongClickableMessage(ContextHelper ch, List<MessageToken> tokens) {
-        this.contextHelper = ch;
+    public LongClickableMessage(List<MessageToken> tokens) {
         this.tokens = tokens;
     }
 
     void onLongClick(@NonNull View view) {
-        Context context = contextHelper.getAppContext();
+        Context context = LoaderLS.getInstance().getApplicationContext();
         if (context != null) {
             String message = ChatUtils.getMessage(tokens);
             ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);

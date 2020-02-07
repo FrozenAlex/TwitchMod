@@ -10,35 +10,34 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import tv.twitch.android.mod.models.Emote;
 import tv.twitch.android.mod.models.UserInfoCallback;
+import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.mod.utils.Logger;
-import tv.twitch.android.mod.utils.TwitchUsers;
 import tv.twitch.android.models.channel.ChannelInfo;
 
 public class EmoteManager implements UserInfoCallback {
-    private BttvGlobalEmoteSet mGlobalSet;
+    private static final BttvGlobalEmoteSet sGlobalSet = new BttvGlobalEmoteSet();
 
     private final ConcurrentHashMap<Integer, Room> mRooms = new ConcurrentHashMap<>();
     private final Set<Integer> mCurrentRoomRequests = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>());
 
-    private static final TwitchUsers sTwitchUsers = TwitchUsers.getInstance();
+    private static volatile EmoteManager sInstance;
 
     private EmoteManager() {
         fetchGlobalEmotes();
     }
 
-    private static class Holder {
-        static final EmoteManager mInstance = new EmoteManager();
-    }
-
     public static EmoteManager getInstance() {
-        return Holder.mInstance;
+        if (sInstance == null) {
+            synchronized(EmoteManager.class) {
+                if (sInstance == null)
+                    sInstance = new EmoteManager();
+            }
+        }
+        return sInstance;
     }
 
     public List<Emote> getGlobalEmotes() {
-        if (mGlobalSet != null)
-            return mGlobalSet.getEmotes();
-
-        return new ArrayList<>();
+        return sGlobalSet.getEmotes();
     }
 
     public List<Emote> getBttvEmotes(int channelId) {
@@ -76,12 +75,7 @@ public class EmoteManager implements UserInfoCallback {
 
     private void fetchGlobalEmotes() {
         Logger.info("Fetching global emoticons...");
-        if (mGlobalSet == null) {
-            mGlobalSet = new BttvGlobalEmoteSet();
-            mGlobalSet.fetch();
-        } else {
-            Logger.warning("mGlobalSet is null");
-        }
+        sGlobalSet.fetch();
     }
 
     public Emote getEmote(String code, int channelId) {
@@ -106,14 +100,14 @@ public class EmoteManager implements UserInfoCallback {
                 return emote;
         }
 
-        emote = mGlobalSet.getEmote(code);
+        emote = sGlobalSet.getEmote(code);
         if (emote != null)
             return emote;
 
         return emote;
     }
 
-    public void request(String channelName, int channelId) {
+    public void requestChannelEmoteSet(String channelName, int channelId, boolean force) {
         if (channelId == 0) {
             Logger.error("Bad channelId");
             return;
@@ -124,14 +118,13 @@ public class EmoteManager implements UserInfoCallback {
             return;
         }
 
-        if (mCurrentRoomRequests.contains(channelId))
+        if (!force && mCurrentRoomRequests.contains(channelId))
             return;
 
         userInfo(channelName, channelId);
-        sTwitchUsers.checkAndAddUsername(channelName, channelId);
     }
 
-    public void request(ChannelInfo channelInfo) {
+    public void requestChannelEmoteSet(ChannelInfo channelInfo, boolean force) {
         if (channelInfo != null) {
             int channelId = channelInfo.getId();
             if (channelId == 0) {
@@ -142,7 +135,7 @@ public class EmoteManager implements UserInfoCallback {
             if (mCurrentRoomRequests.contains(channelId))
                 return;
 
-            if (mRooms.containsKey(channelId))
+            if (!force && mRooms.containsKey(channelId))
                 return;
 
             if (TextUtils.isEmpty(channelInfo.getName())) {
@@ -152,7 +145,6 @@ public class EmoteManager implements UserInfoCallback {
             }
 
             userInfo(channelInfo.getName(), channelInfo.getId());
-            sTwitchUsers.checkAndAddUsername(channelInfo.getName(), channelInfo.getId());
         } else {
             Logger.error("channelInfo is null");
         }
@@ -162,8 +154,13 @@ public class EmoteManager implements UserInfoCallback {
         if (mCurrentRoomRequests.contains(channelId))
             return;
 
-        mCurrentRoomRequests.add(channelId);
-        sTwitchUsers.getUserName(channelId, this);
+        synchronized (EmoteManager.class) {
+            if (mCurrentRoomRequests.contains(channelId))
+                return;
+
+            mCurrentRoomRequests.add(channelId);
+            LoaderLS.getInstance().getTwitchUser().getUserName(channelId, this);
+        }
     }
 
     @Override

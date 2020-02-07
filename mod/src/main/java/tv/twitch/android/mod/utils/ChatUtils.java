@@ -11,42 +11,29 @@ import android.view.View;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
-import tv.twitch.android.mod.badges.BadgeManager;
 import tv.twitch.android.mod.bridges.ChatMessageFactory;
-import tv.twitch.android.mod.bridges.ContextHelper;
+import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.mod.emotes.EmoteManager;
 import tv.twitch.android.mod.models.Badge;
 import tv.twitch.android.mod.models.Emote;
-import tv.twitch.android.mod.settings.PrefManager;
 import tv.twitch.android.models.chat.MessageToken;
-import tv.twitch.android.models.communitypoints.ActiveClaimModel;
-import tv.twitch.android.shared.chat.communitypoints.models.CommunityPointsModel;
 import tv.twitch.chat.ChatEmoticon;
 import tv.twitch.chat.ChatEmoticonSet;
 import tv.twitch.chat.ChatEmoticonUrl;
 
 public class ChatUtils {
-    private static final Set<String> mReceivedClaims = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
-
-    private static final EmoteManager sEmoteManager = EmoteManager.getInstance();
-    private static final BadgeManager sBadgeManager = BadgeManager.getInstance();
-    private static final Helper sHelper = Helper.getInstance();
-
-    public enum IDS {
+    public enum EmoteSet {
         GLOBAL("-110"),
         FFZ("-109"),
         BTTV("-108");
 
         private final String mId;
 
-        private IDS(String id) {
+        EmoteSet(String id) {
             this.mId = id;
         }
 
@@ -93,8 +80,18 @@ public class ChatUtils {
         return stringBuilder.toString();
     }
 
-    public static SpannedString injectBadges(SpannedString badgeSpan, final String badgeName, final ChatMessageFactory factory) {
-        List<Badge> badges = sBadgeManager.getBadges(badgeName);
+    public static SpannedString injectBadges(SpannedString badgeSpan, final String userName, final ChatMessageFactory factory) {
+        if (TextUtils.isEmpty(userName)) {
+            Logger.warning("Empty userName");
+            return badgeSpan;
+        }
+
+        if (factory == null) {
+            Logger.error("factory is null");
+            return badgeSpan;
+        }
+
+        List<Badge> badges = LoaderLS.getInstance().getBadgeManager().getBadges(userName);
         if (badges == null || badges.size() == 0)
             return badgeSpan;
 
@@ -104,8 +101,16 @@ public class ChatUtils {
                 continue;
 
             String url = badge.getUrl();
-            if (TextUtils.isEmpty(url))
+            if (TextUtils.isEmpty(url)) {
+                Logger.warning("Empty url");
                 continue;
+            }
+
+            String badgeName = badge.getName();
+            if (TextUtils.isEmpty(badgeName)) {
+                Logger.warning("Empty badge name");
+                continue;
+            }
 
             if (ssb.charAt(ssb.length()-1) != ' ')
                 ssb.append(' ');
@@ -115,68 +120,42 @@ public class ChatUtils {
         }
 
         return SpannedString.valueOf(ssb);
-
     }
 
-    public static SpannedString injectCopySpan(SpannedString messageSpan, final List<MessageToken> tokens, final ContextHelper contextHelper) {
+    public static SpannedString injectCopySpan(SpannedString messageSpan, final List<MessageToken> tokens) {
         if (TextUtils.isEmpty(messageSpan)) {
-            Logger.warning("messageSpan is null");
+            Logger.warning("Empty messageSpan");
             return messageSpan;
         }
         if (tokens == null) {
             Logger.warning("tokens is null");
             return messageSpan;
         }
-        if (contextHelper == null) {
-            Logger.error("contextHelper is null");
-            return messageSpan;
-        }
-
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(messageSpan);
-        spannableStringBuilder.setSpan(new LongClickableMessage(contextHelper, tokens), 0, messageSpan.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableStringBuilder.setSpan(new LongClickableMessage(tokens), 0, messageSpan.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return SpannedString.valueOf(spannableStringBuilder);
     }
 
-    public static void clicker(final View pointButtonView, CommunityPointsModel communityPointsModel) {
-        if (!PrefManager.isClickerOn())
-            return;
-
-        if (pointButtonView == null) {
-            Logger.error("pointButtonView is null");
-            return;
+    private static SpannableString getEmoteSpan(String word, int channelID, ChatMessageFactory factory) {
+        if (TextUtils.isEmpty(word)) {
+            Logger.warning("Empty word");
+            return null;
         }
 
-        if (communityPointsModel == null) {
-            Logger.error("communityPointsModel is null");
-            return;
+        if (channelID == 0) {
+            Logger.warning("Bad channel ID");
+            return null;
         }
 
-        ActiveClaimModel claimModel = communityPointsModel.getClaim();
-        if (claimModel == null) {
-            Logger.error("claimModel is null");
-            return;
-        }
-        if (TextUtils.isEmpty(claimModel.getId())) {
-            Logger.error("Bad id");
-            return;
+        if (factory == null) {
+            Logger.error("factory is null");
+            return null;
         }
 
-        synchronized (mReceivedClaims) {
-            if (mReceivedClaims.contains(claimModel.getId())) {
-                return;
-            }
-            mReceivedClaims.add(claimModel.getId());
-        }
-
-        pointButtonView.performClick();
-        Logger.info(String.format(Locale.ENGLISH, "Click! Got %d points", claimModel.getPointsEarned()));
-    }
-
-    private static SpannableString getEmoteSpan(final String word, final int channelID, final ChatMessageFactory factory) {
-        Emote emote = sEmoteManager.getEmote(word, channelID);
+        Emote emote = LoaderLS.getInstance().getEmoteManager().getEmote(word, channelID);
         if (emote != null) {
-            if (emote.isGif() && PrefManager.isDontLoadGifs())
+            if (emote.isGif() && LoaderLS.getInstance().getPrefManager().isDontLoadGifs())
                 return null;
 
             return (SpannableString) factory.getSpannedEmote(emote.getUrl(), word);
@@ -185,7 +164,12 @@ public class ChatUtils {
         return null;
     }
 
-    private static List<Pair<Integer, Integer>> getPositions(final Spanned message) {
+    private static List<Pair<Integer, Integer>> getPositions(Spanned message) {
+        if (message == null) {
+            Logger.warning("message is null");
+            return new ArrayList<>();
+        }
+
         List<Pair<Integer, Integer>> res = new ArrayList<>();
 
         boolean inWord = false;
@@ -217,12 +201,17 @@ public class ChatUtils {
 
     public static SpannedString injectEmotesSpan(SpannedString messageSpan, int channelID, ChatMessageFactory factory) {
         if (TextUtils.isEmpty(messageSpan)) {
-            Logger.warning("empty messageSpan");
+            Logger.warning("Empty messageSpan");
             return messageSpan;
         }
         if (channelID == 0) {
-            Logger.error("Bad channelID. System message?");
+            Logger.error("Bad channelID");
             return messageSpan;
+        }
+
+        if (factory == null) {
+            Logger.error("factory is null");
+            return null;
         }
 
         SpannableStringBuilder ssb = null;
@@ -244,7 +233,7 @@ public class ChatUtils {
     }
 
     public static ChatEmoticonSet[] hookChatEmoticonSet(ChatEmoticonSet[] orgSet) {
-        if (!PrefManager.isHookEmoticonSetOn()) {
+        if (!LoaderLS.getInstance().getPrefManager().isHookEmoticonSetOn()) {
             return orgSet;
         }
 
@@ -257,9 +246,11 @@ public class ChatUtils {
             return orgSet;
         }
 
-        List<Emote> globalEmotes = sEmoteManager.getGlobalEmotes();
-        List<Emote> bttvEmotes = sEmoteManager.getBttvEmotes(sHelper.getCurrentChannel());
-        List<Emote> ffzEmotes = sEmoteManager.getFfzEmotes(sHelper.getCurrentChannel());
+        EmoteManager emoteManager = LoaderLS.getInstance().getEmoteManager();
+        Helper helper = LoaderLS.getInstance().getHelper();
+        List<Emote> globalEmotes = emoteManager.getGlobalEmotes();
+        List<Emote> bttvEmotes = emoteManager.getBttvEmotes(helper.getCurrentChannel());
+        List<Emote> ffzEmotes = emoteManager.getFfzEmotes(helper.getCurrentChannel());
 
         ChatEmoticonSet[] newSet = new ChatEmoticonSet[orgSet.length+3];
         java.lang.System.arraycopy(orgSet, 0, newSet, 0, orgSet.length);
@@ -269,17 +260,17 @@ public class ChatUtils {
         ChatEmoticon[] ffzEmoticons = emotesToChatEmoticonArr(ffzEmotes);
 
         ChatEmoticonSet bttvEmoticonSet = new ChatEmoticonSet();
-        bttvEmoticonSet.emoticonSetId = IDS.BTTV.getId();
+        bttvEmoticonSet.emoticonSetId = EmoteSet.BTTV.getId();
         bttvEmoticonSet.emoticons = bttvEmoticons != null ? bttvEmoticons : new ChatEmoticon[0];
         newSet[newSet.length-1] = bttvEmoticonSet;
 
         ChatEmoticonSet ffzEmoticonSet = new ChatEmoticonSet();
-        ffzEmoticonSet.emoticonSetId = IDS.FFZ.getId();
+        ffzEmoticonSet.emoticonSetId = EmoteSet.FFZ.getId();
         ffzEmoticonSet.emoticons = ffzEmoticons != null ? ffzEmoticons : new ChatEmoticon[0];
         newSet[newSet.length-2] = ffzEmoticonSet;
 
         ChatEmoticonSet globalEmoticonSet = new ChatEmoticonSet();
-        globalEmoticonSet.emoticonSetId = IDS.GLOBAL.getId();
+        globalEmoticonSet.emoticonSetId = EmoteSet.GLOBAL.getId();
         globalEmoticonSet.emoticons = globalEmoticons != null ? globalEmoticons : new ChatEmoticon[0];
         newSet[newSet.length-3] = globalEmoticonSet;
 
@@ -287,10 +278,12 @@ public class ChatUtils {
     }
 
     public static Spanned addTimestampToMessage(Spanned spanned) {
-        if (TextUtils.isEmpty(spanned))
+        if (!LoaderLS.getInstance().getPrefManager().isTimestampsOn()) {
             return spanned;
+        }
 
-        if (!PrefManager.isTimestampsOn()) {
+        if (TextUtils.isEmpty(spanned)) {
+            Logger.warning("Empty spanned");
             return spanned;
         }
 
