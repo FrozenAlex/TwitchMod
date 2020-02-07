@@ -11,16 +11,14 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import tv.twitch.a.l.w.b.q.h;
+import tv.twitch.a.l.v.b.q.h;
 import tv.twitch.android.api.f1.f1;
-import tv.twitch.android.app.core.w1;
+import tv.twitch.android.app.core.x1;
 import tv.twitch.android.mod.activities.Settings;
 import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.mod.bridges.SimpleUrlDrawable;
@@ -28,8 +26,6 @@ import tv.twitch.android.models.Playable;
 import tv.twitch.android.models.channel.ChannelInfo;
 import tv.twitch.android.models.clips.ClipModel;
 import tv.twitch.android.models.communitypoints.ActiveClaimModel;
-import tv.twitch.android.models.streams.StreamModelContainer;
-import tv.twitch.android.models.videos.VodModel;
 import tv.twitch.android.shared.chat.communitypoints.models.CommunityPointsModel;
 
 public class Helper {
@@ -213,7 +209,7 @@ public class Helper {
             Logger.warning("Empty url");
         }
         
-        Snackbar snack = w1.a(Snackbar.make(view, message, Snackbar.LENGTH_LONG));
+        Snackbar snack = x1.a(Snackbar.make(view, message, Snackbar.LENGTH_LONG));
         if (snack == null) {
             Logger.error("snack is null");
             return;

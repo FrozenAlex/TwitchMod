@@ -9,7 +9,7 @@ import tv.twitch.android.mod.utils.Helper;
 
 
 public class Settings extends BaseActivity {
-    public static int XML_ID = 0x7f160001;
+    public static int XML_ID = 0x7f160005;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

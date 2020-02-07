@@ -1,4 +1,4 @@
-package tv.twitch.a.l.w.b.q;
+package tv.twitch.a.l.v.b.q;
 
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;

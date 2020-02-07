@@ -10,7 +10,7 @@ public class r {
     private final ViewGroup b = null;
 
     private final void e(CommunityPointsModel communityPointsModel) {
-        // TODO: copy communityPointsModel to another register (v4)
+        // TODO: copy communityPointsModel to another register (v4) - move-object v4, p1
 
         Helper.clicker(b, communityPointsModel); // TODO: __ADD_END
     }

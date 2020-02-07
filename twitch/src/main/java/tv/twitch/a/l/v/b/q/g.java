@@ -1,4 +1,4 @@
-package tv.twitch.a.l.w.b.q;
+package tv.twitch.a.l.v.b.q;
 
 // Source: TwitchUrlSpanClickListener
 public interface g {

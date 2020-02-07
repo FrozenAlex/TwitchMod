@@ -1,6 +1,6 @@
 package tv.twitch.android.models.channel;
 
-// Source: ChannelInfo.kt
+// Source: ChannelInfo
 public interface ChannelInfo {
     String getDisplayName();
 
