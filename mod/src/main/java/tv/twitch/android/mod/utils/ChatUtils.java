@@ -143,11 +143,6 @@ public class ChatUtils {
             return null;
         }
 
-        if (channelID == 0) {
-            Logger.warning("Bad channel ID");
-            return null;
-        }
-
         if (factory == null) {
             Logger.error("factory is null");
             return null;
@@ -202,10 +197,6 @@ public class ChatUtils {
     public static SpannedString injectEmotesSpan(SpannedString messageSpan, int channelID, ChatMessageFactory factory) {
         if (TextUtils.isEmpty(messageSpan)) {
             Logger.warning("Empty messageSpan");
-            return messageSpan;
-        }
-        if (channelID == 0) {
-            Logger.error("Bad channelID");
             return messageSpan;
         }
 

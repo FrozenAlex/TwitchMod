@@ -84,20 +84,17 @@ public class EmoteManager implements UserInfoCallback {
             return null;
         }
 
-        if (channelId == 0) {
-            Logger.error("Bad channelId");
-            return null;
-        }
-
         Emote emote = null;
-        if (!mRooms.containsKey(channelId))
-            request(channelId);
-        else {
-            Room room = mRooms.get(channelId);
-            if (room != null)
-                emote = room.findEmote(code);
-            if (emote != null)
-                return emote;
+        if (channelId != 0) {
+            if (!mRooms.containsKey(channelId))
+                request(channelId);
+            else {
+                Room room = mRooms.get(channelId);
+                if (room != null)
+                    emote = room.findEmote(code);
+                if (emote != null)
+                    return emote;
+            }
         }
 
         emote = sGlobalSet.getEmote(code);
