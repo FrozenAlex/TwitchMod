@@ -83,24 +83,10 @@ public class Helper {
         Logger.info(String.format(Locale.ENGLISH, "Click! Got %d points", claimModel.getPointsEarned()));
     }
 
-
-    public void setCurrentChannel(ChannelInfo channelInfo) {
-        if (channelInfo == null) {
-            Logger.error("channelInfo is null");
-            return;
-        }
-        if (channelInfo.getId() == 0) {
-            Logger.error("Bad channelId");
-            return;
-        }
-
-        setCurrentChannel(channelInfo.getId());
-    }
-
     public void setCurrentChannel(int channelID) {
-        if (channelID == 0) {
-            Logger.warning("Bad channelID");
-        }
+        if (channelID < 0)
+            channelID = 0;
+
         this.mCurrentChannel = channelID;
     }
 
@@ -128,12 +114,9 @@ public class Helper {
             channelId = playableModelParser.a(playable);
         }
 
-        if (channelId != 0)
-            setCurrentChannel(channelId);
-        else {
-            Logger.warning("Bad channelID");
-        }
+        Logger.debug(String.format("Playable request: %s", channelName));
 
+        setCurrentChannel(channelId);
         LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelName, channelId, true);
     }
 
@@ -144,7 +127,7 @@ public class Helper {
         }
         Logger.debug(String.format("Chat connection controller request: %s", channelInfo.getName()));
 
-        setCurrentChannel(channelInfo);
+        setCurrentChannel(channelInfo.getId());
         LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelInfo, false);
     }
 
