@@ -19,6 +19,7 @@ public class PrefManager {
     private static final String PREF_KEY_DISABLE_PLAYER_AUTOPLAY = "MOD_DISABLE_AUTOPLAY";
     private static final String PREF_KEY_DISABLE_RECENT_SEARCH = "MOD_DISABLE_RECENT_SEARCH";
     private static final String PREF_KEY_FFZ_BADGES = "MOD_FFZ_BADGES";
+    private static final String PREF_KEY_TWITCH_DARK_THEME_ENABLED = "dark_theme_enabled";
 
     private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
     private static final String PREF_KEY_DISABLE_RECENT_WATCHING = "MOD_DISABLE_RESUME_WATCHING";
@@ -92,5 +93,9 @@ public class PrefManager {
 
     public boolean isFfzBadges() {
         return getBoolean(PREF_KEY_FFZ_BADGES, false);
+    }
+
+    public boolean isDarkTheme() {
+        return getBoolean(PREF_KEY_TWITCH_DARK_THEME_ENABLED, false);
     }
 }

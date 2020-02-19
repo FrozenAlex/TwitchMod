@@ -2,7 +2,9 @@ package tv.twitch.android.mod.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
@@ -10,10 +12,7 @@ import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.Collections;
-import java.util.Locale;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Arrays;
 
 import tv.twitch.a.l.v.b.q.h;
 import tv.twitch.android.api.f1.f1;
@@ -24,12 +23,8 @@ import tv.twitch.android.mod.bridges.SimpleUrlDrawable;
 import tv.twitch.android.models.Playable;
 import tv.twitch.android.models.channel.ChannelInfo;
 import tv.twitch.android.models.clips.ClipModel;
-import tv.twitch.android.models.communitypoints.ActiveClaimModel;
-import tv.twitch.android.shared.chat.communitypoints.models.CommunityPointsModel;
 
 public class Helper {
-    private static final Set<String> mReceivedClaims = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
-
     private int mCurrentChannel = 0;
 
     private static volatile Helper sInstance;
@@ -47,7 +42,7 @@ public class Helper {
         return sInstance;
     }
 
-    public static void clicker(final View pointButtonView, CommunityPointsModel communityPointsModel) {
+    public static void clicker(final View pointButtonView) {
         if (!LoaderLS.getInstance().getPrefManager().isClickerOn())
             return;
 
@@ -56,30 +51,8 @@ public class Helper {
             return;
         }
 
-        if (communityPointsModel == null) {
-            Logger.error("communityPointsModel is null");
-            return;
-        }
-
-        ActiveClaimModel claimModel = communityPointsModel.getClaim();
-        if (claimModel == null) {
-            Logger.error("claimModel is null");
-            return;
-        }
-        if (TextUtils.isEmpty(claimModel.getId())) {
-            Logger.error("Bad id");
-            return;
-        }
-
-        synchronized (mReceivedClaims) {
-            if (mReceivedClaims.contains(claimModel.getId())) {
-                return;
-            }
-            mReceivedClaims.add(claimModel.getId());
-        }
-
         pointButtonView.performClick();
-        Logger.info(String.format(Locale.ENGLISH, "Click! Got %d points", claimModel.getPointsEarned()));
+        Logger.info("Click!");
     }
 
     public void setCurrentChannel(int channelID) {
@@ -197,6 +170,8 @@ public class Helper {
 
     // TODO: __REPLACE_INIT_RES
     public static h getUrlDrawableObject(h org) {
+        // Object test = getUrlDrawableObject(null);
+
         if (org == null)
             return null;
 
@@ -213,5 +188,23 @@ public class Helper {
 
     public static boolean isDisableAutoplay() {
         return LoaderLS.getInstance().getPrefManager().isDisableAutoplay();
+    }
+
+    public static int fixUsernameSpanColor(int color) {
+        boolean isDarkTheme = LoaderLS.getInstance().getPrefManager().isDarkTheme();
+
+        if (!isDarkTheme)
+            return color;
+
+        float[] hsv = new float[3];
+        Color.colorToHSV(color, hsv);
+
+        if (hsv[2] < .3) {
+            Logger.debug(Arrays.toString(hsv));
+            hsv[2] = (float) .3;
+        } else
+            return color;
+
+        return Color.HSVToColor(hsv);
     }
 }

@@ -112,7 +112,7 @@ public class ChatUtils {
                 continue;
             }
 
-            if (ssb.charAt(ssb.length()-1) != ' ')
+            if (ssb.length() > 0 && ssb.charAt(ssb.length()-1) != ' ')
                 ssb.append(' ');
             ssb.append(badgeName);
 
