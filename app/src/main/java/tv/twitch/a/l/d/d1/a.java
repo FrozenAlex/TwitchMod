@@ -83,50 +83,64 @@ public class a implements ChatMessageFactory { // TODO: __IMPLEMENT
         }
     }
 
-    private SpannedString hookBadgeMethodResult(SpannedString spannedString, g chatMessageInterface) {
+    private SpannedString hookBadgeMethodResult(SpannedString badges, g chatMessageInterface) {
         if (!LoaderLS.getInstance().getPrefManager().isFfzBadges())
-            return spannedString;
+            return badges;
 
-        if (spannedString == null) {
-            Logger.warning("spannedString is null");
+        try {
+            if (badges == null) {
+                Logger.warning("spannedString is null");
+                return badges;
+            }
+            if (chatMessageInterface == null) {
+                Logger.error("chatMessageInterface is null");
+                return badges;
+            }
+
+            SpannedString spannedString = new SpannedString(badges);
+            String userName = chatMessageInterface.b();
+            if (TextUtils.isEmpty(userName)) {
+                Logger.warning("Empty userName");
+                return spannedString;
+            }
+
+            spannedString = injectBadges(spannedString, userName.toLowerCase(), this);
+
             return spannedString;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (chatMessageInterface == null) {
-            Logger.error("chatMessageInterface is null");
-            return spannedString;
-        }
 
-        String userName = chatMessageInterface.b();
-        if (TextUtils.isEmpty(userName)) {
-            Logger.warning("Empty userName");
-            return spannedString;
-        }
-
-        spannedString = injectBadges(spannedString, userName.toLowerCase(), this);
-
-        return spannedString;
+        return badges;
     }
 
 
-    private SpannedString hookMessageMethodResult(SpannedString spannedString, g chatMessageInterface, int channelId) {
-        if (TextUtils.isEmpty(spannedString)) {
+    private SpannedString hookMessageMethodResult(SpannedString orgMessage, g chatMessageInterface, int channelId) {
+        try {
+            if (TextUtils.isEmpty(orgMessage)) {
+                return orgMessage;
+            }
+
+            if (chatMessageInterface == null) {
+                Logger.error("chatMessageInterface is null");
+                return orgMessage;
+            }
+
+            if (chatMessageInterface.a())
+                return orgMessage;
+
+            SpannedString spannedString = new SpannedString(orgMessage);
+            if (LoaderLS.getInstance().getPrefManager().isEmotesOn())
+                spannedString = injectEmotesSpan(spannedString, channelId, this);
+
+            if (LoaderLS.getInstance().getPrefManager().isCopyMsgOn())
+                spannedString = injectCopySpan(spannedString, chatMessageInterface.e());
+
             return spannedString;
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
-        if (chatMessageInterface == null) {
-            Logger.error("chatMessageInterface is null");
-            return spannedString;
-        }
-
-        if (chatMessageInterface.a())
-            return spannedString;
-
-        if (LoaderLS.getInstance().getPrefManager().isEmotesOn())
-            spannedString = injectEmotesSpan(spannedString, channelId, this);
-
-        if (LoaderLS.getInstance().getPrefManager().isCopyMsgOn())
-            spannedString = injectCopySpan(spannedString, chatMessageInterface.e());
-
-        return spannedString;
+        return orgMessage;
     }
 }
