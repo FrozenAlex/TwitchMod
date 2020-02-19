@@ -2,8 +2,10 @@ package tv.twitch.android.mod.utils;
 
 import android.text.TextUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import tv.twitch.android.mod.models.UserInfoCallback;
@@ -14,6 +16,8 @@ import tv.twitch.android.mod.models.api.TwitchUser;
 
 public class TwitchUsers {
     private static final ConcurrentHashMap<Integer, String> mCache = new ConcurrentHashMap<>();
+
+    private final Set<Integer> mRequests = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>());
 
     private static volatile TwitchUsers sInstance;
 
@@ -30,11 +34,24 @@ public class TwitchUsers {
         return sInstance;
     }
 
+    public synchronized void putData(int channelID, String channelName) {
+        if (channelID <= 0) {
+            Logger.error("Bad channelID");
+            return;
+        }
+        if (TextUtils.isEmpty(channelName)) {
+            Logger.error("Empty channelName");
+            return;
+        }
+
+        mCache.put(channelID, channelName);
+    }
+
     private final class UserInfo extends ApiCallback<TwitchResponse<TwitchUser>> {
         private final int mChannelId;
         private final UserInfoCallback mCallback;
 
-        public UserInfo(int channelId, UserInfoCallback callback) {
+        UserInfo(int channelId, UserInfoCallback callback) {
             this.mChannelId = channelId;
             this.mCallback = callback;
         }
@@ -43,24 +60,25 @@ public class TwitchUsers {
         public void onRequestSuccess(TwitchResponse<TwitchUser> twitchResponse) {
             List<TwitchUser> list = twitchResponse.getData();
             if (list == null || list.isEmpty()) {
-                this.mCallback.fail(mChannelId);
+                mCallback.fail(mChannelId);
                 return;
             }
             TwitchUser twitchUser = list.get(0);
             if (twitchUser == null) {
-                this.mCallback.fail(mChannelId);
+                mCallback.fail(mChannelId);
                 return;
             }
             if (TextUtils.isEmpty(twitchUser.getLogin())) {
-                this.mCallback.fail(mChannelId);
+                mCallback.fail(mChannelId);
                 return;
             }
             if (twitchUser.getId() == 0) {
-                this.mCallback.fail(mChannelId);
+                mCallback.fail(mChannelId);
                 return;
             }
-            mCache.put(mChannelId, twitchUser.getLogin());
-            this.mCallback.userInfo(twitchUser.getLogin(), twitchUser.getId());
+            putData(mChannelId, twitchUser.getLogin());
+            mRequests.remove(mChannelId);
+            mCallback.userInfo(twitchUser.getLogin(), twitchUser.getId());
         }
 
         @Override
@@ -79,11 +97,18 @@ public class TwitchUsers {
     }
 
     public void getUserName(int id, UserInfoCallback callback) {
-        if (!mCache.containsKey(id)) {
-            request(id, callback);
+        if (mCache.containsKey(id)) {
+            callback.userInfo(mCache.get(id), id);
             return;
         }
 
-        callback.userInfo(mCache.get(id), id);
+        if (!mRequests.contains(id)) {
+            synchronized (mRequests) {
+                if (!mRequests.contains(id)) {
+                    mRequests.add(id);
+                    request(id, callback);
+                }
+            }
+        }
     }
 }

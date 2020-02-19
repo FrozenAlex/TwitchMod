@@ -30,7 +30,7 @@ public class LongClickableMessage extends ClickableSpan {
             if (clipboard != null) {
                 ClipData clip = ClipData.newPlainText("text", message);
                 clipboard.setPrimaryClip(clip);
-                Helper.showToast(context, String.format(Locale.ENGLISH, "«%s» copied to clipboard", message));
+                Helper.showToast(String.format(Locale.ENGLISH, "«%s» copied to clipboard", message));
             }
         } else {
             Logger.debug("context is null");

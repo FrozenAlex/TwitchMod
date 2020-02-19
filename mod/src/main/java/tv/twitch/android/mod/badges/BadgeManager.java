@@ -9,7 +9,7 @@ import tv.twitch.android.mod.models.Badge;
 import tv.twitch.android.mod.utils.Logger;
 
 public class BadgeManager {
-    private static FfzBadgeSet mBadgeSet = new FfzBadgeSet();
+    private static final FfzBadgeSet mBadgeSet = new FfzBadgeSet();
 
     private static volatile BadgeManager sInstance;
 

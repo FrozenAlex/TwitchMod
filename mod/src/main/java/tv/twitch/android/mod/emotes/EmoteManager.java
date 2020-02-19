@@ -98,8 +98,6 @@ public class EmoteManager implements UserInfoCallback {
         }
 
         emote = sGlobalSet.getEmote(code);
-        if (emote != null)
-            return emote;
 
         return emote;
     }
@@ -147,17 +145,12 @@ public class EmoteManager implements UserInfoCallback {
         }
     }
 
-    private void request(int channelId) {
+    private synchronized void request(int channelId) {
         if (mCurrentRoomRequests.contains(channelId))
             return;
 
-        synchronized (EmoteManager.class) {
-            if (mCurrentRoomRequests.contains(channelId))
-                return;
-
-            mCurrentRoomRequests.add(channelId);
-            LoaderLS.getInstance().getTwitchUser().getUserName(channelId, this);
-        }
+        mCurrentRoomRequests.add(channelId);
+        LoaderLS.getInstance().getTwitchUser().getUserName(channelId, this);
     }
 
     @Override

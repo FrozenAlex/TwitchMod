@@ -7,7 +7,6 @@ import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 import android.util.Pair;
-import android.view.View;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,6 +78,7 @@ public class ChatUtils {
 
         return stringBuilder.toString();
     }
+
 
     public static SpannedString injectBadges(SpannedString badgeSpan, final String userName, final ChatMessageFactory factory) {
         if (TextUtils.isEmpty(userName)) {
@@ -229,11 +229,9 @@ public class ChatUtils {
         }
 
         if (orgSet == null) {
-            Logger.warning("orgSet is null");
             return orgSet;
         }
         if (orgSet.length == 0) {
-            Logger.warning("empty orgSet");
             return orgSet;
         }
 

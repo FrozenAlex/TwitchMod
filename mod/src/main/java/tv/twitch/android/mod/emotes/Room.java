@@ -33,9 +33,6 @@ class Room {
             return emote;
 
         emote = mFfzSet.getEmote(emoteName);
-        if (emote != null)
-            return emote;
-
         return emote;
     }
 

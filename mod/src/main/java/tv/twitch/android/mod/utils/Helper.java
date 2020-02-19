@@ -1,6 +1,5 @@
 package tv.twitch.android.mod.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -131,38 +130,24 @@ public class Helper {
         LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelInfo, false);
     }
 
-    public static void openSettings(Activity fragmentActivity) {
-        if (fragmentActivity == null) {
-            Logger.error("fragmentActivity is null");
-            return;
-        }
-
-        Context context = fragmentActivity.getApplicationContext();
-        if (context == null) {
-            Logger.error("context is null");
-            return;
-        }
-
-        startActivity(context, Settings.class);
+    public static void openSettings() {
+        startActivity(Settings.class);
     }
 
-    public static void startActivity(Context context, Class activity) {
-        if (context == null) {
-            Logger.error("context is null");
-            return;
-        }
+    public static void startActivity(Class activity) {
         if (activity == null) {
             Logger.error("activity is null");
             return;
         }
 
+        Context context = LoaderLS.getInstance().getApplicationContext();
         Intent intent = new Intent(context, activity);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
-    public static void showToast(final Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+    public static void showToast(String message) {
+        Toast.makeText(LoaderLS.getInstance().getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
     public static String getSetName(String org, String setId) {
@@ -213,7 +198,7 @@ public class Helper {
     // TODO: __REPLACE_INIT_RES
     public static h getUrlDrawableObject(h org) {
         if (org == null)
-            return org;
+            return null;
 
         if (LoaderLS.getInstance().getPrefManager().isDisableGifs()) {
             return new SimpleUrlDrawable(org);
