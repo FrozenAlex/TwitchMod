@@ -8,16 +8,14 @@ import tv.twitch.android.mod.models.Emote;
 
 class Room {
     private final int mChannelId;
-    private final String mChannelName;
 
     private final BttvChannelEmoteSet mBttvSet;
     private final FfzChannelEmoteSet mFfzSet;
 
-    public Room(int channelId, String channelName) {
+    public Room(int channelId) {
         mChannelId = channelId;
-        mChannelName = channelName;
-        mBttvSet = new BttvChannelEmoteSet(this.mChannelName, this.mChannelId);
-        mFfzSet = new FfzChannelEmoteSet(this.mChannelName, this.mChannelId);
+        mBttvSet = new BttvChannelEmoteSet(this.mChannelId);
+        mFfzSet = new FfzChannelEmoteSet(this.mChannelId);
         requestEmotes();
     }
 
@@ -32,8 +30,7 @@ class Room {
         if (emote != null)
             return emote;
 
-        emote = mFfzSet.getEmote(emoteName);
-        return emote;
+        return mFfzSet.getEmote(emoteName);
     }
 
     public final List<Emote> getEmotes() {
@@ -53,9 +50,5 @@ class Room {
 
     public int getChannelId() {
         return mChannelId;
-    }
-
-    public String getChannelName() {
-        return mChannelName;
     }
 }

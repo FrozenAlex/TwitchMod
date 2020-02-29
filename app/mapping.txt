@@ -1,4 +1,4 @@
-# Version: 8.5.1
+# Version: 8.7.0
 
 com.google.gson.annotations.SerializedName -> com.google.gson.v.c:
 com.google.gson.Gson -> com.google.gson.f:

@@ -10,16 +10,17 @@
     <string name="mod_bttv_settings_bttv_emotes">Включить</string>
     <string name="mod_bttv_settings_bttv_widget">Интегрировать смайлы в «Меню смайлов»</string>
     <string name="mod_bttv_settings_bttv_off_gifs">Отключить загрузку GIF смайлов</string>
-    <string name="mod_bttv_settings_ffz_badges">Отображать значки FrankerFaceZ</string>
     <!-- Chat -->
     <string name="mod_chat_settings_show_del_messages">Показывать удаленные сообщения</string>
     <string name="mod_chat_settings_timestamps">Показывать время отправки сообщения</string>
     <string name="mod_chat_settings_copymsg">Копировать текст сообщения на долгий тап</string>
     <string name="mod_chat_settings_disable_animated_gifs">Отключить анимацию смайлов</string>
     <string name="mod_chat_settings_points">Включить автокликер для поинтов</string>
+    <string name="mod_chat_fix_brightness">Автокоррекция яркости никнеймов</string>
     <!-- Player -->
     <string name="mod_player_settings_disable_autoplay">Отключить автовоспроизведение рекомендаций</string>
     <string name="mod_player_settings_use_exoplayer">Включить ExoPlayer V2</string>
+    <string name="mod_player_settings_exoplayer_speed">ExoPlayer скорость воспроизведения</string>
     <!-- Patch -->
     <string name="mod_patch_settings_disable_recent_search">Отключить историю недавнего поиска</string>
     <!-- Following -->

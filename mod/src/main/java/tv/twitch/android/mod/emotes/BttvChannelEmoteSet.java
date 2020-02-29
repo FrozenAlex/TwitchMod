@@ -11,8 +11,8 @@ import tv.twitch.android.mod.utils.Logger;
 import static tv.twitch.android.mod.net.ServiceFactory.getBttvApi;
 
 public class BttvChannelEmoteSet extends BaseChannelEmoteSet<BttvChannelResponse> {
-    public BttvChannelEmoteSet(String channelName, int channelId) {
-        super(channelName, channelId);
+    BttvChannelEmoteSet(int channelId) {
+        super(channelId);
     }
 
     @Override
@@ -62,7 +62,5 @@ public class BttvChannelEmoteSet extends BaseChannelEmoteSet<BttvChannelResponse
                 addEmote(new tv.twitch.android.mod.models.BttvEmote(emoticon.getCode(), emoticon.getId(), emoticon.getImageType()));
             }
         }
-
-        Logger.debug("done!");
     }
 }

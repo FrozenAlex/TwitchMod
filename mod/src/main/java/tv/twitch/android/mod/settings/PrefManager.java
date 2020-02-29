@@ -19,6 +19,8 @@ public class PrefManager {
     private static final String PREF_KEY_DISABLE_PLAYER_AUTOPLAY = "MOD_DISABLE_AUTOPLAY";
     private static final String PREF_KEY_DISABLE_RECENT_SEARCH = "MOD_DISABLE_RECENT_SEARCH";
     private static final String PREF_KEY_FFZ_BADGES = "MOD_FFZ_BADGES";
+    private static final String PREF_KEY_FIX_BRIGHTNESS  = "MOD_FIX_BRIGHTNESS";
+    private static final String PREF_KEY_EXOPLAYER_SPEED_LIST  = "MOD_EXOPLAYER_SPEED";
     private static final String PREF_KEY_TWITCH_DARK_THEME_ENABLED = "dark_theme_enabled";
 
     private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
@@ -37,6 +39,15 @@ public class PrefManager {
         }
 
         return mPref.getBoolean(key, def);
+    }
+
+    private static String getString(String key, String def) {
+        if (mPref == null) {
+            Logger.warning("mPref is null");
+            return def;
+        }
+
+        return mPref.getString(key, def);
     }
 
     public boolean isEmotesOn() {
@@ -97,5 +108,13 @@ public class PrefManager {
 
     public boolean isDarkTheme() {
         return getBoolean(PREF_KEY_TWITCH_DARK_THEME_ENABLED, false);
+    }
+
+    public boolean isFixBrightness() {
+        return getBoolean(PREF_KEY_FIX_BRIGHTNESS, false);
+    }
+
+    public String getExoplayerSpeed() {
+        return getString(PREF_KEY_EXOPLAYER_SPEED_LIST, "0");
     }
 }

@@ -15,8 +15,8 @@ import tv.twitch.android.mod.utils.Logger;
 import static tv.twitch.android.mod.net.ServiceFactory.getFfzApi;
 
 public class FfzChannelEmoteSet extends BaseChannelEmoteSet<FfzResponse> {
-    public FfzChannelEmoteSet(String channelName, int channelId) {
-        super(channelName, channelId);
+    public FfzChannelEmoteSet(int channelId) {
+        super(channelId);
     }
 
     @Override
@@ -84,8 +84,6 @@ public class FfzChannelEmoteSet extends BaseChannelEmoteSet<FfzResponse> {
             FfzEmote emote = new FfzEmote(emoticon.getName(), String.valueOf(emoticon.getId()), url);
             addEmote(emote);
         }
-
-        Logger.debug("done!");
     }
 
 }

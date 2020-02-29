@@ -9,12 +9,10 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import tv.twitch.android.mod.models.Emote;
-import tv.twitch.android.mod.models.UserInfoCallback;
-import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.mod.utils.Logger;
 import tv.twitch.android.models.channel.ChannelInfo;
 
-public class EmoteManager implements UserInfoCallback {
+public class EmoteManager {
     private static final BttvGlobalEmoteSet sGlobalSet = new BttvGlobalEmoteSet();
 
     private final ConcurrentHashMap<Integer, Room> mRooms = new ConcurrentHashMap<>();
@@ -102,77 +100,30 @@ public class EmoteManager implements UserInfoCallback {
         return emote;
     }
 
-    public void requestChannelEmoteSet(String channelName, int channelId, boolean force) {
+    public void requestChannelEmoteSet(int channelId, boolean force) {
         if (channelId == 0) {
             Logger.error("Bad channelId");
             return;
         }
 
-        if (TextUtils.isEmpty(channelName)) {
-            Logger.error("Empty channelName");
-            return;
-        }
-
-        if (!force && mCurrentRoomRequests.contains(channelId))
+        if (!force && mRooms.containsKey(channelId))
             return;
 
-        userInfo(channelName, channelId);
-    }
-
-    public void requestChannelEmoteSet(ChannelInfo channelInfo, boolean force) {
-        if (channelInfo != null) {
-            int channelId = channelInfo.getId();
-            if (channelId == 0) {
-                Logger.debug("Bad channelId");
-                return;
-            }
-
-            if (mCurrentRoomRequests.contains(channelId))
-                return;
-
-            if (!force && mRooms.containsKey(channelId))
-                return;
-
-            if (TextUtils.isEmpty(channelInfo.getName())) {
-                Logger.warning("channelInfo: empty name. Request name by id");
-                request(channelId);
-                return;
-            }
-
-            userInfo(channelInfo.getName(), channelInfo.getId());
-        } else {
-            Logger.error("channelInfo is null");
-        }
+        request(channelId);
     }
 
     private synchronized void request(int channelId) {
+        if (channelId == 0) {
+            Logger.error("Bad channelId");
+            return;
+        }
+
         if (mCurrentRoomRequests.contains(channelId))
             return;
 
         mCurrentRoomRequests.add(channelId);
-        LoaderLS.getInstance().getTwitchUser().getUserName(channelId, this);
-    }
-
-    @Override
-    public void userInfo(String userName, int userId) {
-        if (userId == 0) {
-            Logger.error("Bad userId");
-            return;
-        }
-        if (TextUtils.isEmpty(userName)) {
-            Logger.error("empty userName");
-            mCurrentRoomRequests.remove(userId);
-            return;
-        }
-
-        Logger.info(String.format("Fetching %s emoticons...", userName));
-        Room room = new Room(userId, userName);
-        mRooms.put(userId, room);
-        mCurrentRoomRequests.remove(userId);
-    }
-
-    @Override
-    public void fail(int userId) {
-        Logger.error("Error fetching data for id: " + userId);
+        Room room = new Room(channelId);
+        mRooms.put(channelId, room);
+        mCurrentRoomRequests.remove(channelId);
     }
 }

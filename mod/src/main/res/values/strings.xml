@@ -9,19 +9,35 @@
     <string name="mod_bttv_settings_bttv_emotes">Enable</string>
     <string name="mod_bttv_settings_bttv_widget">Emote menu</string>
     <string name="mod_bttv_settings_bttv_off_gifs">Disable BetterTTV GIF Emotes</string>
-    <string name="mod_bttv_settings_ffz_badges">FrankerFaceZ supporter badges</string>
     <!-- Chat -->
     <string name="mod_chat_settings_show_del_messages">Show deleted messages</string>
     <string name="mod_chat_settings_timestamps">Add timestamps to messages</string>
     <string name="mod_chat_settings_copymsg">Tap and hold on the message to copy</string>
     <string name="mod_chat_settings_disable_animated_gifs">Stop animated GIFS</string>
     <string name="mod_chat_settings_points">Enable auto-clicker for farming points</string>
+    <string name="mod_chat_fix_brightness">Fix nickname brightness in dark mode</string>
     <!-- Player -->
     <string name="mod_player_settings_disable_autoplay">Disable recommendation autoplay</string>
     <string name="mod_player_settings_use_exoplayer">Enable ExoPlayer V2</string>
+    <string name="mod_player_settings_exoplayer_speed">ExoPlayer speed</string>
     <!-- Patch -->
     <string name="mod_patch_settings_disable_recent_search">Disable recent searches</string>
     <!-- Following -->
     <string name="mod_following_settings_disable_recommendations">Hide «Recommended Streams»</string>
     <string name="mod_following_settings_disable_resume_watching">Hide «Recent Watching»</string>
+
+    <string-array name="exoplayer_speeds_array">
+        <item>Normal</item>
+        <item>1.25</item>
+        <item>1.5</item>
+        <item>1.75</item>
+        <item>2.0</item>
+    </string-array>
+    <string-array name="exoplayer_speeds_values_array">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
 </resources>

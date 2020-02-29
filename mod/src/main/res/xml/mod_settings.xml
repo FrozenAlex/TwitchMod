@@ -14,10 +14,6 @@
             android:defaultValue="false"
             android:key="MOD_DONT_LOAD_GIFS"
             android:title="@string/mod_bttv_settings_bttv_off_gifs" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="MOD_FFZ_BADGES"
-            android:title="@string/mod_bttv_settings_ffz_badges" />
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/mod_category_settings_chat_category">
         <CheckBoxPreference
@@ -38,6 +34,10 @@
             android:title="@string/mod_chat_settings_disable_animated_gifs" />
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="MOD_FIX_BRIGHTNESS"
+            android:title="@string/mod_chat_fix_brightness" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="MOD_POINTS"
             android:title="@string/mod_chat_settings_points" />
     </PreferenceScreen>
@@ -50,6 +50,13 @@
             android:defaultValue="false"
             android:key="MOD_EXOPLAYER"
             android:title="@string/mod_player_settings_use_exoplayer" />
+        <ListPreference
+            android:defaultValue="0"
+            android:entries="@array/exoplayer_speeds_array"
+            android:entryValues="@array/exoplayer_speeds_values_array"
+            android:key="MOD_EXOPLAYER_SPEED"
+            android:title="@string/mod_player_settings_exoplayer_speed">
+        </ListPreference>
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/mod_category_settings_patch">
         <PreferenceScreen android:title="@string/mod_category_settings_following">

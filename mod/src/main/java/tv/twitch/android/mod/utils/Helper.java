@@ -4,19 +4,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
 
+import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
-import tv.twitch.a.l.v.b.q.h;
-import tv.twitch.android.api.f1.f1;
-import tv.twitch.android.app.core.x1;
+import tv.twitch.a.k.w.b.q.h;
+import tv.twitch.android.api.g1.f1;
+import tv.twitch.android.app.core.v1;
 import tv.twitch.android.mod.activities.Settings;
 import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.mod.bridges.SimpleUrlDrawable;
@@ -25,6 +27,9 @@ import tv.twitch.android.models.channel.ChannelInfo;
 import tv.twitch.android.models.clips.ClipModel;
 
 public class Helper {
+    private static final ConcurrentHashMap<Integer, Integer> sFixedColors = new ConcurrentHashMap<>();
+    private static final Set<Integer> sFineColors = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>());
+
     private int mCurrentChannel = 0;
 
     private static volatile Helper sInstance;
@@ -52,7 +57,6 @@ public class Helper {
         }
 
         pointButtonView.performClick();
-        Logger.info("Click!");
     }
 
     public void setCurrentChannel(int channelID) {
@@ -76,20 +80,15 @@ public class Helper {
             return;
         }
 
-        String channelName;
         int channelId;
         if (playable instanceof ClipModel) {
-            channelName = ((ClipModel) playable).getBroadcasterName();
             channelId = ((ClipModel) playable).getBroadcasterId();
         } else {
-            channelName = playableModelParser.b(playable);
             channelId = playableModelParser.a(playable);
         }
 
-        Logger.debug(String.format("Playable request: %s", channelName));
-
         setCurrentChannel(channelId);
-        LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelName, channelId, true);
+        LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelId, false);
     }
 
     public void newRequest(ChannelInfo channelInfo) {
@@ -97,10 +96,9 @@ public class Helper {
             Logger.error("channelInfo is null");
             return;
         }
-        Logger.debug(String.format("Chat connection controller request: %s", channelInfo.getName()));
 
         setCurrentChannel(channelInfo.getId());
-        LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelInfo, false);
+        LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelInfo.getId(), false);
     }
 
     public static void openSettings() {
@@ -150,7 +148,7 @@ public class Helper {
             Logger.warning("Empty url");
         }
         
-        Snackbar snack = x1.a(Snackbar.make(view, message, Snackbar.LENGTH_LONG));
+        Snackbar snack = v1.a(Snackbar.make(view, message, Snackbar.LENGTH_LONG));
         if (snack == null) {
             Logger.error("snack is null");
             return;
@@ -170,8 +168,6 @@ public class Helper {
 
     // TODO: __REPLACE_INIT_RES
     public static h getUrlDrawableObject(h org) {
-        // Object test = getUrlDrawableObject(null);
-
         if (org == null)
             return null;
 
@@ -190,21 +186,90 @@ public class Helper {
         return LoaderLS.getInstance().getPrefManager().isDisableAutoplay();
     }
 
-    public static int fixUsernameSpanColor(int color) {
-        boolean isDarkTheme = LoaderLS.getInstance().getPrefManager().isDarkTheme();
-
-        if (!isDarkTheme)
+    public static int hookUsernameSpanColor(int color) {
+        if (!LoaderLS.getInstance().getPrefManager().isFixBrightness())
             return color;
+
+        if (!LoaderLS.getInstance().getPrefManager().isDarkTheme())
+            return color;
+
+        if (sFineColors.contains(color))
+            return color;
+
+        if (sFixedColors.contains(color)) {
+            Integer fixedColor = sFixedColors.get(color);
+            if (fixedColor != null)
+                return fixedColor;
+        }
 
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
 
-        if (hsv[2] < .3) {
-            Logger.debug(Arrays.toString(hsv));
-            hsv[2] = (float) .3;
-        } else
-            return color;
+        if (hsv[2] >= .3) {
+            if (!sFineColors.contains(color)) {
+                synchronized (sFineColors) {
+                    sFineColors.add(color);
+                }
+            }
 
-        return Color.HSVToColor(hsv);
+            return color;
+        }
+
+        hsv[2] = (float) .3;
+        int fixedColor = Color.HSVToColor(hsv);
+
+        if (!sFixedColors.containsKey(fixedColor)) {
+            synchronized (sFixedColors) {
+                if (!sFixedColors.containsKey(fixedColor)) {
+                    sFixedColors.put(color, fixedColor);
+                }
+            }
+        }
+
+        return fixedColor;
+    }
+
+    private static float getPlayerSpeed() {
+        final String speed = LoaderLS.getInstance().getPrefManager().getExoplayerSpeed();
+        if (TextUtils.isEmpty(speed)) {
+            Logger.warning("Empty speed");
+            return 1.0f;
+        }
+        switch (speed) {
+            case "0":
+                return 1.0f;
+            case "1":
+                return 1.25f;
+            case "2":
+                return 1.5f;
+            case "3":
+                return 1.75f;
+            case "4":
+                return 2.0f;
+            default:
+                Logger.warning("speed = " + speed);
+                return 1.0f;
+        }
+    }
+
+    // TODO: find better way to change playback speed
+    public static PlaybackParameters hookStandaloneMediaClockInit() {
+        if (LoaderLS.getInstance().getPrefManager().getExoplayerSpeed().equals("0"))
+            return PlaybackParameters.e;
+
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        for (StackTraceElement element : stackTraceElements) {
+            if (element == null)
+                continue;
+            if ((!TextUtils.isEmpty(element.getFileName()) && element.getFileName().equals("VodPlayerPresenter.kt")) || (!TextUtils.isEmpty(element.getClassName()) && element.getClassName().equals("tv.twitch.a.l.p.j0.w")))
+                return new PlaybackParameters(getPlayerSpeed());
+        }
+
+        return PlaybackParameters.e;
+    }
+
+    public static void hook_helper() {
+        Object o = hookStandaloneMediaClockInit();  // TODO: __HOOK
+        o = getUrlDrawableObject(null);  // TODO: __HOOK
     }
 }

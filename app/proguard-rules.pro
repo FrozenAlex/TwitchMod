@@ -25,6 +25,7 @@
 # Twitch
 -keep class tv.twitch.** { *; }
 -keep class com.google.android.material.snackbar.** { *; }
+-keep class com.google.android.exoplayer2.** { *; }
 
 # FakeLibs
 -keep class io.branch.** { *; }

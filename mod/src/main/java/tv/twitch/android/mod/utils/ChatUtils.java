@@ -17,7 +17,6 @@ import java.util.Locale;
 import tv.twitch.android.mod.bridges.ChatMessageFactory;
 import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.mod.emotes.EmoteManager;
-import tv.twitch.android.mod.models.Badge;
 import tv.twitch.android.mod.models.Emote;
 import tv.twitch.android.models.chat.MessageToken;
 import tv.twitch.chat.ChatEmoticon;
@@ -79,48 +78,6 @@ public class ChatUtils {
         return stringBuilder.toString();
     }
 
-
-    public static SpannedString injectBadges(SpannedString badgeSpan, final String userName, final ChatMessageFactory factory) {
-        if (TextUtils.isEmpty(userName)) {
-            Logger.warning("Empty userName");
-            return badgeSpan;
-        }
-
-        if (factory == null) {
-            Logger.error("factory is null");
-            return badgeSpan;
-        }
-
-        List<Badge> badges = LoaderLS.getInstance().getBadgeManager().getBadges(userName);
-        if (badges == null || badges.size() == 0)
-            return badgeSpan;
-
-        SpannableStringBuilder ssb = new SpannableStringBuilder(badgeSpan);
-        for (Badge badge : badges) {
-            if (badge == null)
-                continue;
-
-            String url = badge.getUrl();
-            if (TextUtils.isEmpty(url)) {
-                Logger.warning("Empty url");
-                continue;
-            }
-
-            String badgeName = badge.getName();
-            if (TextUtils.isEmpty(badgeName)) {
-                Logger.warning("Empty badge name");
-                continue;
-            }
-
-            if (ssb.length() > 0 && ssb.charAt(ssb.length()-1) != ' ')
-                ssb.append(' ');
-            ssb.append(badgeName);
-
-            ssb.replace(ssb.length()-badgeName.length(), ssb.length(), factory.getSpannedBadge(url, badgeName));
-        }
-
-        return SpannedString.valueOf(ssb);
-    }
 
     public static SpannedString injectCopySpan(SpannedString messageSpan, final List<MessageToken> tokens) {
         if (TextUtils.isEmpty(messageSpan)) {
