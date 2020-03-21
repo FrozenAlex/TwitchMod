@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import tv.twitch.android.mod.models.Emote;
 import tv.twitch.android.mod.utils.Logger;
-import tv.twitch.android.models.channel.ChannelInfo;
 
 public class EmoteManager {
     private static final BttvGlobalEmoteSet sGlobalSet = new BttvGlobalEmoteSet();

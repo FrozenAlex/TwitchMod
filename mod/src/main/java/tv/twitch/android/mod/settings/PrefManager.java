@@ -8,7 +8,7 @@ import tv.twitch.android.mod.utils.Logger;
 
 public class PrefManager {
     private static final String PREF_KEY_EMOTES = "MOD_EMOTES";
-    private static final String PREF_KEY_DISABLE_GIFS = "MOD_DISABLE_GIFS";
+    private static final String PREF_KEY_DISABLE_GIFS = "MOD_DISABLE_GIFS2";
     private static final String PREF_KEY_SHOW_DEL_MESSAGES = "MOD_SHOW_DEL_MESSAGES";
     private static final String PREF_KEY_DONT_LOAD_GIFS = "MOD_DONT_LOAD_GIFS";
     private static final String PREF_KEY_EMOTE_PICKER = "MOD_EMOTE_PICKER";
@@ -18,12 +18,12 @@ public class PrefManager {
     private static final String PREF_KEY_COPY_MSG = "MOD_COPY_MSG";
     private static final String PREF_KEY_DISABLE_PLAYER_AUTOPLAY = "MOD_DISABLE_AUTOPLAY";
     private static final String PREF_KEY_DISABLE_RECENT_SEARCH = "MOD_DISABLE_RECENT_SEARCH";
-    private static final String PREF_KEY_FFZ_BADGES = "MOD_FFZ_BADGES";
     private static final String PREF_KEY_FIX_BRIGHTNESS  = "MOD_FIX_BRIGHTNESS";
     private static final String PREF_KEY_EXOPLAYER_SPEED_LIST  = "MOD_EXOPLAYER_SPEED";
     private static final String PREF_KEY_TWITCH_DARK_THEME_ENABLED = "dark_theme_enabled";
 
     private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
+    private static final String PREF_KEY_DISABLE_FOLLOWED_GAMES = "MOD_DISABLE_FOLLOWED_GAMES";
     private static final String PREF_KEY_DISABLE_RECENT_WATCHING = "MOD_DISABLE_RESUME_WATCHING";
 
     private static SharedPreferences mPref;
@@ -51,11 +51,11 @@ public class PrefManager {
     }
 
     public boolean isEmotesOn() {
-        return getBoolean(PREF_KEY_EMOTES, false);
+        return getBoolean(PREF_KEY_EMOTES, true);
     }
 
     public boolean isDisableGifs() {
-        return getBoolean(PREF_KEY_DISABLE_GIFS, false);
+        return getBoolean(PREF_KEY_DISABLE_GIFS, true);
     }
 
     public boolean isDontLoadGifs() {
@@ -67,7 +67,7 @@ public class PrefManager {
     }
 
     public boolean isHookEmoticonSetOn() {
-        return getBoolean(PREF_KEY_EMOTE_PICKER, false);
+        return getBoolean(PREF_KEY_EMOTE_PICKER, true);
     }
 
     public boolean isClickerOn() {
@@ -102,8 +102,8 @@ public class PrefManager {
         return getBoolean(PREF_KEY_DISABLE_RECOMMENDATIONS, false);
     }
 
-    public boolean isFfzBadges() {
-        return getBoolean(PREF_KEY_FFZ_BADGES, false);
+    public boolean isDisableFollowedGames() {
+        return getBoolean(PREF_KEY_DISABLE_FOLLOWED_GAMES, false);
     }
 
     public boolean isDarkTheme() {
@@ -111,7 +111,7 @@ public class PrefManager {
     }
 
     public boolean isFixBrightness() {
-        return getBoolean(PREF_KEY_FIX_BRIGHTNESS, false);
+        return getBoolean(PREF_KEY_FIX_BRIGHTNESS, true);
     }
 
     public String getExoplayerSpeed() {

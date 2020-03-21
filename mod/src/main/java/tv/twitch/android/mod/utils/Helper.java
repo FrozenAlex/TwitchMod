@@ -16,8 +16,8 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import tv.twitch.a.k.w.b.q.h;
-import tv.twitch.android.api.g1.f1;
+import tv.twitch.a.k.x.b.r.h;
+import tv.twitch.android.api.i1.f1;
 import tv.twitch.android.app.core.v1;
 import tv.twitch.android.mod.activities.Settings;
 import tv.twitch.android.mod.bridges.LoaderLS;
@@ -261,7 +261,7 @@ public class Helper {
         for (StackTraceElement element : stackTraceElements) {
             if (element == null)
                 continue;
-            if ((!TextUtils.isEmpty(element.getFileName()) && element.getFileName().equals("VodPlayerPresenter.kt")) || (!TextUtils.isEmpty(element.getClassName()) && element.getClassName().equals("tv.twitch.a.l.p.j0.w")))
+            if ((!TextUtils.isEmpty(element.getClassName()) && element.getClassName().equals("tv.twitch.a.k.q.j0.v") || (!TextUtils.isEmpty(element.getFileName()) && element.getFileName().equals("VodPlayerPresenter.kt"))))
                 return new PlaybackParameters(getPlayerSpeed());
         }
 

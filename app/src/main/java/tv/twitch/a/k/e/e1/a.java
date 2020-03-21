@@ -2,18 +2,17 @@ package tv.twitch.a.k.e.e1;
 
 import android.graphics.Color;
 import android.text.SpannableString;
-import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 
 import tv.twitch.a.k.e.g;
-import tv.twitch.a.k.e.n0;
+import tv.twitch.a.k.e.m0;
+import tv.twitch.a.k.x.b.r.d;
 import tv.twitch.android.mod.bridges.ChatMessageFactory;
 import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.mod.utils.Helper;
-import tv.twitch.android.mod.utils.Logger;
 import tv.twitch.android.models.webview.WebViewSource;
 
 import static tv.twitch.android.mod.utils.ChatUtils.injectCopySpan;
@@ -21,16 +20,19 @@ import static tv.twitch.android.mod.utils.ChatUtils.injectEmotesSpan;
 
 // Source: ChatMessageFactory
 public class a implements ChatMessageFactory { // TODO: __IMPLEMENT
-    static CharSequence a(a chatMessageFactory, String url, tv.twitch.a.k.w.b.q.d mediaSpan, String text, n0 urlImageClickableProvider, boolean z, int i2, Object obj) {
+    static CharSequence a(a chatMessageFactory, String url, d mediaSpan, String text, m0 urlImageClickableProvider, boolean z, int i2, Object obj) {
         return null;
     }
 
     @Override
-    public CharSequence getSpannedEmote(String url, String emoteText) { // TODO: __ADD
-        return a(this, url, tv.twitch.a.k.w.b.q.d.c, emoteText, null, false, 24, null);
+    public CharSequence getSpannedEmote(String url, String emoteText, boolean isGif) { // TODO: __ADD
+        if (isGif)
+            return a(this, url, d.valueOf("AnimatedBit"), emoteText, null, false, 24, null);
+        else
+            return a(this, url, d.valueOf("Emote"), emoteText, null, false, 24, null);
     }
 
-    private final CharSequence a(tv.twitch.a.k.e.g gVar, int i2, tv.twitch.a.k.e.u0.a aVar, boolean z, String str, String str2) {
+    private final CharSequence a(tv.twitch.a.k.e.g gVar, int i2, tv.twitch.a.k.e.t0.a aVar, boolean z, String str, String str2) {
         i2 = Helper.hookUsernameSpanColor(i2); // TODO: __ADD
         return null;
     }
@@ -38,17 +40,17 @@ public class a implements ChatMessageFactory { // TODO: __IMPLEMENT
     private final Spanned a(tv.twitch.a.k.e.g chatMessageInterface, boolean z, boolean z2, boolean z3, int i2, int i3, Object iClickableUsernameSpanListener, Object twitchUrlSpanClickListener, WebViewSource webViewSource, String str, boolean z4, Object censoredMessageTrackingInfo, Integer num, Object eventDispatcher) {
         try {
 // TODO: HOOK MESSAGE FACTORY RESULT
-//            invoke-static/range {v8 .. v22}, Ltv/twitch/a/k/e/e1/a;->a(Ltv/twitch/a/k/e/e1/a;Ltv/twitch/a/k/e/g;ZZZLtv/twitch/android/models/webview/WebViewSource;Ltv/twitch/a/k/w/b/q/g;Ljava/lang/String;Ltv/twitch/a/k/e/e1/a$c;ILtv/twitch/a/k/e/n1/c;Ljava/lang/Integer;Ltv/twitch/android/core/mvp/viewdelegate/EventDispatcher;ILjava/lang/Object;)Landroid/text/SpannedString;
-//            move-result-object v10
-//            move-object/from16 v11, p1
-//            move/from16 v12, p6
-//            invoke-direct {v8, v10, v11, v12}, Ltv/twitch/a/k/e/e1/a;->hookMessageMethodResult(Landroid/text/SpannedString;Ltv/twitch/a/k/e/g;I)Landroid/text/SpannedString;
-//            move-result-object v10
+//          invoke-static/range {v8 .. v22}, Ltv/twitch/a/k/e/e1/a;->a(Ltv/twitch/a/k/e/e1/a;Ltv/twitch/a/k/e/g;ZZZLtv/twitch/android/models/webview/WebViewSource;Ltv/twitch/a/k/x/b/r/g;Ljava/lang/String;Ltv/twitch/a/k/e/e1/a$c;ILtv/twitch/a/k/e/o1/c;Ljava/lang/Integer;Ltv/twitch/android/core/mvp/viewdelegate/EventDispatcher;ILjava/lang/Object;)Landroid/text/SpannedString;
+//          move-result-object v10
+//          move-object/from16 v11, p1
+//          move/from16 v12, p6
+//          invoke-direct {v8, v10, v11, v12}, Ltv/twitch/a/k/e/e1/a;->hookMessageMethodResult(Landroid/text/SpannedString;Ltv/twitch/a/k/e/g;I)Landroid/text/SpannedString;
+//          move-result-object v10
 
-            SpannedString a3 = new SpannedString("KEKW");
-            a3 = hookMessageMethodResult(a3, chatMessageInterface, i3);
+            SpannedString message = new SpannedString("KEKW");
+            message = hookMessageMethodResult(message, chatMessageInterface, i3);
 
-            return new SpannableStringBuilder("Done!"); // org ret
+            return message;
         } catch (Throwable th) {
             th.printStackTrace();
 
@@ -60,7 +62,7 @@ public class a implements ChatMessageFactory { // TODO: __IMPLEMENT
     }
 
 
-    private SpannedString hookMessageMethodResult(SpannedString orgMessage, g chatMessageInterface, int channelId) {
+    private SpannedString hookMessageMethodResult(SpannedString orgMessage, g chatMessageInterface, int channelId) {  // TODO: __ADD
         try {
             if (TextUtils.isEmpty(orgMessage)) {
                 return orgMessage;

@@ -30,6 +30,10 @@ public class LoaderLS extends TwitchApplication {
     public void onCreate() {
         init(); // init before dagger
         super.onCreate();
+        post();
+    }
+
+    private void post() {
     }
 
     private void init() {

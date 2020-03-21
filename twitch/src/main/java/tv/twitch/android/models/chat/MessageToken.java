@@ -1,6 +1,5 @@
 package tv.twitch.android.models.chat;
 
-// Source: MessageToken
 public abstract class MessageToken {
 
     public static final class BitsToken extends MessageToken {

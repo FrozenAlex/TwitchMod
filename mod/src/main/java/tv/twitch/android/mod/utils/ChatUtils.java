@@ -6,10 +6,8 @@ import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
-import android.util.Pair;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -110,45 +108,10 @@ public class ChatUtils {
             if (emote.isGif() && LoaderLS.getInstance().getPrefManager().isDontLoadGifs())
                 return null;
 
-            return (SpannableString) factory.getSpannedEmote(emote.getUrl(), word);
+            return (SpannableString) factory.getSpannedEmote(emote.getUrl(), word, emote.isGif());
         }
 
         return null;
-    }
-
-    private static List<Pair<Integer, Integer>> getPositions(Spanned message) {
-        if (message == null) {
-            Logger.warning("message is null");
-            return new ArrayList<>();
-        }
-
-        List<Pair<Integer, Integer>> res = new ArrayList<>();
-
-        boolean inWord = false;
-        int endPos = message.length();
-        for (int i = endPos-1; i >= 0; i--) {
-            final boolean isSpace = message.charAt(i) == ' ';
-
-            if (isSpace) {
-                if (inWord) {
-                    inWord = false;
-                    res.add(new Pair<>(i+1, endPos));
-                }
-            } else {
-                if (!inWord) {
-                    inWord = true;
-                    endPos = i + 1;
-                }
-            }
-            if (i == 0) {
-                if (inWord) {
-                    inWord = false;
-                    res.add(new Pair<>(0, endPos));
-                }
-            }
-        }
-
-        return res;
     }
 
     public static SpannedString injectEmotesSpan(SpannedString messageSpan, int channelID, ChatMessageFactory factory) {
@@ -162,22 +125,39 @@ public class ChatUtils {
             return null;
         }
 
-        SpannableStringBuilder ssb = null;
+        SpannableStringBuilder ssb = new SpannableStringBuilder(messageSpan);
 
-        for(Pair<Integer, Integer> pos : getPositions(messageSpan)) {
-            SpannableString emoteSpan = getEmoteSpan(String.valueOf(messageSpan.subSequence(pos.first, pos.second)), channelID, factory);
-            if (emoteSpan != null) {
-                if (ssb == null)
-                    ssb = new SpannableStringBuilder(messageSpan);
+        boolean inWord = false;
+        int endPos = messageSpan.length();
+        for (int i = endPos-1; i >= 0; i--) {
+            final boolean isSpace = messageSpan.charAt(i) == ' ';
 
-                ssb.replace(pos.first, pos.second, emoteSpan);
+            if (isSpace) {
+                if (inWord) {
+                    inWord = false;
+                    SpannableString emoteSpan = getEmoteSpan(String.valueOf(messageSpan.subSequence(i+1, endPos)), channelID, factory);
+                    if (emoteSpan != null) {
+                        ssb.replace(i+1, endPos, emoteSpan);
+                    }
+                }
+            } else {
+                if (!inWord) {
+                    inWord = true;
+                    endPos = i + 1;
+                }
+            }
+            if (i == 0) {
+                if (inWord) {
+                    inWord = false;
+                    SpannableString emoteSpan = getEmoteSpan(String.valueOf(messageSpan.subSequence(0, endPos)), channelID, factory);
+                    if (emoteSpan != null) {
+                        ssb.replace(0, endPos, emoteSpan);
+                    }
+                }
             }
         }
 
-        if (ssb != null)
-            return SpannedString.valueOf(ssb);
-
-        return messageSpan;
+        return SpannedString.valueOf(ssb);
     }
 
     public static ChatEmoticonSet[] hookChatEmoticonSet(ChatEmoticonSet[] orgSet) {

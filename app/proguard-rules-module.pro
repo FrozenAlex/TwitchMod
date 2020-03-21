@@ -36,5 +36,4 @@
 -keep class androidx.appcompat.app.AppCompatActivity { *; }
 
 # Twitch obfuscation
--keep public interface retrofit2.Callback {*;}
 -applymapping mapping.txt

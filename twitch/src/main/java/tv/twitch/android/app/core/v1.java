@@ -1,6 +1,5 @@
 package tv.twitch.android.app.core;
 
-
 import com.google.android.material.snackbar.Snackbar;
 
 // Source: SnackbarHelper

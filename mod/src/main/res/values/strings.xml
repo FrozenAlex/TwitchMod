@@ -25,6 +25,7 @@
     <!-- Following -->
     <string name="mod_following_settings_disable_recommendations">Hide «Recommended Streams»</string>
     <string name="mod_following_settings_disable_resume_watching">Hide «Recent Watching»</string>
+    <string name="mod_following_settings_disable_followed_games">Hide «Followed Games»</string>
 
     <string-array name="exoplayer_speeds_array">
         <item>Normal</item>

@@ -1,6 +1,8 @@
 package tv.twitch.android.util;
 
 
+import android.util.Log;
+
 public class Logger {
     private static final int MAX_LOG_LENGTH = 4000;
     private static final String TAG = "Twitch";
@@ -10,15 +12,16 @@ public class Logger {
     }
 
     public static void d(LogTag logTag, String str) {
-        tv.twitch.android.mod.utils.Logger.debug(String.format("<%s> %s", logTag, str));
+        Log.d(logTag.value, str);
     }
 
     public static void d(LogTag logTag, String str, Throwable th) {
-        tv.twitch.android.mod.utils.Logger.debug(String.format("<%s> %s", logTag, str));
+        Log.d(logTag.value, str);
         th.printStackTrace();
     }
 
     public static void dArgs(LogTag logTag, Object... objArr) {
+        Log.d(logTag.value, "...");
     }
 
     public static void e(String str) {
@@ -26,11 +29,11 @@ public class Logger {
     }
 
     public static void e(LogTag logTag, String str) {
-        tv.twitch.android.mod.utils.Logger.error(String.format("<%s> %s", logTag, str));
+        Log.e(logTag.value, str);
     }
 
     public static void e(LogTag logTag, String str, Throwable th) {
-        tv.twitch.android.mod.utils.Logger.info(String.format("<%s> %s", logTag, str));
+        Log.e(logTag.value, str);
         th.printStackTrace();
     }
 
@@ -39,10 +42,16 @@ public class Logger {
     }
 
     public static void i(LogTag logTag, String str) {
-        tv.twitch.android.mod.utils.Logger.info(String.format("<%s> %s", logTag, str));
+        Log.i(logTag.value, str);
     }
 
     private static void recursiveD(String str, String str2) {
+        d(str);
+        if (str2.length() > MAX_LOG_LENGTH) {
+            str2.substring(0, MAX_LOG_LENGTH);
+            recursiveD(str, str2.substring(MAX_LOG_LENGTH));
+        }
+
     }
 
     public static void stackTrace(Exception exc) {
@@ -54,11 +63,11 @@ public class Logger {
     }
 
     public static void v(LogTag logTag, String str) {
-        tv.twitch.android.mod.utils.Logger.info(String.format("<%s> %s", logTag, str));
+        Log.v(logTag.value, str);
     }
 
     public static void w(LogTag logTag, String str) {
-        tv.twitch.android.mod.utils.Logger.warning(String.format("<%s> %s", logTag, str));
+        Log.w(logTag.value, str);
     }
 
     public static void wtf(String str) {
@@ -66,7 +75,7 @@ public class Logger {
     }
 
     public static void wtf(LogTag logTag, String str) {
-        tv.twitch.android.mod.utils.Logger.debug(String.format("<%s> %s", logTag, str));
+        Log.wtf(logTag.value, str);
     }
 
     public static void e(String str, Throwable th) {

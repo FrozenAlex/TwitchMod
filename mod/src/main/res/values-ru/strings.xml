@@ -26,4 +26,5 @@
     <!-- Following -->
     <string name="mod_following_settings_disable_recommendations">Скрыть «Рекомендуемые каналы»</string>
     <string name="mod_following_settings_disable_resume_watching">Скрыть «Продолжить просмотр»</string>
+    <string name="mod_following_settings_disable_followed_games">Скрыть «Отслеживаемые категории»</string>
 </resources>

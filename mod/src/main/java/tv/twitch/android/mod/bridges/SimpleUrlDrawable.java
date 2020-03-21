@@ -4,7 +4,7 @@ package tv.twitch.android.mod.bridges;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 
-import tv.twitch.a.k.w.b.q.h;
+import tv.twitch.a.k.x.b.r.h;
 
 public class SimpleUrlDrawable extends h {
     public SimpleUrlDrawable(h org) {
