@@ -22,6 +22,7 @@
 
 
 -keep class okhttp3.** { *; }
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
 
 # Twitch
 -keep class tv.twitch.** { *; }

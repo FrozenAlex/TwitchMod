@@ -5,6 +5,8 @@ com.google.gson.Gson -> com.google.gson.f:
 retrofit2.Call -> retrofit2.b:
     void enqueue(retrofit2.Callback) -> a
 retrofit2.Callback -> retrofit2.d:
+    void onFailure(retrofit2.Call,java.lang.Throwable) -> a
+    void onResponse(retrofit2.Call,retrofit2.Response) -> a
 retrofit2.Response -> retrofit2.l:
     125:125:int code() -> b
     140:140:boolean isSuccessful() -> e
