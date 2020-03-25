@@ -3,11 +3,11 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceScreen android:title="@string/mod_category_settings_chat_bttv">
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="MOD_EMOTES"
             android:title="@string/mod_bttv_settings_bttv_emotes" />
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="MOD_EMOTE_PICKER"
             android:title="@string/mod_bttv_settings_bttv_widget" />
         <CheckBoxPreference
@@ -29,11 +29,11 @@
             android:key="MOD_COPY_MSG"
             android:title="@string/mod_chat_settings_copymsg" />
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="MOD_DISABLE_GIFS2"
             android:title="@string/mod_chat_settings_disable_animated_gifs" />
         <CheckBoxPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="MOD_FIX_BRIGHTNESS"
             android:title="@string/mod_chat_fix_brightness" />
         <CheckBoxPreference
@@ -44,7 +44,6 @@
     <PreferenceScreen android:title="@string/mod_category_settings_player_category">
         <CheckBoxPreference
             android:defaultValue="false"
-            android:enabled="false"
             android:key="MOD_DISABLE_AUTOPLAY"
             android:title="@string/mod_player_settings_disable_autoplay" />
         <CheckBoxPreference
