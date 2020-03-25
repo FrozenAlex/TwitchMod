@@ -122,7 +122,7 @@ public class ChatUtils {
 
         if (factory == null) {
             Logger.error("factory is null");
-            return null;
+            return messageSpan;
         }
 
         SpannableStringBuilder ssb = new SpannableStringBuilder(messageSpan);
