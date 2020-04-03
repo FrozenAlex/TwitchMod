@@ -9,5 +9,5 @@ public enum WebViewSource {
     Profile("profile"),
     Other("other");
 
-    private WebViewSource(String str) {}
+    WebViewSource(String name) {}
 }
