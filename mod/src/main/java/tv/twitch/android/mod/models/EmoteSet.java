@@ -1,13 +1,13 @@
 package tv.twitch.android.mod.models;
 
-import java.util.List;
+import java.util.Collection;
 
 public interface EmoteSet {
     void addEmote(Emote emote);
 
     Emote getEmote(String name);
 
-    List<Emote> getEmotes();
+    Collection<Emote> getEmotes();
 
     boolean isEmpty();
 }

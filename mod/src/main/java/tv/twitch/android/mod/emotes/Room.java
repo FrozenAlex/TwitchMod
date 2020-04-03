@@ -1,7 +1,6 @@
 package tv.twitch.android.mod.emotes;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import tv.twitch.android.mod.models.Emote;
 
@@ -24,7 +23,6 @@ class Room {
         mFfzSet.fetch();
     }
 
-
     public final Emote findEmote(String emoteName) {
         Emote emote = mBttvSet.getEmote(emoteName);
         if (emote != null)
@@ -33,18 +31,11 @@ class Room {
         return mFfzSet.getEmote(emoteName);
     }
 
-    public final List<Emote> getEmotes() {
-        List<Emote> list = new ArrayList<>(mBttvSet.getEmotes());
-        list.addAll(mFfzSet.getEmotes());
-
-        return list;
-    }
-
-    public final List<Emote> getBttvEmotes() {
+    public final Collection<Emote> getBttvEmotes() {
         return mBttvSet.getEmotes();
     }
 
-    public final List<Emote> getFfzEmotes() {
+    public final Collection<Emote> getFfzEmotes() {
         return mFfzSet.getEmotes();
     }
 

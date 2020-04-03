@@ -19,7 +19,9 @@ public class PrefManager {
     private static final String PREF_KEY_DISABLE_PLAYER_AUTOPLAY = "MOD_DISABLE_AUTOPLAY";
     private static final String PREF_KEY_DISABLE_RECENT_SEARCH = "MOD_DISABLE_RECENT_SEARCH";
     private static final String PREF_KEY_FIX_BRIGHTNESS  = "MOD_FIX_BRIGHTNESS";
-    private static final String PREF_KEY_EXOPLAYER_SPEED_LIST  = "MOD_EXOPLAYER_SPEED";
+    private static final String PREF_KEY_EXOPLAYER_SPEED_LIST  = "MOD_EXOPLAYER_SPEED2";
+    private static final String PREF_KEY_MINIPLAYER_SIZE  = "MOD_MINIPLAYER_SIZE";
+    private static final String PREF_KEY_EMOTE_SIZE = "MOD_EMOTE_SIZE2";
     private static final String PREF_KEY_TWITCH_DARK_THEME_ENABLED = "dark_theme_enabled";
 
     private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
@@ -32,7 +34,7 @@ public class PrefManager {
         mPref = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    private static boolean getBoolean(String key, boolean def) {
+    private boolean getBoolean(String key, boolean def) {
         if (mPref == null) {
             Logger.warning("mPref is null");
             return def;
@@ -41,7 +43,7 @@ public class PrefManager {
         return mPref.getBoolean(key, def);
     }
 
-    private static String getString(String key, String def) {
+    private String getString(String key, String def) {
         if (mPref == null) {
             Logger.warning("mPref is null");
             return def;
@@ -114,7 +116,15 @@ public class PrefManager {
         return getBoolean(PREF_KEY_FIX_BRIGHTNESS, true);
     }
 
-    public String getExoplayerSpeed() {
-        return getString(PREF_KEY_EXOPLAYER_SPEED_LIST, "0");
+    public float getExoplayerSpeed() {
+        return Float.parseFloat(getString(PREF_KEY_EXOPLAYER_SPEED_LIST, "1.0"));
+    }
+
+    public float getMiniplayerSize() {
+        return Float.parseFloat(getString(PREF_KEY_MINIPLAYER_SIZE, "1.0"));
+    }
+
+    public String getEmoteSize() {
+        return getString(PREF_KEY_EMOTE_SIZE, "MEDIUM");
     }
 }

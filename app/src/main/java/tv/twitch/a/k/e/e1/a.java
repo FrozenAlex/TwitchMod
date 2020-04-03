@@ -61,7 +61,6 @@ public class a implements ChatMessageFactory { // TODO: __IMPLEMENT
         }
     }
 
-
     private SpannedString hookMessageMethodResult(SpannedString orgMessage, g chatMessageInterface, int channelId) {  // TODO: __ADD
         try {
             if (TextUtils.isEmpty(orgMessage)) {
@@ -72,8 +71,10 @@ public class a implements ChatMessageFactory { // TODO: __IMPLEMENT
                 return orgMessage;
 
             SpannedString spannedString = new SpannedString(orgMessage);
-            if (LoaderLS.getInstance().getPrefManager().isEmotesOn())
+            if (LoaderLS.getInstance().getPrefManager().isEmotesOn()) {
+                LoaderLS.getInstance().getEmoteManager().requestIfNeed(channelId);
                 spannedString = injectEmotesSpan(spannedString, channelId, this);
+            }
 
             if (LoaderLS.getInstance().getPrefManager().isCopyMsgOn())
                 spannedString = injectCopySpan(spannedString, chatMessageInterface.e());

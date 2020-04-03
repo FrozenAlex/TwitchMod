@@ -41,6 +41,11 @@ public class BttvChannelEmoteSet extends BaseChannelEmoteSet<BttvChannelResponse
                     continue;
                 }
 
+                if (emoticon.getImageType() == null) {
+                    Logger.debug("getImageType() is null");
+                    continue;
+                }
+
                 addEmote(new tv.twitch.android.mod.models.BttvEmote(emoticon.getCode(), emoticon.getId(), emoticon.getImageType()));
             }
         }

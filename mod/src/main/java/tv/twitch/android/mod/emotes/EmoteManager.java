@@ -3,8 +3,8 @@ package tv.twitch.android.mod.emotes;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -33,11 +33,11 @@ public class EmoteManager {
         return sInstance;
     }
 
-    public List<Emote> getGlobalEmotes() {
+    public Collection<Emote> getGlobalEmotes() {
         return sGlobalSet.getEmotes();
     }
 
-    public List<Emote> getBttvEmotes(int channelId) {
+    public Collection<Emote> getBttvEmotes(int channelId) {
         if (channelId == 0)
             return new ArrayList<>();
 
@@ -48,7 +48,7 @@ public class EmoteManager {
         return room.getBttvEmotes();
     }
 
-    public List<Emote> getFfzEmotes(int channelId) {
+    public Collection<Emote> getFfzEmotes(int channelId) {
         if (channelId == 0)
             return new ArrayList<>();
 
@@ -59,20 +59,18 @@ public class EmoteManager {
         return room.getFfzEmotes();
     }
 
-    public List<Emote> getRoomEmotes(int channelId) {
-        if (channelId == 0)
-            return new ArrayList<>();
-
-        Room room = mRooms.get(channelId);
-        if (room == null)
-            return new ArrayList<>();
-
-        return room.getEmotes();
-    }
-
     private void fetchGlobalEmotes() {
         Logger.info("Fetching global emoticons...");
         sGlobalSet.fetch();
+    }
+
+    public void requestIfNeed(int channelId) {
+        if (channelId == 0) {
+            return;
+        }
+
+        if (!mRooms.containsKey(channelId))
+            request(channelId);
     }
 
     public Emote getEmote(String code, int channelId) {
@@ -83,15 +81,11 @@ public class EmoteManager {
 
         Emote emote = null;
         if (channelId != 0) {
-            if (!mRooms.containsKey(channelId))
-                request(channelId);
-            else {
-                Room room = mRooms.get(channelId);
-                if (room != null)
-                    emote = room.findEmote(code);
-                if (emote != null)
-                    return emote;
-            }
+            Room room = mRooms.get(channelId);
+            if (room != null)
+                emote = room.findEmote(code);
+            if (emote != null)
+                return emote;
         }
 
         emote = sGlobalSet.getEmote(code);
@@ -117,12 +111,14 @@ public class EmoteManager {
             return;
         }
 
-        if (mCurrentRoomRequests.contains(channelId))
-            return;
-
-        mCurrentRoomRequests.add(channelId);
-        Room room = new Room(channelId);
-        mRooms.put(channelId, room);
-        mCurrentRoomRequests.remove(channelId);
+        if (!mCurrentRoomRequests.contains(channelId))
+            synchronized (mCurrentRoomRequests) {
+                if (!mCurrentRoomRequests.contains(channelId)) {
+                    mCurrentRoomRequests.add(channelId);
+                    Room room = new Room(channelId);
+                    mRooms.put(channelId, room);
+                    mCurrentRoomRequests.remove(channelId);
+                }
+            }
     }
 }

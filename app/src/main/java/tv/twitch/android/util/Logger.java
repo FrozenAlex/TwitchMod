@@ -48,10 +48,9 @@ public class Logger {
     private static void recursiveD(String str, String str2) {
         d(str);
         if (str2.length() > MAX_LOG_LENGTH) {
-            str2.substring(0, MAX_LOG_LENGTH);
+            Logger.d(str2.substring(0, MAX_LOG_LENGTH));
             recursiveD(str, str2.substring(MAX_LOG_LENGTH));
         }
-
     }
 
     public static void stackTrace(Exception exc) {

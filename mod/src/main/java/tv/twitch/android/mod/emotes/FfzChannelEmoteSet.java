@@ -64,24 +64,7 @@ public class FfzChannelEmoteSet extends BaseChannelEmoteSet<FfzResponse> {
                 continue;
             }
 
-            HashMap<Integer, String> urls = emoticon.getUrls();
-            String url;
-            if (urls.containsKey(4))
-                url = urls.get(4);
-            else if (urls.containsKey(2))
-                url = urls.get(2);
-            else if (urls.containsKey(1))
-                url = urls.get(1);
-            else
-                continue;
-
-            if (url == null || url.isEmpty())
-                continue;
-
-            if (url.startsWith("//"))
-                url = "https:" + url;
-
-            FfzEmote emote = new FfzEmote(emoticon.getName(), String.valueOf(emoticon.getId()), url);
+            FfzEmote emote = new FfzEmote(emoticon.getName(), String.valueOf(emoticon.getId()), emoticon.getUrls());
             addEmote(emote);
         }
     }

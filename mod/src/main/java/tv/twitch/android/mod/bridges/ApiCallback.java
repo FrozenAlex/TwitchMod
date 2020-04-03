@@ -3,30 +3,41 @@ package tv.twitch.android.mod.bridges;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import tv.twitch.android.mod.utils.Logger;
 
 public abstract class ApiCallback<T> implements Callback<T> {
     public enum FailReason {
         UNKNOWN,
+        NOT_FOUND,
         UNSUCCESSFUL,
         NULL_BODY
     }
 
-    public void onFailure(Call<T> bVar, Throwable th) {
-        th.printStackTrace();
-        onRequestFail(FailReason.UNKNOWN);
+    public void onFailure(Call<T> call, Throwable th) {
+        Logger.error(th.getLocalizedMessage());
+        onRequestFail(call, FailReason.UNKNOWN);
+    }
+
+    protected void retry(Call<T> call) {
+        call.clone().enqueue(this);
     }
 
     public abstract void onRequestSuccess(T t);
 
-    public abstract void onRequestFail(FailReason reason);
+    public abstract void onRequestFail(Call<T> call, FailReason reason);
 
     public void onResponse(Call<T> call, Response<T> response) {
+        if (response.code() == 404) {
+            onRequestFail(call, FailReason.NOT_FOUND);
+            return;
+        }
+
         if (!response.isSuccessful()) {
-            onRequestFail(FailReason.UNSUCCESSFUL);
+            onRequestFail(call, FailReason.UNSUCCESSFUL);
             return;
         }
         if (response.body() == null) {
-            onRequestFail(FailReason.NULL_BODY);
+            onRequestFail(call, FailReason.NULL_BODY);
             return;
         }
         onRequestSuccess(response.body());

@@ -23,6 +23,6 @@ public class Logger {
         StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[4];
         String className = stackTraceElement.getClassName();
         String methodName = stackTraceElement.getMethodName();
-        return String.format("%s->%s", className, methodName);
+        return className + "->" + methodName;
     }
 }

@@ -1,5 +1,7 @@
 package tv.twitch.android.mod.utils;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,6 +15,7 @@ import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -59,6 +62,17 @@ public class Helper {
         pointButtonView.performClick();
     }
 
+    public static void saveToClipboard(String text) {
+        ClipboardManager clipboard = (ClipboardManager) LoaderLS.getInstance().getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboard != null) {
+            ClipData clip = ClipData.newPlainText("text", text);
+            clipboard.setPrimaryClip(clip);
+            showToast(String.format(Locale.ENGLISH, "«%s» copied to clipboard", text));
+        } else {
+            Logger.error("clipboard is null");
+        }
+    }
+
     public void setCurrentChannel(int channelID) {
         if (channelID < 0)
             channelID = 0;
@@ -70,14 +84,14 @@ public class Helper {
         return this.mCurrentChannel;
     }
 
-    public void newRequest(final f1 playableModelParser, final Playable playable) {
+    public static int getChannelId(f1 playableModelParser, Playable playable) {
         if (playableModelParser == null) {
             Logger.error("playableModelParser is null");
-            return;
+            return 0;
         }
         if (playable == null) {
             Logger.error("playable is null");
-            return;
+            return 0;
         }
 
         int channelId;
@@ -87,8 +101,15 @@ public class Helper {
             channelId = playableModelParser.a(playable);
         }
 
+        return channelId;
+    }
+
+    public void newRequest(final f1 playableModelParser, final Playable playable) {
+        int channelId = getChannelId(playableModelParser, playable);
+
         setCurrentChannel(channelId);
-        LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelId, false);
+        if (LoaderLS.getInstance().getPrefManager().isEmotesOn())
+            LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelId, true);
     }
 
     public void newRequest(ChannelInfo channelInfo) {
@@ -98,7 +119,9 @@ public class Helper {
         }
 
         setCurrentChannel(channelInfo.getId());
-        LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelInfo.getId(), false);
+
+        if (LoaderLS.getInstance().getPrefManager().isEmotesOn())
+            LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelInfo.getId(), false);
     }
 
     public static void openSettings() {
@@ -143,10 +166,6 @@ public class Helper {
         if (TextUtils.isEmpty(message)) {
             Logger.warning("Empty message");
         }
-
-        if (url != null && TextUtils.isEmpty(message)) {
-            Logger.warning("Empty url");
-        }
         
         Snackbar snack = v1.a(Snackbar.make(view, message, Snackbar.LENGTH_LONG));
         if (snack == null) {
@@ -180,10 +199,6 @@ public class Helper {
 
     public static boolean isDisableRecentSearch() {
         return LoaderLS.getInstance().getPrefManager().isDisableRecentSearch();
-    }
-
-    public static boolean isDisableAutoplay() {
-        return LoaderLS.getInstance().getPrefManager().isDisableAutoplay();
     }
 
     public static int hookUsernameSpanColor(int color) {
@@ -230,31 +245,12 @@ public class Helper {
     }
 
     private static float getPlayerSpeed() {
-        final String speed = LoaderLS.getInstance().getPrefManager().getExoplayerSpeed();
-        if (TextUtils.isEmpty(speed)) {
-            Logger.warning("Empty speed");
-            return 1.0f;
-        }
-        switch (speed) {
-            case "0":
-                return 1.0f;
-            case "1":
-                return 1.25f;
-            case "2":
-                return 1.5f;
-            case "3":
-                return 1.75f;
-            case "4":
-                return 2.0f;
-            default:
-                Logger.warning("speed = " + speed);
-                return 1.0f;
-        }
+        return LoaderLS.getInstance().getPrefManager().getExoplayerSpeed();
     }
 
-    // TODO: find better way to change playback speed
     public static PlaybackParameters hookStandaloneMediaClockInit() {
-        if (LoaderLS.getInstance().getPrefManager().getExoplayerSpeed().equals("0"))
+        final float speed = getPlayerSpeed();
+        if (speed == 1.0f)
             return PlaybackParameters.e;
 
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
@@ -262,7 +258,7 @@ public class Helper {
             if (element == null)
                 continue;
             if ((!TextUtils.isEmpty(element.getClassName()) && element.getClassName().equals("tv.twitch.a.k.q.j0.v") || (!TextUtils.isEmpty(element.getFileName()) && element.getFileName().equals("VodPlayerPresenter.kt"))))
-                return new PlaybackParameters(getPlayerSpeed());
+                return new PlaybackParameters(speed);
         }
 
         return PlaybackParameters.e;

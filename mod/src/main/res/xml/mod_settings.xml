@@ -14,6 +14,13 @@
             android:defaultValue="false"
             android:key="MOD_DONT_LOAD_GIFS"
             android:title="@string/mod_bttv_settings_bttv_off_gifs" />
+        <ListPreference
+            android:defaultValue="MEDIUM"
+            android:entries="@array/emote_size_array"
+            android:entryValues="@array/emote_size_values_array"
+            android:key="MOD_EMOTE_SIZE2"
+            android:title="@string/mod_bttv_settings_emote_size" >
+        </ListPreference>
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/mod_category_settings_chat_category">
         <CheckBoxPreference
@@ -51,11 +58,18 @@
             android:key="MOD_EXOPLAYER"
             android:title="@string/mod_player_settings_use_exoplayer" />
         <ListPreference
-            android:defaultValue="0"
+            android:defaultValue="1.0"
             android:entries="@array/exoplayer_speeds_array"
             android:entryValues="@array/exoplayer_speeds_values_array"
-            android:key="MOD_EXOPLAYER_SPEED"
+            android:key="MOD_EXOPLAYER_SPEED2"
             android:title="@string/mod_player_settings_exoplayer_speed">
+        </ListPreference>
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/miniplayer_size_array"
+            android:entryValues="@array/miniplayer_size_values_array"
+            android:key="MOD_MINIPLAYER_SIZE"
+            android:title="@string/mod_player_settings_miniplayer_size">
         </ListPreference>
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/mod_category_settings_patch">

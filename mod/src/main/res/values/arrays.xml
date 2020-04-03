@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="exoplayer_speeds_array">
+        <item>Normal</item>
+        <item>1.25</item>
+        <item>1.5</item>
+        <item>1.75</item>
+        <item>2.0</item>
+    </string-array>
+    <string-array name="exoplayer_speeds_values_array">
+        <item>1.0</item>
+        <item>1.25</item>
+        <item>1.5</item>
+        <item>1.75</item>
+        <item>2.0</item>
+    </string-array>
+    <string-array name="miniplayer_size_array">
+        <item>0.75</item>
+        <item>0.85</item>
+        <item>Normal</item>
+        <item>1.25</item>
+        <item>1.5</item>
+        <item>1.75</item>
+    </string-array>
+    <string-array name="miniplayer_size_values_array">
+        <item>0.75</item>
+        <item>0.85</item>
+        <item>1</item>
+        <item>1.25</item>
+        <item>1.5</item>
+        <item>1.75</item>
+    </string-array>
+    <string-array name="emote_size_array">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
+    <string-array name="emote_size_values_array">
+        <item>SMALL</item>
+        <item>MEDIUM</item>
+        <item>LARGE</item>
+    </string-array>
+</resources>

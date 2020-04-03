@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -19,7 +20,6 @@ import tv.twitch.android.mod.models.Emote;
 import tv.twitch.android.models.chat.MessageToken;
 import tv.twitch.chat.ChatEmoticon;
 import tv.twitch.chat.ChatEmoticonSet;
-import tv.twitch.chat.ChatEmoticonUrl;
 
 public class ChatUtils {
     public enum EmoteSet {
@@ -27,7 +27,7 @@ public class ChatUtils {
         FFZ("-109"),
         BTTV("-108");
 
-        private final String mId;
+        public final String mId;
 
         EmoteSet(String id) {
             this.mId = id;
@@ -38,15 +38,15 @@ public class ChatUtils {
         }
     }
 
-    private static ChatEmoticon[] emotesToChatEmoticonArr(List<Emote> emoteList) {
+    private static ChatEmoticon[] emotesToChatEmoticonArr(Collection<Emote> emoteList) {
         if (emoteList == null)
-            return null;
+            return new ChatEmoticon[0];
 
         ChatEmoticon[] chatEmoticons = new ChatEmoticon[emoteList.size()];
 
         int i = 0;
         for (Emote emote : emoteList) {
-            chatEmoticons[i++] = new ChatEmoticonUrl("-1", emote.getCode(), false, emote.getUrl());
+            chatEmoticons[i++] = emote.getChatEmoticon();
         }
 
         return chatEmoticons;
@@ -87,9 +87,13 @@ public class ChatUtils {
             return messageSpan;
         }
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(messageSpan);
-        spannableStringBuilder.setSpan(new LongClickableMessage(tokens), 0, messageSpan.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableStringBuilder.setSpan(new CopyChatMessage(tokens), 0, messageSpan.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return SpannedString.valueOf(spannableStringBuilder);
+    }
+
+    private static Emote.Size getEmoteSize() {
+        return Emote.Size.valueOf(LoaderLS.getInstance().getPrefManager().getEmoteSize());
     }
 
     private static SpannableString getEmoteSpan(String word, int channelID, ChatMessageFactory factory) {
@@ -108,7 +112,7 @@ public class ChatUtils {
             if (emote.isGif() && LoaderLS.getInstance().getPrefManager().isDontLoadGifs())
                 return null;
 
-            return (SpannableString) factory.getSpannedEmote(emote.getUrl(), word, emote.isGif());
+            return (SpannableString) factory.getSpannedEmote(emote.getUrl(getEmoteSize()), word, emote.isGif());
         }
 
         return null;
@@ -166,38 +170,35 @@ public class ChatUtils {
         }
 
         if (orgSet == null) {
-            return orgSet;
+            return null;
         }
+
         if (orgSet.length == 0) {
             return orgSet;
         }
 
         EmoteManager emoteManager = LoaderLS.getInstance().getEmoteManager();
         Helper helper = LoaderLS.getInstance().getHelper();
-        List<Emote> globalEmotes = emoteManager.getGlobalEmotes();
-        List<Emote> bttvEmotes = emoteManager.getBttvEmotes(helper.getCurrentChannel());
-        List<Emote> ffzEmotes = emoteManager.getFfzEmotes(helper.getCurrentChannel());
+        Collection<Emote> globalEmotes = emoteManager.getGlobalEmotes();
+        Collection<Emote> bttvEmotes = emoteManager.getBttvEmotes(helper.getCurrentChannel());
+        Collection<Emote> ffzEmotes = emoteManager.getFfzEmotes(helper.getCurrentChannel());
 
         ChatEmoticonSet[] newSet = new ChatEmoticonSet[orgSet.length+3];
         java.lang.System.arraycopy(orgSet, 0, newSet, 0, orgSet.length);
 
-        ChatEmoticon[] globalEmoticons = emotesToChatEmoticonArr(globalEmotes);
-        ChatEmoticon[] bttvEmoticons = emotesToChatEmoticonArr(bttvEmotes);
-        ChatEmoticon[] ffzEmoticons = emotesToChatEmoticonArr(ffzEmotes);
-
         ChatEmoticonSet bttvEmoticonSet = new ChatEmoticonSet();
         bttvEmoticonSet.emoticonSetId = EmoteSet.BTTV.getId();
-        bttvEmoticonSet.emoticons = bttvEmoticons != null ? bttvEmoticons : new ChatEmoticon[0];
+        bttvEmoticonSet.emoticons = emotesToChatEmoticonArr(bttvEmotes);
         newSet[newSet.length-1] = bttvEmoticonSet;
 
         ChatEmoticonSet ffzEmoticonSet = new ChatEmoticonSet();
         ffzEmoticonSet.emoticonSetId = EmoteSet.FFZ.getId();
-        ffzEmoticonSet.emoticons = ffzEmoticons != null ? ffzEmoticons : new ChatEmoticon[0];
+        ffzEmoticonSet.emoticons = emotesToChatEmoticonArr(ffzEmotes);
         newSet[newSet.length-2] = ffzEmoticonSet;
 
         ChatEmoticonSet globalEmoticonSet = new ChatEmoticonSet();
         globalEmoticonSet.emoticonSetId = EmoteSet.GLOBAL.getId();
-        globalEmoticonSet.emoticons = globalEmoticons != null ? globalEmoticons : new ChatEmoticon[0];
+        globalEmoticonSet.emoticons = emotesToChatEmoticonArr(globalEmotes);
         newSet[newSet.length-3] = globalEmoticonSet;
 
         return newSet;
@@ -209,7 +210,6 @@ public class ChatUtils {
         }
 
         if (TextUtils.isEmpty(spanned)) {
-            Logger.warning("Empty spanned");
             return spanned;
         }
 
