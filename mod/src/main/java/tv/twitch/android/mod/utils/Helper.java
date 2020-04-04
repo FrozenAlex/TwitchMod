@@ -264,6 +264,10 @@ public class Helper {
         return PlaybackParameters.e;
     }
 
+    public static boolean hookPrev(boolean org) {
+        return LoaderLS.getInstance().getPrefManager().isPreventMsg() || org;
+    }
+
     public static void hook_helper() {
         Object o = hookStandaloneMediaClockInit();  // TODO: __HOOK
         o = getUrlDrawableObject(null);  // TODO: __HOOK
