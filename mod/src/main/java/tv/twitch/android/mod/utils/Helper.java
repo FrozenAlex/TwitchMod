@@ -24,7 +24,7 @@ import tv.twitch.android.api.i1.f1;
 import tv.twitch.android.app.core.v1;
 import tv.twitch.android.mod.activities.Settings;
 import tv.twitch.android.mod.bridges.LoaderLS;
-import tv.twitch.android.mod.bridges.SimpleUrlDrawable;
+import tv.twitch.android.mod.bridges.StaticUrlDrawable;
 import tv.twitch.android.models.Playable;
 import tv.twitch.android.models.channel.ChannelInfo;
 import tv.twitch.android.models.clips.ClipModel;
@@ -191,7 +191,7 @@ public class Helper {
             return null;
 
         if (LoaderLS.getInstance().getPrefManager().isDisableGifs()) {
-            return new SimpleUrlDrawable(org);
+            return new StaticUrlDrawable(org);
         }
 
         return org;

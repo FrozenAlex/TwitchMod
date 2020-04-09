@@ -6,8 +6,8 @@ import android.graphics.drawable.Drawable;
 
 import tv.twitch.a.k.x.b.r.h;
 
-public class SimpleUrlDrawable extends h {
-    public SimpleUrlDrawable(h org) {
+public class StaticUrlDrawable extends h {
+    public StaticUrlDrawable(h org) {
         super(org.b, org.c);
         a(org.a);
     }
