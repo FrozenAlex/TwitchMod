@@ -177,7 +177,7 @@ public class Helper {
                 @Override
                 public void onClick(View v) {
                     Uri uri = Uri.parse(url);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     LoaderLS.getInstance().startActivity(intent);
                 }
             });
