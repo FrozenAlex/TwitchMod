@@ -11,9 +11,9 @@ public final class BttvEmote implements Emote {
     private final String mCode;
     private final String mId;
     private final boolean isGif;
-    private final String url1x;
-    private final String url2x;
-    private final String url3x;
+    private String url1x = null;
+    private String url2x = null;
+    private String url3x = null;
 
     private ChatEmoticon ce = null;
 
@@ -21,10 +21,6 @@ public final class BttvEmote implements Emote {
         this.mCode = code;
         this.mId = id;
         this.isGif = imageType == BttvEmoteResponse.ImageType.GIF;
-
-        url1x = sUrlTemplate + "/" + id + "/" + "1x";
-        url2x = sUrlTemplate + "/" + id + "/" + "2x";
-        url3x = sUrlTemplate + "/" + id + "/" + "3x";
     }
 
     @Override
@@ -37,11 +33,11 @@ public final class BttvEmote implements Emote {
         switch (size) {
             default:
             case LARGE:
-                return url3x;
+                return getUrl3x();
             case MEDIUM:
-                return url2x;
+                return getUrl2x();
             case SMALL:
-                return url1x;
+                return getUrl1x();
         }
     }
 
@@ -66,6 +62,42 @@ public final class BttvEmote implements Emote {
         }
 
         return ce;
+    }
+
+    private String getUrl1x() {
+        if (url1x == null) {
+            synchronized (this) {
+                if (url1x == null) {
+                    url1x = sUrlTemplate + "/" + getId() + "/" + "1x";
+                }
+            }
+        }
+
+        return url1x;
+    }
+
+    private String getUrl2x() {
+        if (url2x == null) {
+            synchronized (this) {
+                if (url2x == null) {
+                    url2x = sUrlTemplate + "/" + getId() + "/" + "2x";
+                }
+            }
+        }
+
+        return url2x;
+    }
+
+    private String getUrl3x() {
+        if (url3x == null) {
+            synchronized (this) {
+                if (url3x == null) {
+                    url3x = sUrlTemplate + "/" + getId() + "/" + "3x";
+                }
+            }
+        }
+
+        return url3x;
     }
 
     @Override

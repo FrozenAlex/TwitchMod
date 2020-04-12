@@ -5,22 +5,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class BttvChannelResponse {
-    @SerializedName("id")
-    private String channelId;
-    @SerializedName("bots")
-    private String[] bots;
     @SerializedName("channelEmotes")
     private List<BttvEmoteResponse> channelEmotes;
     @SerializedName("sharedEmotes")
     private List<BttvEmoteResponse> sharedEmotes;
-
-    public String getChannelId() {
-        return channelId;
-    }
-
-    public String[] getBots() {
-        return bots;
-    }
 
     public List<BttvEmoteResponse> getChannelEmotes() {
         return channelEmotes;
@@ -28,14 +16,6 @@ public class BttvChannelResponse {
 
     public List<BttvEmoteResponse> getSharedEmotes() {
         return sharedEmotes;
-    }
-
-    public void setBots(String[] bots) {
-        this.bots = bots;
-    }
-
-    public void setChannelId(String channelId) {
-        this.channelId = channelId;
     }
 
     public void setChannelEmotes(List<BttvEmoteResponse> channelEmotes) {
