@@ -107,7 +107,6 @@ public class Helper {
     public void newRequest(final f1 playableModelParser, final Playable playable) {
         int channelId = getChannelId(playableModelParser, playable);
 
-        setCurrentChannel(channelId);
         if (LoaderLS.getInstance().getPrefManager().isEmotesOn())
             LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelId, true);
     }
@@ -117,8 +116,6 @@ public class Helper {
             Logger.error("channelInfo is null");
             return;
         }
-
-        setCurrentChannel(channelInfo.getId());
 
         if (LoaderLS.getInstance().getPrefManager().isEmotesOn())
             LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelInfo.getId(), false);
