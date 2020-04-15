@@ -10,10 +10,6 @@
             android:defaultValue="true"
             android:key="MOD_EMOTE_PICKER"
             android:title="@string/mod_bttv_settings_bttv_widget" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="MOD_DONT_LOAD_GIFS"
-            android:title="@string/mod_bttv_settings_bttv_off_gifs" />
         <ListPreference
             android:defaultValue="MEDIUM"
             android:entries="@array/emote_size_array"

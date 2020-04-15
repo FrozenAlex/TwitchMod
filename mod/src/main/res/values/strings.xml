@@ -8,7 +8,6 @@
     <!-- BTTV -->
     <string name="mod_bttv_settings_bttv_emotes">Enable</string>
     <string name="mod_bttv_settings_bttv_widget">Emote menu</string>
-    <string name="mod_bttv_settings_bttv_off_gifs">Disable BetterTTV GIF Emotes</string>
     <string name="mod_bttv_settings_emote_size">Emote size</string>
     <!-- Chat -->
     <string name="mod_chat_settings_show_del_messages">Show deleted messages</string>

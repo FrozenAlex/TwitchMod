@@ -109,9 +109,6 @@ public class ChatUtils {
 
         Emote emote = LoaderLS.getInstance().getEmoteManager().getEmote(word, channelID);
         if (emote != null) {
-            if (emote.isGif() && LoaderLS.getInstance().getPrefManager().isDontLoadGifs())
-                return null;
-
             return (SpannableString) factory.getSpannedEmote(emote.getUrl(getEmoteSize()), word, emote.isGif());
         }
 

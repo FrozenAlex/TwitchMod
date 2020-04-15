@@ -9,7 +9,6 @@
     <!-- BTTV -->
     <string name="mod_bttv_settings_bttv_emotes">Включить</string>
     <string name="mod_bttv_settings_bttv_widget">Интегрировать смайлы в «Меню смайлов»</string>
-    <string name="mod_bttv_settings_bttv_off_gifs">Отключить загрузку GIF смайлов</string>
     <string name="mod_bttv_settings_emote_size">Исходный размер смайлов</string>
     <!-- Chat -->
     <string name="mod_chat_settings_show_del_messages">Показывать удаленные сообщения</string>

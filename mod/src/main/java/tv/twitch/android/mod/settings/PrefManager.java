@@ -10,7 +10,6 @@ public class PrefManager {
     private static final String PREF_KEY_EMOTES = "MOD_EMOTES";
     private static final String PREF_KEY_DISABLE_GIFS = "MOD_DISABLE_GIFS2";
     private static final String PREF_KEY_SHOW_DEL_MESSAGES = "MOD_SHOW_DEL_MESSAGES";
-    private static final String PREF_KEY_DONT_LOAD_GIFS = "MOD_DONT_LOAD_GIFS";
     private static final String PREF_KEY_EMOTE_PICKER = "MOD_EMOTE_PICKER";
     private static final String PREF_KEY_POINTS = "MOD_POINTS";
     private static final String PREF_KEY_TIMESTAMPS = "MOD_TIMESTAMPS";
@@ -58,10 +57,6 @@ public class PrefManager {
 
     public boolean isDisableGifs() {
         return getBoolean(PREF_KEY_DISABLE_GIFS, true);
-    }
-
-    public boolean isDontLoadGifs() {
-        return getBoolean(PREF_KEY_DONT_LOAD_GIFS, false);
     }
 
     public boolean isPreventMsg() {
