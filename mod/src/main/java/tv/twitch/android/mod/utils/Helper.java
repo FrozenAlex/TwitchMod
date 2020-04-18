@@ -265,6 +265,13 @@ public class Helper {
         return LoaderLS.getInstance().getPrefManager().isPreventMsg() || org;
     }
 
+    public static boolean hookVideoDebug(boolean org) {
+        if (org)
+            return org;
+
+        return LoaderLS.getInstance().getPrefManager().isShowVideoDebugPanel();
+    }
+
     public static void hook_helper() {
         Object o = hookStandaloneMediaClockInit();  // TODO: __HOOK
         o = getUrlDrawableObject(null);  // TODO: __HOOK

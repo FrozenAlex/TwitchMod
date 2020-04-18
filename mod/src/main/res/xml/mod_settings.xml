@@ -53,6 +53,10 @@
             android:defaultValue="false"
             android:key="MOD_EXOPLAYER"
             android:title="@string/mod_player_settings_use_exoplayer" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="MOD_VIDEO_DEBUG"
+            android:title="@string/mod_player_settings_video_debug_panel" />
         <ListPreference
             android:defaultValue="1.0"
             android:entries="@array/exoplayer_speeds_array"

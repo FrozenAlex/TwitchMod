@@ -21,6 +21,7 @@ public class PrefManager {
     private static final String PREF_KEY_EXOPLAYER_SPEED_LIST  = "MOD_EXOPLAYER_SPEED2";
     private static final String PREF_KEY_MINIPLAYER_SIZE  = "MOD_MINIPLAYER_SIZE";
     private static final String PREF_KEY_EMOTE_SIZE = "MOD_EMOTE_SIZE2";
+    private static final String PREF_KEY_VIDEO_DEBUG = "MOD_VIDEO_DEBUG";
     private static final String PREF_KEY_TWITCH_DARK_THEME_ENABLED = "dark_theme_enabled";
 
     private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
@@ -85,6 +86,10 @@ public class PrefManager {
 
     public boolean isDisableAutoplay() {
         return getBoolean(PREF_KEY_DISABLE_PLAYER_AUTOPLAY, false);
+    }
+
+    public boolean isShowVideoDebugPanel() {
+        return getBoolean(PREF_KEY_VIDEO_DEBUG, false);
     }
 
     public boolean isDisableRecentSearch() {
