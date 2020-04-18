@@ -1,4 +1,4 @@
-package tv.twitch.a.k.e.q1;
+package tv.twitch.a.k.f.q1;
 
 import android.content.Context;
 

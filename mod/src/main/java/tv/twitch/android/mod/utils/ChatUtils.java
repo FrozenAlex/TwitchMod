@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import tv.twitch.android.mod.bridges.ChatMessageFactory;
+import tv.twitch.android.mod.bridges.IChatMessageFactory;
 import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.mod.emotes.EmoteManager;
 import tv.twitch.android.mod.models.Emote;
@@ -96,7 +96,7 @@ public class ChatUtils {
         return Emote.Size.valueOf(LoaderLS.getInstance().getPrefManager().getEmoteSize());
     }
 
-    private static SpannableString getEmoteSpan(String word, int channelID, ChatMessageFactory factory) {
+    private static SpannableString getEmoteSpan(String word, int channelID, IChatMessageFactory factory) {
         if (TextUtils.isEmpty(word)) {
             Logger.warning("Empty word");
             return null;
@@ -115,7 +115,7 @@ public class ChatUtils {
         return null;
     }
 
-    public static SpannedString injectEmotesSpan(SpannedString messageSpan, int channelID, ChatMessageFactory factory) {
+    public static SpannedString injectEmotesSpan(SpannedString messageSpan, int channelID, IChatMessageFactory factory) {
         if (TextUtils.isEmpty(messageSpan)) {
             Logger.warning("Empty messageSpan");
             return messageSpan;

@@ -19,8 +19,8 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import tv.twitch.a.k.x.b.r.h;
-import tv.twitch.android.api.i1.f1;
+import tv.twitch.a.k.z.b.r.h;
+import tv.twitch.android.api.i1.g1;
 import tv.twitch.android.app.core.v1;
 import tv.twitch.android.mod.activities.Settings;
 import tv.twitch.android.mod.bridges.LoaderLS;
@@ -28,10 +28,14 @@ import tv.twitch.android.mod.bridges.StaticUrlDrawable;
 import tv.twitch.android.models.Playable;
 import tv.twitch.android.models.channel.ChannelInfo;
 import tv.twitch.android.models.clips.ClipModel;
+import tv.twitch.android.models.communitypoints.ActiveClaimModel;
+import tv.twitch.android.shared.chat.communitypoints.models.CommunityPointsModel;
 
 public class Helper {
     private static final ConcurrentHashMap<Integer, Integer> sFixedColors = new ConcurrentHashMap<>();
     private static final Set<Integer> sFineColors = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>());
+
+    private static String sLastClaimId;
 
     private int mCurrentChannel = 0;
 
@@ -50,7 +54,37 @@ public class Helper {
         return sInstance;
     }
 
-    public static void clicker(final View pointButtonView) {
+    private static boolean checkClaim(CommunityPointsModel pointsModel) {
+        if (pointsModel == null) {
+            Logger.warning("pointsModel == null");
+            return false;
+        }
+
+        ActiveClaimModel claimModel = pointsModel.getClaim();
+
+        if (claimModel == null) {
+            Logger.warning("claimModel == null");
+            return false;
+        }
+
+        String claimId = claimModel.getId();
+        if (TextUtils.isEmpty(claimId)) {
+            Logger.warning("claimId == null");
+            return false;
+        }
+
+        synchronized (Helper.class) {
+            if (TextUtils.isEmpty(sLastClaimId) || !sLastClaimId.equals(claimId)) {
+                sLastClaimId = claimId;
+                return true;
+            } else {
+                Logger.debug("Same claim");
+                return false;
+            }
+        }
+    }
+
+    public static void clicker(final View pointButtonView, CommunityPointsModel pointsModel) {
         if (!LoaderLS.getInstance().getPrefManager().isClickerOn())
             return;
 
@@ -59,7 +93,9 @@ public class Helper {
             return;
         }
 
-        pointButtonView.performClick();
+        if (checkClaim(pointsModel)) {
+            pointButtonView.performClick();
+        }
     }
 
     public static void saveToClipboard(String text) {
@@ -84,7 +120,7 @@ public class Helper {
         return this.mCurrentChannel;
     }
 
-    public static int getChannelId(f1 playableModelParser, Playable playable) {
+    public static int getChannelId(g1 playableModelParser, Playable playable) {
         if (playableModelParser == null) {
             Logger.error("playableModelParser is null");
             return 0;
@@ -104,7 +140,7 @@ public class Helper {
         return channelId;
     }
 
-    public void newRequest(final f1 playableModelParser, final Playable playable) {
+    public void newRequest(final g1 playableModelParser, final Playable playable) {
         int channelId = getChannelId(playableModelParser, playable);
 
         if (LoaderLS.getInstance().getPrefManager().isEmotesOn())

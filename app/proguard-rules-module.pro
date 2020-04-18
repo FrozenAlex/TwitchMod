@@ -37,4 +37,7 @@
 -keep class androidx.appcompat.app.AppCompatActivity { *; }
 
 # Twitch obfuscation
+-optimizationpasses 5
+-overloadaggressively
+-allowaccessmodification
 -applymapping mapping.txt

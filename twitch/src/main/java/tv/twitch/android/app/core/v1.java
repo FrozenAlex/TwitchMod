@@ -4,7 +4,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 // Source: SnackbarHelper
 public class v1 {
-
     // error
     public static Snackbar b(Snackbar snackbar) {
         return snackbar;

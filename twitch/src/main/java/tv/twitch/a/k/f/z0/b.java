@@ -1,4 +1,4 @@
-package tv.twitch.a.k.e.z0;
+package tv.twitch.a.k.f.z0;
 
 import tv.twitch.android.models.channel.ChannelInfo;
 

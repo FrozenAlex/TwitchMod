@@ -26,18 +26,6 @@ android {
         }
     }
 
-    afterEvaluate {
-        generateModuleReleaseBuildConfig.enabled = false
-        generateModuleDebugBuildConfig.enabled = false
-        generateModuleReleaseResValues.enabled = false
-        generateModuleDebugResValues.enabled = false
-
-        generateApkReleaseBuildConfig.enabled = false
-        generateApkDebugBuildConfig.enabled = false
-        generateApkReleaseResValues.enabled = false
-        generateApkDebugResValues.enabled = false
-    }
-
     buildTypes {
         release {
             minifyEnabled true

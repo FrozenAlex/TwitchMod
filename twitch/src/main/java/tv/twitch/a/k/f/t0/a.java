@@ -1,4 +1,4 @@
-package tv.twitch.a.k.e.t0;
+package tv.twitch.a.k.f.t0;
 
 // Source: IClickableUsernameSpanListener
 public interface a {

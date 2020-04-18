@@ -5,7 +5,9 @@ import tv.twitch.android.models.Playable;
 
 public class RecommendationAutoPlayPresenter<T extends Playable> {
     public final void prepareRecommendationForCurrentModel(T t) {
+        // resetAutoplay();
         if (!LoaderLS.getInstance().getPrefManager().isDisableAutoplay()) // TODO: __ADD
+            // ISubscriptionHelper....
             return;
     }
 }

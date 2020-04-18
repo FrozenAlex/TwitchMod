@@ -1,5 +1,5 @@
 package tv.twitch.android.mod.bridges;
 
-public interface ChatMessageFactory {
+public interface IChatMessageFactory {
     CharSequence getSpannedEmote(String url, String emoteText, boolean isGif);
 }

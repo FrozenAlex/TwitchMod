@@ -10,7 +10,7 @@ import tv.twitch.android.mod.utils.Helper;
 
 
 public class Settings extends AppCompatActivity {
-    public static int XML_ID = 0x7f160001;
+    public static int XML_ID = 0x7f160006;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -9,7 +9,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenLayout|screenSize|smallestScreenSize" android:label="@string/mod_settings_label" android:launchMode="singleTop" android:name="tv.twitch.android.mod.activities.Settings">
+        <activity android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenLayout|screenSize|smallestScreenSize" android:label="@string/mod_settings_label" android:launchMode="singleTop" android:name="tv.twitch.android.mod.activities.Settings" android:theme="@style/Theme.AppCompat.Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.NOTIFICATION_PREFERENCES"/>
