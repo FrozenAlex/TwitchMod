@@ -17,20 +17,8 @@ public class EmoteManager {
     private final ConcurrentHashMap<Integer, Room> mRooms = new ConcurrentHashMap<>();
     private final Set<Integer> mCurrentRoomRequests = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>());
 
-    private static volatile EmoteManager sInstance;
-
-    private EmoteManager() {
+    public EmoteManager() {
         fetchGlobalEmotes();
-    }
-
-    public static EmoteManager getInstance() {
-        if (sInstance == null) {
-            synchronized(EmoteManager.class) {
-                if (sInstance == null)
-                    sInstance = new EmoteManager();
-            }
-        }
-        return sInstance;
     }
 
     public Collection<Emote> getGlobalEmotes() {
@@ -79,18 +67,16 @@ public class EmoteManager {
             return null;
         }
 
-        Emote emote = null;
         if (channelId != 0) {
             Room room = mRooms.get(channelId);
-            if (room != null)
-                emote = room.findEmote(code);
-            if (emote != null)
-                return emote;
+            if (room != null) {
+                Emote emote = room.findEmote(code);
+                if (emote != null)
+                    return emote;
+            }
         }
 
-        emote = sGlobalSet.getEmote(code);
-
-        return emote;
+        return sGlobalSet.getEmote(code);
     }
 
     public void requestChannelEmoteSet(int channelId, boolean force) {
@@ -111,14 +97,11 @@ public class EmoteManager {
             return;
         }
 
-        if (!mCurrentRoomRequests.contains(channelId))
-            synchronized (mCurrentRoomRequests) {
-                if (!mCurrentRoomRequests.contains(channelId)) {
-                    mCurrentRoomRequests.add(channelId);
-                    Room room = new Room(channelId);
-                    mRooms.put(channelId, room);
-                    mCurrentRoomRequests.remove(channelId);
-                }
-            }
+        synchronized (mCurrentRoomRequests) {
+            mCurrentRoomRequests.add(channelId);
+            Room room = new Room(channelId);
+            mRooms.put(channelId, room);
+            mCurrentRoomRequests.remove(channelId);
+        }
     }
 }

@@ -51,10 +51,10 @@ public class FfzEmote implements Emote {
     @Override
     public String getUrl(Size size) {
         switch (size) {
-            default:
             case LARGE:
                 if (url3x != null)
                     return url3x;
+            default:
             case MEDIUM:
                 if (url2x != null)
                     return url2x;

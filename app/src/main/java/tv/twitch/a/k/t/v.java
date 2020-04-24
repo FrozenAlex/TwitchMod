@@ -1,6 +1,6 @@
 package tv.twitch.a.k.t;
 
-import tv.twitch.android.mod.utils.Helper;
+import tv.twitch.android.mod.bridges.LoaderLS;
 
 // Source: VideoDebugConfig
 public class v {
@@ -9,7 +9,11 @@ public class v {
         return false;
     }
 
-    public final boolean a() {
-        return Helper.hookVideoDebug(org());
+    public final boolean a() { // TODO: __REPLACE
+        boolean org = org();
+        if (org)
+            return org;
+
+        return LoaderLS.getInstance().getPrefManager().isShowVideoDebugPanel();
     }
 }

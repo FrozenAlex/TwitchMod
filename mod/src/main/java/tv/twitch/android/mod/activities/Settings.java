@@ -7,6 +7,7 @@ import android.preference.PreferenceFragment;
 import androidx.appcompat.app.AppCompatActivity;
 
 import tv.twitch.android.mod.utils.Helper;
+import tv.twitch.android.mod.utils.SnackbarHelper;
 
 
 public class Settings extends AppCompatActivity {
@@ -19,7 +20,7 @@ public class Settings extends AppCompatActivity {
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
 
-        Helper.showSnackbar(this.findViewById(android.R.id.content), "github.com/nopbreak/TwitchMod", "https://github.com/nopbreak/TwitchMod");
+        SnackbarHelper.showUrl(this.findViewById(android.R.id.content), "github.com/nopbreak/TwitchMod", "https://github.com/nopbreak/TwitchMod");
     }
 
     public static class SettingsFragment extends PreferenceFragment {

@@ -5,6 +5,7 @@ import android.text.Spanned;
 import android.view.View;
 import android.widget.TextView;
 
+import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.mod.utils.ChatUtils;
 import tv.twitch.android.mod.utils.Helper;
 import tv.twitch.android.mod.utils.LongClickLinkMovementMethod;
@@ -27,6 +28,6 @@ public class b {
     }
 
     public void g() { // TODO: __ADD_HOOK
-        this.j = Helper.hookPrev(this.j);
+        this.j = LoaderLS.getInstance().getHelper().hookPrev(this.j);
     }
 }

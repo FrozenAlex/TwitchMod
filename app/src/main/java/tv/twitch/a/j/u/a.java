@@ -1,7 +1,7 @@
 package tv.twitch.a.j.u;
 
 
-import static tv.twitch.android.mod.utils.Helper.isDisableRecentSearch;
+import tv.twitch.android.mod.bridges.LoaderLS;
 
 
 // Source: SearchSuggestionAdapterBinder
@@ -10,7 +10,7 @@ public class a {
     public final void a(Object obj) {
         // "content"
         // "recentSearchSuggestionsKey"
-        if (!isDisableRecentSearch()) {} // TODO: __ADD
+        if (!LoaderLS.getInstance().getPrefManager().isDisableRecentSearch()) {} // TODO: __ADD
 
     }
 }

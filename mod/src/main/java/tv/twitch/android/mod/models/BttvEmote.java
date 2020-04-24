@@ -31,9 +31,9 @@ public final class BttvEmote implements Emote {
     @Override
     public String getUrl(Size size) {
         switch (size) {
-            default:
             case LARGE:
                 return getUrl3x();
+            default:
             case MEDIUM:
                 return getUrl2x();
             case SMALL:

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.models.chat.MessageToken;
 
 public class CopyChatMessage extends LongClickableMessage {
@@ -17,8 +18,8 @@ public class CopyChatMessage extends LongClickableMessage {
     }
 
     void onLongClick(@NonNull View view) {
-        String message = ChatUtils.getMessage(tokens);
-        Helper.saveToClipboard(message);
+        String message = ChatUtils.getRawMessage(tokens);
+        LoaderLS.getInstance().getHelper().saveToClipboard(message);
     }
 
     @Override

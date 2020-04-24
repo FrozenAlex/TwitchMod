@@ -25,7 +25,7 @@ public class a implements IChatMessageFactory { // TODO: __IMPLEMENT
     }
 
     private final CharSequence a(g gVar, int color, tv.twitch.a.k.f.t0.a aVar, boolean z, String str, String str2) {
-        color = Helper.hookUsernameSpanColor(color); // TODO: __ADD
+        color = LoaderLS.getInstance().getHelper().hookUsernameSpanColor(color); // TODO: __ADD
         return null;
     }
 

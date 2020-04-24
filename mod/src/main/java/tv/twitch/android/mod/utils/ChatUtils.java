@@ -60,7 +60,7 @@ public class ChatUtils {
         return SpannableString.valueOf(message);
     }
 
-    public static String getMessage(List<MessageToken> tokens) {
+    public static String getRawMessage(List<MessageToken> tokens) {
         StringBuilder stringBuilder = new StringBuilder();
         for (MessageToken messageToken : tokens) {
             if (messageToken instanceof MessageToken.TextToken)

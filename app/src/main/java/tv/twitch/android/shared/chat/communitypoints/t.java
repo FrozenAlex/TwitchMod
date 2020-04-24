@@ -2,7 +2,7 @@ package tv.twitch.android.shared.chat.communitypoints;
 
 import android.view.ViewGroup;
 
-import tv.twitch.android.mod.utils.Helper;
+import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.shared.chat.communitypoints.models.CommunityPointsModel;
 
 
@@ -12,6 +12,6 @@ public class t {
 
     private final void e(CommunityPointsModel communityPointsModel) {
 
-        Helper.clicker(b, communityPointsModel); // TODO: __ADD_END
+        LoaderLS.getInstance().getHelper().clicker(b, communityPointsModel); // TODO: __ADD_END
     }
 }

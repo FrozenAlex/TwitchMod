@@ -14,7 +14,7 @@ public abstract class ApiCallback<T> implements Callback<T> {
     }
 
     public void onFailure(Call<T> call, Throwable th) {
-        Logger.error(th.getLocalizedMessage());
+        th.printStackTrace();
         onRequestFail(call, FailReason.UNKNOWN);
     }
 

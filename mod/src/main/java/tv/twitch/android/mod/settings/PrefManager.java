@@ -28,10 +28,18 @@ public class PrefManager {
     private static final String PREF_KEY_DISABLE_FOLLOWED_GAMES = "MOD_DISABLE_FOLLOWED_GAMES";
     private static final String PREF_KEY_DISABLE_RECENT_WATCHING = "MOD_DISABLE_RESUME_WATCHING";
 
-    private static SharedPreferences mPref;
+    private SharedPreferences mPref;
 
     public PrefManager(Context context) {
         mPref = PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    public SharedPreferences getSharedPreferences() {
+        return mPref;
+    }
+
+    public boolean isKeyExists(String key) {
+        return mPref.contains(key);
     }
 
     private boolean getBoolean(String key, boolean def) {

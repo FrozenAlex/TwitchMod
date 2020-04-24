@@ -39,9 +39,9 @@ public class LoaderLS extends TwitchApplication {
     private void init() {
         Logger.debug("Init LoaderLS");
         sInstance = this;
-        sEmoteManager = EmoteManager.getInstance();
-        sHelper = Helper.getInstance();
+        sEmoteManager = new EmoteManager();
         sPrefManager = new PrefManager(getApplicationContext());
+        sHelper = new Helper(sPrefManager, sEmoteManager);
     }
 
     public EmoteManager getEmoteManager() {
@@ -49,7 +49,7 @@ public class LoaderLS extends TwitchApplication {
             synchronized (LoaderLS.class) {
                 if (sEmoteManager == null) {
                     Logger.warning("getting new instance");
-                    sEmoteManager = EmoteManager.getInstance();
+                    sEmoteManager = new EmoteManager();
                 }
             }
         }
@@ -73,7 +73,7 @@ public class LoaderLS extends TwitchApplication {
             synchronized (LoaderLS.class) {
                 if (sHelper == null) {
                     Logger.warning("getting new instance");
-                    sHelper = Helper.getInstance();
+                    sHelper = new Helper(getPrefManager(), getEmoteManager());
                 }
             }
         }

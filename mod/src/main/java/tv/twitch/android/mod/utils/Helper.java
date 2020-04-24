@@ -1,18 +1,17 @@
 package tv.twitch.android.mod.utils;
 
+import android.os.Handler;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
 
 import com.google.android.exoplayer2.PlaybackParameters;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;
 import java.util.Locale;
@@ -21,10 +20,11 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import tv.twitch.a.k.z.b.r.h;
 import tv.twitch.android.api.i1.g1;
-import tv.twitch.android.app.core.v1;
 import tv.twitch.android.mod.activities.Settings;
 import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.mod.bridges.StaticUrlDrawable;
+import tv.twitch.android.mod.emotes.EmoteManager;
+import tv.twitch.android.mod.settings.PrefManager;
 import tv.twitch.android.models.Playable;
 import tv.twitch.android.models.channel.ChannelInfo;
 import tv.twitch.android.models.clips.ClipModel;
@@ -35,23 +35,19 @@ public class Helper {
     private static final ConcurrentHashMap<Integer, Integer> sFixedColors = new ConcurrentHashMap<>();
     private static final Set<Integer> sFineColors = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>());
 
+    private final Handler mHandler;
+
     private static String sLastClaimId;
 
     private int mCurrentChannel = 0;
 
-    private static volatile Helper sInstance;
+    private final PrefManager mPrefManager;
+    private final EmoteManager mEmoteManager;
 
-    private Helper() {
-    }
-
-    public static Helper getInstance() {
-        if (sInstance == null) {
-            synchronized(Helper.class) {
-                if (sInstance == null)
-                    sInstance = new Helper();
-            }
-        }
-        return sInstance;
+    public Helper(PrefManager prefManager, EmoteManager emoteManager) {
+        mPrefManager = prefManager;
+        mEmoteManager = emoteManager;
+        mHandler = new Handler();
     }
 
     private static boolean checkClaim(CommunityPointsModel pointsModel) {
@@ -84,8 +80,8 @@ public class Helper {
         }
     }
 
-    public static void clicker(final View pointButtonView, CommunityPointsModel pointsModel) {
-        if (!LoaderLS.getInstance().getPrefManager().isClickerOn())
+    public void clicker(final View pointButtonView, CommunityPointsModel pointsModel) {
+        if (!mPrefManager.isClickerOn())
             return;
 
         if (pointButtonView == null) {
@@ -94,11 +90,17 @@ public class Helper {
         }
 
         if (checkClaim(pointsModel)) {
-            pointButtonView.performClick();
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (pointButtonView != null)
+                        pointButtonView.performClick();
+                }
+            }, 1000);
         }
     }
 
-    public static void saveToClipboard(String text) {
+    public void saveToClipboard(String text) {
         ClipboardManager clipboard = (ClipboardManager) LoaderLS.getInstance().getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE);
         if (clipboard != null) {
             ClipData clip = ClipData.newPlainText("text", text);
@@ -143,8 +145,8 @@ public class Helper {
     public void newRequest(final g1 playableModelParser, final Playable playable) {
         int channelId = getChannelId(playableModelParser, playable);
 
-        if (LoaderLS.getInstance().getPrefManager().isEmotesOn())
-            LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelId, true);
+        if (mPrefManager.isEmotesOn())
+            mEmoteManager.requestChannelEmoteSet(channelId, true);
     }
 
     public void newRequest(ChannelInfo channelInfo) {
@@ -153,8 +155,8 @@ public class Helper {
             return;
         }
 
-        if (LoaderLS.getInstance().getPrefManager().isEmotesOn())
-            LoaderLS.getInstance().getEmoteManager().requestChannelEmoteSet(channelInfo.getId(), false);
+        if (mPrefManager.isEmotesOn())
+            mEmoteManager.requestChannelEmoteSet(channelInfo.getId(), false);
     }
 
     public static void openSettings() {
@@ -190,55 +192,27 @@ public class Helper {
         return org;
     }
 
-    public static void showSnackbar(View view, final String message, final String url) {
-        if (view == null) {
-            Logger.error("view is null");
-            return;
-        }
-
-        if (TextUtils.isEmpty(message)) {
-            Logger.warning("Empty message");
-        }
-        
-        Snackbar snack = v1.a(Snackbar.make(view, message, Snackbar.LENGTH_LONG));
-        if (snack == null) {
-            Logger.error("snack is null");
-            return;
-        }
-        if (url != null) {
-            snack.setAction("Open", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Uri uri = Uri.parse(url);
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    LoaderLS.getInstance().startActivity(intent);
-                }
-            });
-        }
-        snack.show();
-    }
-
     // TODO: __REPLACE_INIT_RES
-    public static h getUrlDrawableObject(h org) {
+    public h getUrlDrawableObject(h org) {
         if (org == null)
             return null;
 
-        if (LoaderLS.getInstance().getPrefManager().isDisableGifs()) {
+        if (mPrefManager.isDisableGifs()) {
             return new StaticUrlDrawable(org);
         }
 
         return org;
     }
 
-    public static boolean isDisableRecentSearch() {
-        return LoaderLS.getInstance().getPrefManager().isDisableRecentSearch();
+    public boolean isDisableRecentSearch() {
+        return mPrefManager.isDisableRecentSearch();
     }
 
-    public static int hookUsernameSpanColor(int color) {
-        if (!LoaderLS.getInstance().getPrefManager().isFixBrightness())
+    public int hookUsernameSpanColor(int color) {
+        if (!mPrefManager.isFixBrightness())
             return color;
 
-        if (!LoaderLS.getInstance().getPrefManager().isDarkTheme())
+        if (!mPrefManager.isDarkTheme())
             return color;
 
         if (sFineColors.contains(color))
@@ -277,11 +251,11 @@ public class Helper {
         return fixedColor;
     }
 
-    private static float getPlayerSpeed() {
-        return LoaderLS.getInstance().getPrefManager().getExoplayerSpeed();
+    private float getPlayerSpeed() {
+        return mPrefManager.getExoplayerSpeed();
     }
 
-    public static PlaybackParameters hookStandaloneMediaClockInit() {
+    public PlaybackParameters hookStandaloneMediaClockInit() {
         final float speed = getPlayerSpeed();
         if (speed == 1.0f)
             return PlaybackParameters.e;
@@ -297,18 +271,11 @@ public class Helper {
         return PlaybackParameters.e;
     }
 
-    public static boolean hookPrev(boolean org) {
-        return LoaderLS.getInstance().getPrefManager().isPreventMsg() || org;
+    public boolean hookPrev(boolean org) {
+        return mPrefManager.isPreventMsg() || org;
     }
 
-    public static boolean hookVideoDebug(boolean org) {
-        if (org)
-            return org;
-
-        return LoaderLS.getInstance().getPrefManager().isShowVideoDebugPanel();
-    }
-
-    public static void hook_helper() {
+    public void hook_helper() {
         Object o = hookStandaloneMediaClockInit();  // TODO: __HOOK
         o = getUrlDrawableObject(null);  // TODO: __HOOK
     }
