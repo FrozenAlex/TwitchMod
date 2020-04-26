@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import tv.twitch.android.app.core.v1;
+import tv.twitch.android.app.core.s1;
 import tv.twitch.android.mod.bridges.LoaderLS;
 
 public class SnackbarHelper {
@@ -21,7 +21,7 @@ public class SnackbarHelper {
             Logger.warning("Empty message");
         }
 
-        Snackbar snack = v1.a(Snackbar.make(view, message, Snackbar.LENGTH_LONG));
+        Snackbar snack = s1.a(Snackbar.make(view, message, Snackbar.LENGTH_LONG));
         if (snack == null) {
             Logger.error("snack is null");
             return;
@@ -40,7 +40,7 @@ public class SnackbarHelper {
             Logger.warning("Empty message");
         }
 
-        Snackbar snack = v1.a(Snackbar.make(view, message, Snackbar.LENGTH_LONG));
+        Snackbar snack = s1.a(Snackbar.make(view, message, Snackbar.LENGTH_LONG));
         if (snack == null) {
             Logger.error("snack is null");
             return;

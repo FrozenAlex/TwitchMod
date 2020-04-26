@@ -1,8 +1,9 @@
-# Version: 8.8.0-8.9.1
+# Version: 9.0.0
 
 com.google.gson.annotations.SerializedName -> com.google.gson.v.c:
 com.google.gson.Gson -> com.google.gson.f:
 retrofit2.Call -> retrofit2.b:
+    retrofit2.Call clone() -> clone
     void enqueue(retrofit2.Callback) -> a
 retrofit2.Callback -> retrofit2.d:
     void onFailure(retrofit2.Call,java.lang.Throwable) -> a
@@ -11,10 +12,10 @@ retrofit2.Response -> retrofit2.l:
     125:125:int code() -> b
     140:140:boolean isSuccessful() -> e
     145:145:java.lang.Object body() -> a
-retrofit2.http.Path -> retrofit2.q.q:
-retrofit2.http.Headers -> retrofit2.q.j:
-retrofit2.http.GET -> retrofit2.q.e:
-retrofit2.http.Query -> retrofit2.q.r:
+retrofit2.http.Path -> retrofit2.q.r:
+retrofit2.http.Headers -> retrofit2.q.k:
+retrofit2.http.GET -> retrofit2.q.f:
+retrofit2.http.Query -> retrofit2.q.s:
 retrofit2.Retrofit -> retrofit2.m:
     131:135:java.lang.Object create(java.lang.Class) -> a
 retrofit2.Retrofit$Builder -> retrofit2.m$b:

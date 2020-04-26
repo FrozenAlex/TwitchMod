@@ -1,4 +1,4 @@
-package tv.twitch.a.k.t;
+package tv.twitch.a.k.w;
 
 import tv.twitch.android.mod.bridges.LoaderLS;
 
@@ -9,7 +9,7 @@ public class v {
         return false;
     }
 
-    public final boolean a() { // TODO: __REPLACE
+    public final boolean a() { // TODO: __ADD
         boolean org = org();
         if (org)
             return org;

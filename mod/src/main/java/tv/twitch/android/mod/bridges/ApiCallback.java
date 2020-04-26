@@ -3,7 +3,6 @@ package tv.twitch.android.mod.bridges;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import tv.twitch.android.mod.utils.Logger;
 
 public abstract class ApiCallback<T> implements Callback<T> {
     public enum FailReason {
@@ -19,7 +18,8 @@ public abstract class ApiCallback<T> implements Callback<T> {
     }
 
     protected void retry(Call<T> call) {
-        call.clone().enqueue(this);
+        Call<T> clone = call.clone();
+        clone.enqueue(this);
     }
 
     public abstract void onRequestSuccess(T t);

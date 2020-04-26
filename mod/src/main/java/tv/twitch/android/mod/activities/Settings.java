@@ -6,7 +6,6 @@ import android.preference.PreferenceFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import tv.twitch.android.mod.utils.Helper;
 import tv.twitch.android.mod.utils.SnackbarHelper;
 
 

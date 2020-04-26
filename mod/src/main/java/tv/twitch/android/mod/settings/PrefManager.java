@@ -3,10 +3,12 @@ package tv.twitch.android.mod.settings;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
+import tv.twitch.android.mod.models.Emote;
 import tv.twitch.android.mod.utils.Logger;
 
-public class PrefManager {
+public class PrefManager implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String PREF_KEY_EMOTES = "MOD_EMOTES";
     private static final String PREF_KEY_DISABLE_GIFS = "MOD_DISABLE_GIFS2";
     private static final String PREF_KEY_SHOW_DEL_MESSAGES = "MOD_SHOW_DEL_MESSAGES";
@@ -22,6 +24,7 @@ public class PrefManager {
     private static final String PREF_KEY_MINIPLAYER_SIZE  = "MOD_MINIPLAYER_SIZE";
     private static final String PREF_KEY_EMOTE_SIZE = "MOD_EMOTE_SIZE2";
     private static final String PREF_KEY_VIDEO_DEBUG = "MOD_VIDEO_DEBUG";
+    private static final String PREF_KEY_ADBLOCK = "MOD_ADBLOCK";
     private static final String PREF_KEY_TWITCH_DARK_THEME_ENABLED = "dark_theme_enabled";
 
     private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
@@ -30,16 +33,13 @@ public class PrefManager {
 
     private SharedPreferences mPref;
 
+    private Emote.Size mEmoteSize;
+
     public PrefManager(Context context) {
         mPref = PreferenceManager.getDefaultSharedPreferences(context);
-    }
+        mPref.registerOnSharedPreferenceChangeListener(this);
 
-    public SharedPreferences getSharedPreferences() {
-        return mPref;
-    }
-
-    public boolean isKeyExists(String key) {
-        return mPref.contains(key);
+        setEmoteSize(getString(PREF_KEY_EMOTE_SIZE, "MEDIUM"));
     }
 
     private boolean getBoolean(String key, boolean def) {
@@ -58,6 +58,10 @@ public class PrefManager {
         }
 
         return mPref.getString(key, def);
+    }
+
+    public boolean isAdblockOn() {
+        return getBoolean(PREF_KEY_ADBLOCK, false);
     }
 
     public boolean isEmotesOn() {
@@ -132,7 +136,22 @@ public class PrefManager {
         return Float.parseFloat(getString(PREF_KEY_MINIPLAYER_SIZE, "1.0"));
     }
 
-    public String getEmoteSize() {
-        return getString(PREF_KEY_EMOTE_SIZE, "MEDIUM");
+    private synchronized void setEmoteSize(String size) {
+        mEmoteSize = Emote.Size.valueOf(size);
+    }
+
+    public Emote.Size getEmoteSize() {
+        return mEmoteSize;
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (sharedPreferences == null || TextUtils.isEmpty(key))
+            return;
+
+
+        if (key.equals(PREF_KEY_EMOTE_SIZE)) {
+            setEmoteSize(sharedPreferences.getString(PREF_KEY_EMOTE_SIZE,"MEDIUM"));
+        }
     }
 }

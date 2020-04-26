@@ -1,6 +1,6 @@
 package tv.twitch.android.shared.chat.messageinput;
 
-import tv.twitch.a.k.f.z0.b;
+import tv.twitch.a.k.g.z0.b;
 import tv.twitch.android.mod.bridges.LoaderLS;
 
 // Source: ChatMessageInputViewPresenter

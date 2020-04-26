@@ -1,4 +1,4 @@
-package tv.twitch.a.k.z.b.r;
+package tv.twitch.a.k.c0.b.s;
 
 // Source: MediaSpan
 public enum d {

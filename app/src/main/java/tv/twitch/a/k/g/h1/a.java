@@ -1,4 +1,4 @@
-package tv.twitch.a.k.f.g1;
+package tv.twitch.a.k.g.h1;
 
 
 import tv.twitch.android.mod.bridges.LoaderLS;

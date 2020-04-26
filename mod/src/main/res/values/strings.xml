@@ -8,18 +8,19 @@
     <!-- BTTV -->
     <string name="mod_bttv_settings_bttv_emotes">Enable</string>
     <string name="mod_bttv_settings_bttv_widget">Emote menu</string>
-    <string name="mod_bttv_settings_emote_size">Emote size</string>
+    <string name="mod_bttv_settings_emote_size">Source emote size</string>
     <!-- Chat -->
     <string name="mod_chat_settings_show_del_messages">Show deleted messages</string>
-    <string name="mod_chat_settings_timestamps">Add timestamps to messages</string>
+    <string name="mod_chat_settings_timestamps">Add timestamps to chat messages</string>
     <string name="mod_chat_settings_copymsg">Tap and hold on the message to copy</string>
     <string name="mod_chat_settings_disable_animated_gifs">Stop animated GIFS</string>
     <string name="mod_chat_settings_points">Enable auto-clicker for farming points</string>
     <string name="mod_chat_fix_brightness">Fix nickname brightness in dark mode</string>
     <!-- Player -->
-    <string name="mod_player_settings_disable_autoplay">Disable recommendation autoplay</string>
+    <string name="mod_player_settings_adblock">AdBlock</string>
+    <string name="mod_player_settings_disable_autoplay">Disable recommended videos</string>
     <string name="mod_player_settings_use_exoplayer">Enable ExoPlayer V2</string>
-    <string name="mod_player_settings_video_debug_panel">Show video debug panel</string>
+    <string name="mod_player_settings_video_debug_panel">Enable stats button</string>
     <string name="mod_player_settings_exoplayer_speed">ExoPlayer speed</string>
     <string name="mod_player_settings_miniplayer_size">Mini player size</string>
     <!-- Patch -->

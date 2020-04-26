@@ -15,7 +15,7 @@ public class LoaderLS extends TwitchApplication {
     private PrefManager sPrefManager;
     private Helper sHelper;
 
-    private static LoaderLS sInstance = null;
+    private static volatile LoaderLS sInstance = null;
 
     public static LoaderLS getInstance() {
         return sInstance;
@@ -28,7 +28,7 @@ public class LoaderLS extends TwitchApplication {
 
     @Override
     public void onCreate() {
-        init(); // init before dagger
+        init();
         super.onCreate();
         post();
     }

@@ -1,6 +1,7 @@
 package tv.twitch.a.a.u;
 
-import static tv.twitch.android.mod.utils.Helper.openSettings;
+import tv.twitch.android.mod.utils.Helper;
+
 
 // Source: QuickSettingsPresenter
 public class b {
@@ -10,7 +11,7 @@ public class b {
                 case 1:
                     break;
                 case 2:
-                    openSettings(); // TODO: __REPLACE
+                    Helper.openSettings(); // TODO: __REPLACE
                     break;
                 case 3:
                 case 4:

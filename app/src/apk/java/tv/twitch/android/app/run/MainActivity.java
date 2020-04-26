@@ -12,7 +12,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Settings.XML_ID = R.xml.mod_settings;
+        Settings.XML_ID = R.xml.mod_preferences;
         startActivity(new Intent(getApplicationContext(), Settings.class));
     }
 }

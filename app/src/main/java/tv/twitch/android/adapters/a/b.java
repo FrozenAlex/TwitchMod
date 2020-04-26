@@ -5,9 +5,7 @@ import android.text.Spanned;
 import android.view.View;
 import android.widget.TextView;
 
-import tv.twitch.android.mod.bridges.LoaderLS;
-import tv.twitch.android.mod.utils.ChatUtils;
-import tv.twitch.android.mod.utils.Helper;
+import tv.twitch.android.mod.bridges.Hooks;
 import tv.twitch.android.mod.utils.LongClickLinkMovementMethod;
 
 // Source: MessageRecyclerItem
@@ -16,7 +14,7 @@ public class b {
 
 
     public b(Context context, String str, int i2, String str2, String str3, int i3, Spanned message, Object systemMessageType, float f2, int i4, float f3, boolean z) {
-        message = ChatUtils.addTimestampToMessage(message); // TODO: __ADD_START
+        message = Hooks.addTimestampToMessage(message); // TODO: __ADD_START
     }
 
     public static final class a {
@@ -27,7 +25,7 @@ public class b {
         }
     }
 
-    public void g() { // TODO: __ADD_HOOK
-        this.j = LoaderLS.getInstance().getHelper().hookPrev(this.j);
+    public void g() {
+        this.j = Hooks.hookMsgRemover(this.j); // TODO: __ADD_HOOK
     }
 }

@@ -1,8 +1,7 @@
-package tv.twitch.a.k.f;
+package tv.twitch.a.k.g;
 
 import java.util.List;
 
-import tv.twitch.android.models.chat.MessageBadge;
 import tv.twitch.android.models.chat.MessageToken;
 
 // Source: ChatMessageInterface
@@ -19,7 +18,7 @@ public interface g {
 
     List<MessageToken> e();
 
-    List<MessageBadge> f();
+    List<Object> f();
 
     boolean g();
 

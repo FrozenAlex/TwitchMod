@@ -1,4 +1,4 @@
-package tv.twitch.a.k.f;
+package tv.twitch.a.k.g;
 
 import android.text.style.ClickableSpan;
 

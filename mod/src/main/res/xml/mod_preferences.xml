@@ -47,23 +47,16 @@
     <PreferenceScreen android:title="@string/mod_category_settings_player_category">
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="MOD_ADBLOCK"
+            android:title="@string/mod_player_settings_adblock" />
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="MOD_DISABLE_AUTOPLAY"
             android:title="@string/mod_player_settings_disable_autoplay" />
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="MOD_EXOPLAYER"
-            android:title="@string/mod_player_settings_use_exoplayer" />
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="MOD_VIDEO_DEBUG"
             android:title="@string/mod_player_settings_video_debug_panel" />
-        <ListPreference
-            android:defaultValue="1.0"
-            android:entries="@array/exoplayer_speeds_array"
-            android:entryValues="@array/exoplayer_speeds_values_array"
-            android:key="MOD_EXOPLAYER_SPEED2"
-            android:title="@string/mod_player_settings_exoplayer_speed">
-        </ListPreference>
         <ListPreference
             android:defaultValue="1"
             android:entries="@array/miniplayer_size_array"
@@ -71,6 +64,20 @@
             android:key="MOD_MINIPLAYER_SIZE"
             android:title="@string/mod_player_settings_miniplayer_size">
         </ListPreference>
+        <PreferenceCategory
+            android:title="ExoPlayer">
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="MOD_EXOPLAYER"
+                android:title="@string/mod_player_settings_use_exoplayer" />
+            <ListPreference
+                android:defaultValue="1.0"
+                android:entries="@array/exoplayer_speeds_array"
+                android:entryValues="@array/exoplayer_speeds_values_array"
+                android:key="MOD_EXOPLAYER_SPEED2"
+                android:title="@string/mod_player_settings_exoplayer_speed">
+            </ListPreference>
+        </PreferenceCategory>
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/mod_category_settings_patch">
         <PreferenceScreen android:title="@string/mod_category_settings_following">
