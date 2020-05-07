@@ -1,13 +1,15 @@
 package tv.twitch.android.mod.models;
 
+
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
 import java.util.HashMap;
 
+import tv.twitch.android.mod.bridges.ChatFactory;
 import tv.twitch.chat.ChatEmoticon;
-import tv.twitch.chat.ChatEmoticonUrl;
+
 
 public class FfzEmote implements Emote {
     private final String mCode;
@@ -81,7 +83,7 @@ public class FfzEmote implements Emote {
         if (ce == null) {
             synchronized (this) {
                 if (ce == null) {
-                    ce = new ChatEmoticonUrl(getCode(), getUrl(Size.LARGE));
+                    this.ce = ChatFactory.getEmoticon(getUrl(Size.LARGE), getCode());
                 }
             }
         }

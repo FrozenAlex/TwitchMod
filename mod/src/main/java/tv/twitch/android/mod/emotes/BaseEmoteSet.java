@@ -1,5 +1,6 @@
 package tv.twitch.android.mod.emotes;
 
+
 import android.text.TextUtils;
 
 import java.util.Collection;
@@ -12,6 +13,7 @@ import tv.twitch.android.mod.bridges.ApiCallback;
 import tv.twitch.android.mod.models.Emote;
 import tv.twitch.android.mod.models.EmoteSet;
 import tv.twitch.android.mod.utils.Logger;
+
 
 public abstract class BaseEmoteSet<T> extends ApiCallback<T> implements EmoteSet {
     private final Map<String, Emote> mEmoteMap = Collections.synchronizedMap(new LinkedHashMap<String, Emote>());
@@ -49,9 +51,8 @@ public abstract class BaseEmoteSet<T> extends ApiCallback<T> implements EmoteSet
     @Override
     public void onRequestFail(Call<T> call, FailReason reason) {
         if (reason == FailReason.NOT_FOUND) {
-            Logger.debug("NOT_FOUND");
+            Logger.debug("NOT_FOUND: " + call.request().toString());
             return;
-
         }
 
         if (retryCount < 3) {

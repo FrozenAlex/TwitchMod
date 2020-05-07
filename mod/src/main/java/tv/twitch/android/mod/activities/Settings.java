@@ -4,13 +4,12 @@ package tv.twitch.android.mod.activities;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 
-import androidx.appcompat.app.AppCompatActivity;
+import tv.twitch.android.core.activities.BaseActivity;
 
-import tv.twitch.android.mod.utils.SnackbarHelper;
+import static tv.twitch.android.mod.bridges.LoaderLS.PREFERENCES_ID;
 
 
-public class Settings extends AppCompatActivity {
-    public static int XML_ID = 0x7f160006;
+public class Settings extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -18,15 +17,13 @@ public class Settings extends AppCompatActivity {
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
-
-        SnackbarHelper.showUrl(this.findViewById(android.R.id.content), "github.com/nopbreak/TwitchMod", "https://github.com/nopbreak/TwitchMod");
     }
 
     public static class SettingsFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(XML_ID);
+            addPreferencesFromResource(PREFERENCES_ID);
         }
     }
 }

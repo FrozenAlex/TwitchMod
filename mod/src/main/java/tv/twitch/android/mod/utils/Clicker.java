@@ -1,8 +1,10 @@
 package tv.twitch.android.mod.utils;
 
+
 import android.view.View;
 
 import java.lang.ref.WeakReference;
+
 
 public class Clicker implements Runnable {
     final private WeakReference<View> mPointButton;

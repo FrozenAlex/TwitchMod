@@ -25,12 +25,11 @@
 
 # Twitch
 -keep class tv.twitch.** { *; }
--keep class com.google.android.material.snackbar.** { *; }
+
+# Mod
+-keep class com.swipper.library.** { *; }
+
+# Libs
+-keep class com.bumptech.glide.** { *; }
 -keep class com.google.android.exoplayer2.** { *; }
-
-# FakeLibs
--keep class io.branch.** { *; }
--keep class com.amazon.** { *; }
--keep class com.google.android.gms.ads.** { *; }
-
 -keep class androidx.appcompat.app.AppCompatActivity { *; }

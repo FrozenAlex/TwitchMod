@@ -1,6 +1,8 @@
 package tv.twitch.a.b.h;
 
-// Source: DynamicContentFetcher
+/**
+ * Source: DynamicContentFetcher
+ */
 public class d {
     private boolean e = true;
 

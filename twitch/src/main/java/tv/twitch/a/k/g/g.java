@@ -4,7 +4,9 @@ import java.util.List;
 
 import tv.twitch.android.models.chat.MessageToken;
 
-// Source: ChatMessageInterface
+/**
+ * Source: ChatMessageInterface
+ */
 public interface g {
     boolean a();
 

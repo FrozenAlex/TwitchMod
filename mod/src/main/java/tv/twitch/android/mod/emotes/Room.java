@@ -1,5 +1,6 @@
 package tv.twitch.android.mod.emotes;
 
+
 import java.util.Collection;
 
 import tv.twitch.android.mod.models.Emote;
@@ -13,8 +14,8 @@ class Room {
 
     public Room(int channelId) {
         mChannelId = channelId;
-        mBttvSet = new BttvChannelEmoteSet(this.mChannelId);
-        mFfzSet = new FfzChannelEmoteSet(this.mChannelId);
+        mBttvSet = new BttvChannelEmoteSet(getChannelId());
+        mFfzSet = new FfzChannelEmoteSet(getChannelId());
         requestEmotes();
     }
 

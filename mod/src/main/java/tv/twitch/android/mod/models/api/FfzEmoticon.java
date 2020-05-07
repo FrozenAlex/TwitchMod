@@ -1,8 +1,10 @@
 package tv.twitch.android.mod.models.api;
 
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.HashMap;
+
 
 public class FfzEmoticon {
     @SerializedName("id")

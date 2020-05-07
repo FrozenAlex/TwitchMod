@@ -1,19 +1,15 @@
 package tv.twitch.a.k.w;
 
-import tv.twitch.android.mod.bridges.LoaderLS;
+import tv.twitch.android.mod.bridges.Hooks;
 
 // Source: VideoDebugConfig
 public class v {
 
-    public final boolean org() { // TODO: __RENAME
+    public final boolean org() { // TODO: __RENAME__a
         return false;
     }
 
-    public final boolean a() { // TODO: __ADD
-        boolean org = org();
-        if (org)
-            return org;
-
-        return LoaderLS.getInstance().getPrefManager().isShowVideoDebugPanel();
+    public final boolean a() { // TODO: __INJECT_METHOD
+        return Hooks.hookVideoDebugPanel(org());
     }
 }

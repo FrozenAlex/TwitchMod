@@ -1,5 +1,6 @@
 package tv.twitch.android.mod.utils;
 
+
 import android.os.Handler;
 import android.text.Layout;
 import android.text.Spannable;
@@ -9,8 +10,9 @@ import android.text.style.ClickableSpan;
 import android.view.MotionEvent;
 import android.widget.TextView;
 
+
 public class LongClickLinkMovementMethod extends LinkMovementMethod {
-    private static final int LONG_CLICK_TIME = 700;
+    private static final int LONG_CLICK_TIME = 500;
 
     private static LongClickLinkMovementMethod sInstance;
 
@@ -48,8 +50,8 @@ public class LongClickLinkMovementMethod extends LinkMovementMethod {
                 ClickableSpan childClickableSpan = null;
 
                 for (ClickableSpan clickableSpan : link) {
-                    if (clickableSpan instanceof LongClickableMessage) {
-                        if (longClickableMessage == null)
+                    if (longClickableMessage == null)
+                        if (clickableSpan instanceof LongClickableMessage) {
                             longClickableMessage = (LongClickableMessage) clickableSpan;
                     } else if (childClickableSpan == null){
                         childClickableSpan = clickableSpan;

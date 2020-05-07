@@ -1,4 +1,4 @@
-# Version: 9.0.0
+# Version: 9.0.2
 
 com.google.gson.annotations.SerializedName -> com.google.gson.v.c:
 com.google.gson.Gson -> com.google.gson.f:
@@ -25,9 +25,3 @@ retrofit2.Retrofit$Builder -> retrofit2.m$b:
 retrofit2.Converter$Factory -> retrofit2.e$a:
 retrofit2.converter.gson.GsonConverterFactory -> retrofit2.p.a.a:
     51:51:retrofit2.converter.gson.GsonConverterFactory create(com.google.gson.Gson) -> a
-com.google.android.material.snackbar.Snackbar -> com.google.android.material.snackbar.Snackbar:
-    143:144:void show() -> m
-    179:181:com.google.android.material.snackbar.Snackbar make(android.view.View,java.lang.CharSequence,int) -> a
-    230:230:com.google.android.material.snackbar.Snackbar make(android.view.View,int,int) -> a
-    292:292:com.google.android.material.snackbar.Snackbar setAction(int,android.view.View$OnClickListener) -> a
-    303:323:com.google.android.material.snackbar.Snackbar setAction(java.lang.CharSequence,android.view.View$OnClickListener) -> a

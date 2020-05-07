@@ -1,5 +1,6 @@
 package tv.twitch.android.mod.emotes;
 
+
 import android.text.TextUtils;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import tv.twitch.android.mod.models.api.BttvEmoteResponse;
 import tv.twitch.android.mod.utils.Logger;
 
 import static tv.twitch.android.mod.net.ServiceFactory.getBttvApi;
+
 
 public class BttvGlobalEmoteSet extends BaseEmoteSet<List<BttvEmoteResponse>> {
     @Override

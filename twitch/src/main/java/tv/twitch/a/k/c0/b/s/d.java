@@ -1,6 +1,8 @@
 package tv.twitch.a.k.c0.b.s;
 
-// Source: MediaSpan
+/**
+ * Source: MediaSpan
+ */
 public enum d {
     c(24.0f), // Emote
     d(18.0f), // Badge
@@ -9,6 +11,9 @@ public enum d {
 
     d(float size) {}
 
+    /**
+     * @return span size
+     */
     public final float a() {
         return 0;
     }

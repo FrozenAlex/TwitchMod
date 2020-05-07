@@ -1,5 +1,6 @@
 package tv.twitch.android.mod.emotes;
 
+
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import tv.twitch.android.mod.models.Emote;
 import tv.twitch.android.mod.utils.Logger;
+
 
 public class EmoteManager {
     private static final BttvGlobalEmoteSet sGlobalSet = new BttvGlobalEmoteSet();
@@ -52,18 +54,9 @@ public class EmoteManager {
         sGlobalSet.fetch();
     }
 
-    public void requestIfNeed(int channelId) {
-        if (channelId == 0) {
-            return;
-        }
-
-        if (!mRooms.containsKey(channelId))
-            request(channelId);
-    }
-
     public Emote getEmote(String code, int channelId) {
         if (TextUtils.isEmpty(code)) {
-            Logger.error("Empty code");
+            Logger.error("empty code");
             return null;
         }
 
@@ -80,10 +73,8 @@ public class EmoteManager {
     }
 
     public void requestChannelEmoteSet(int channelId, boolean force) {
-        if (channelId == 0) {
-            Logger.error("Bad channelId");
+        if (channelId == 0)
             return;
-        }
 
         if (!force && mRooms.containsKey(channelId))
             return;
@@ -92,16 +83,18 @@ public class EmoteManager {
     }
 
     private synchronized void request(int channelId) {
-        if (channelId == 0) {
-            Logger.error("Bad channelId");
+        if (channelId == 0)
             return;
-        }
 
-        synchronized (mCurrentRoomRequests) {
-            mCurrentRoomRequests.add(channelId);
-            Room room = new Room(channelId);
-            mRooms.put(channelId, room);
-            mCurrentRoomRequests.remove(channelId);
+        if (!mCurrentRoomRequests.contains(channelId)) {
+            synchronized (mCurrentRoomRequests) {
+                if (!mCurrentRoomRequests.contains(channelId)) {
+                    mCurrentRoomRequests.add(channelId);
+                    Room room = new Room(channelId);
+                    mRooms.put(channelId, room);
+                    mCurrentRoomRequests.remove(channelId);
+                }
+            }
         }
     }
 }

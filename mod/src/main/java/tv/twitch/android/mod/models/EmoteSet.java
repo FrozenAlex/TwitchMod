@@ -1,6 +1,8 @@
 package tv.twitch.android.mod.models;
 
+
 import java.util.Collection;
+
 
 public interface EmoteSet {
     void addEmote(Emote emote);

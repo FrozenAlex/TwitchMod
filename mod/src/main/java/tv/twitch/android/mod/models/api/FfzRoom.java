@@ -1,6 +1,8 @@
 package tv.twitch.android.mod.models.api;
 
+
 import com.google.gson.annotations.SerializedName;
+
 
 public class FfzRoom {
     @SerializedName("set")

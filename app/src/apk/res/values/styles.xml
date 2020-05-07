@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.TwitchBase" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
+    </style>
+    <style name="Theme.Twitch" parent="@style/Theme.TwitchBase">
+    </style>
+</resources>

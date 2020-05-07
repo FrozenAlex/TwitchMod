@@ -1,5 +1,6 @@
 package tv.twitch.android.mod.utils;
 
+
 import android.text.style.ClickableSpan;
 import android.view.View;
 

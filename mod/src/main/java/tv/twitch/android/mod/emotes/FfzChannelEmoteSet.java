@@ -1,5 +1,6 @@
 package tv.twitch.android.mod.emotes;
 
+
 import android.text.TextUtils;
 
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import tv.twitch.android.mod.models.api.FfzSet;
 import tv.twitch.android.mod.utils.Logger;
 
 import static tv.twitch.android.mod.net.ServiceFactory.getFfzApi;
+
 
 public class FfzChannelEmoteSet extends BaseChannelEmoteSet<FfzResponse> {
     public FfzChannelEmoteSet(int channelId) {
@@ -29,7 +31,7 @@ public class FfzChannelEmoteSet extends BaseChannelEmoteSet<FfzResponse> {
         FfzRoom room = ffzResponse.getRoom();
 
         if (room == null) {
-            Logger.warning("Room is null");
+            Logger.error("ffz room is null");
             return;
         }
 
@@ -37,19 +39,19 @@ public class FfzChannelEmoteSet extends BaseChannelEmoteSet<FfzResponse> {
         HashMap<Integer, FfzSet> ffzSets = ffzResponse.getSets();
 
         if (ffzSets == null || ffzSets.isEmpty()) {
-            Logger.warning("Empty sets");
+            Logger.warning("empty sets");
             return;
         }
 
         FfzSet set = ffzSets.get(setId);
         if (set == null) {
-            Logger.error("Set not found: " + setId);
+            Logger.error("set not found: " + setId);
             return;
         }
 
         List<FfzEmoticon> emoticons = set.getEmoticons();
         if (emoticons == null || emoticons.isEmpty()) {
-            Logger.warning("Empty set");
+            Logger.warning("empty set");
             return;
         }
 

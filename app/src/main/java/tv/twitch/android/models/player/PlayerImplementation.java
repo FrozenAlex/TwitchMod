@@ -1,8 +1,8 @@
 package tv.twitch.android.models.player;
 
-import android.text.TextUtils;
 
-import tv.twitch.android.mod.bridges.LoaderLS;
+import tv.twitch.android.mod.bridges.Hooks;
+
 
 public enum PlayerImplementation {
     Core("playercore", "c"),
@@ -12,17 +12,9 @@ public enum PlayerImplementation {
     }
 
     public static final class Companion {
-        public final PlayerImplementation getProviderForName(String str) { // TODO: __ADD
-            if (TextUtils.isEmpty(str))
-                return org(str);
+        public final PlayerImplementation getProviderForName(String str) {
+            str = Hooks.hookPlayerProvider(str); // TODO: __HOOK_PARAM
 
-            if (LoaderLS.getInstance().getPrefManager().isExoPlayerOn())
-                return PlayerImplementation.Exo2;
-            else
-                return org(str);
-        }
-
-        public final PlayerImplementation org(String str) {  // TODO: __RENAME
             return null;
         }
     }

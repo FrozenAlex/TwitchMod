@@ -13,6 +13,8 @@ import tv.twitch.a.k.g.m0;
 import tv.twitch.android.mod.bridges.Hooks;
 import tv.twitch.android.mod.bridges.IChatMessageFactory;
 import tv.twitch.android.mod.bridges.LoaderLS;
+import tv.twitch.android.mod.emotes.EmoteManager;
+import tv.twitch.android.mod.settings.PrefManager;
 
 import static tv.twitch.android.mod.utils.ChatUtils.injectCopySpan;
 import static tv.twitch.android.mod.utils.ChatUtils.injectEmotesSpan;
@@ -24,7 +26,7 @@ public class a implements IChatMessageFactory { // TODO: __IMPLEMENT
     }
 
     private final CharSequence a(Object chatMessageInterface, int color, Object clickableUsernameSpanListener, boolean z, String str, String str2) {
-        color = Hooks.hookUsernameSpanColor(color); // TODO: __HOOK
+        color = Hooks.hookUsernameSpanColor(color); // TODO: __HOOK_PARAM
         return null;
     }
 
@@ -32,14 +34,14 @@ public class a implements IChatMessageFactory { // TODO: __IMPLEMENT
         try {
 // TODO: HOOK MESSAGE FACTORY RESULT
 //  invoke-static/range {v8 .. v22}, Ltv/twitch/a/k/g/e1/a;->a(Ltv/twitch/a/k/g/e1/a;Ltv/twitch/a/k/g/g;ZZZLtv/twitch/android/models/webview/WebViewSource;Ltv/twitch/a/k/c0/b/s/g;Ljava/lang/String;Ltv/twitch/a/k/g/e1/a$c;ILtv/twitch/a/k/g/p1/c;Ljava/lang/Integer;Ltv/twitch/android/core/mvp/viewdelegate/EventDispatcher;ILjava/lang/Object;)Landroid/text/SpannedString;
-//  move-result-object v10
-//  move-object/from16 v11, p1
+//  move-result-object v11
+//  move-object/from16 v10, p1
 //  move/from16 v12, p6
-//  invoke-direct {v8, v10, v11, v12}, Ltv/twitch/a/k/g/e1/a;->hookMessageMethodResult(Landroid/text/SpannedString;Ltv/twitch/a/k/g/g;I)Landroid/text/SpannedString;
+//  invoke-direct {v8, v10, v11, v12}, Ltv/twitch/a/k/g/e1/a;->hookMessageMethodResult(Ltv/twitch/a/k/g/g;Landroid/text/SpannedString;I)Landroid/text/SpannedString;
 //  move-result-object v10
 
             SpannedString message = new SpannedString("KEKW");
-            message = hookMessageMethodResult(message, chatMessageInterface, channelId);
+            message = hookMessageMethodResult(chatMessageInterface, message, channelId);
 
             return message;
         } catch (Throwable th) {
@@ -53,32 +55,34 @@ public class a implements IChatMessageFactory { // TODO: __IMPLEMENT
     }
 
     @Override
-    public CharSequence getSpannedEmote(String url, String emoteText, boolean isGif) { // TODO: __ADD
-        if (isGif)
-            return a(this, url, d.valueOf("AnimatedBit"), emoteText, null, false, 24, null);
-        else
-            return a(this, url, d.valueOf("Emote"), emoteText, null, false, 24, null);
+    public CharSequence getSpannedEmote(String url, String emoteText, boolean isGif) { // TODO: __INJECT_METHOD
+        return a(this, url, isGif ? d.valueOf("AnimatedBit") : d.valueOf("Emote"), emoteText, null, false, 24, null);
     }
 
-    private SpannedString hookMessageMethodResult(SpannedString orgMessage, g chatMessageInterface, int channelId) {  // TODO: __ADD
+    private SpannedString hookMessageMethodResult(g chatMessageInterface, SpannedString orgMessage, int channelId) { // TODO: __INJECT_METHOD
         try {
-            if (TextUtils.isEmpty(orgMessage)) {
+            if (TextUtils.isEmpty(orgMessage))
                 return orgMessage;
-            }
 
+            // if message deleted
             if (chatMessageInterface.a())
                 return orgMessage;
 
-            SpannedString spannedString = new SpannedString(orgMessage);
-            if (LoaderLS.getInstance().getPrefManager().isEmotesOn()) {
-                LoaderLS.getInstance().getEmoteManager().requestIfNeed(channelId);
-                spannedString = injectEmotesSpan(spannedString, channelId, this);
+            PrefManager manager = LoaderLS.getInstance().getPrefManager();
+
+            SpannedString res = new SpannedString(orgMessage);
+            if (manager.isEmotesOn()) {
+                EmoteManager emoteManager = LoaderLS.getInstance().getEmoteManager();
+                emoteManager.requestChannelEmoteSet(channelId, false);
+                res = injectEmotesSpan(this, emoteManager, orgMessage, channelId, manager.getEmoteSize());
             }
 
-            if (LoaderLS.getInstance().getPrefManager().isCopyMsgOn())
-                spannedString = injectCopySpan(spannedString, chatMessageInterface.e());
+            if (manager.isCopyMsgOn()) {
+                res = injectCopySpan(res, chatMessageInterface.e());
+            }
 
-            return spannedString;
+            return res;
+
         } catch (Throwable th) {
             th.printStackTrace();
         }

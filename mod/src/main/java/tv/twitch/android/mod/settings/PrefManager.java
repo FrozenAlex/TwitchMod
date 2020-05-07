@@ -1,5 +1,6 @@
 package tv.twitch.android.mod.settings;
 
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -7,6 +8,7 @@ import android.text.TextUtils;
 
 import tv.twitch.android.mod.models.Emote;
 import tv.twitch.android.mod.utils.Logger;
+
 
 public class PrefManager implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String PREF_KEY_EMOTES = "MOD_EMOTES";
@@ -37,9 +39,9 @@ public class PrefManager implements SharedPreferences.OnSharedPreferenceChangeLi
 
     public PrefManager(Context context) {
         mPref = PreferenceManager.getDefaultSharedPreferences(context);
-        mPref.registerOnSharedPreferenceChangeListener(this);
 
         setEmoteSize(getString(PREF_KEY_EMOTE_SIZE, "MEDIUM"));
+        mPref.registerOnSharedPreferenceChangeListener(this);
     }
 
     private boolean getBoolean(String key, boolean def) {
@@ -148,7 +150,6 @@ public class PrefManager implements SharedPreferences.OnSharedPreferenceChangeLi
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (sharedPreferences == null || TextUtils.isEmpty(key))
             return;
-
 
         if (key.equals(PREF_KEY_EMOTE_SIZE)) {
             setEmoteSize(sharedPreferences.getString(PREF_KEY_EMOTE_SIZE,"MEDIUM"));

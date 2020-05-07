@@ -3,9 +3,7 @@ package tv.twitch.a.k.c0.b.s;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 
-import tv.twitch.a.k.c0.b.s.d;
 
 // Source: UrlDrawable
 public class h extends BitmapDrawable { // TODO: __REMOVE_FINAL
@@ -25,6 +23,5 @@ public class h extends BitmapDrawable { // TODO: __REMOVE_FINAL
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        Log.d("DRAW", this.toString() + " == " + c.toString());
     }
 }

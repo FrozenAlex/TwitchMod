@@ -1,5 +1,7 @@
 package tv.twitch.a.b.h;
 
-// Source: NoParamDynamicContentFetcher
+/**
+ * Source: NoParamDynamicContentFetcher
+ */
 public class e extends d {
 }

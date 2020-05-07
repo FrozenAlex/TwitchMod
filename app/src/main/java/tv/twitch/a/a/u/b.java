@@ -11,7 +11,7 @@ public class b {
                 case 1:
                     break;
                 case 2:
-                    Helper.openSettings(); // TODO: __REPLACE
+                    Helper.openSettings(); // TODO: __CLEANUP, __INJECT_CODE
                     break;
                 case 3:
                 case 4:

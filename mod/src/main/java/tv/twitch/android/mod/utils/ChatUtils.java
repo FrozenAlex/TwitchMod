@@ -1,5 +1,6 @@
 package tv.twitch.android.mod.utils;
 
+
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -14,13 +15,11 @@ import java.util.List;
 import java.util.Locale;
 
 import tv.twitch.android.mod.bridges.IChatMessageFactory;
-import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.mod.emotes.EmoteManager;
 import tv.twitch.android.mod.models.Emote;
-import tv.twitch.android.mod.settings.PrefManager;
 import tv.twitch.android.models.chat.MessageToken;
 import tv.twitch.chat.ChatEmoticon;
-import tv.twitch.chat.ChatEmoticonSet;
+
 
 public class ChatUtils {
     public enum EmoteSet {
@@ -40,7 +39,7 @@ public class ChatUtils {
     }
 
     public static ChatEmoticon[] emotesToChatEmoticonArr(Collection<Emote> emoteList) {
-        if (emoteList == null)
+        if (emoteList == null || emoteList.size() == 0)
             return new ChatEmoticon[0];
 
         ChatEmoticon[] chatEmoticons = new ChatEmoticon[emoteList.size()];
@@ -77,45 +76,31 @@ public class ChatUtils {
         return stringBuilder.toString();
     }
 
-
     public static SpannedString injectCopySpan(SpannedString messageSpan, final List<MessageToken> tokens) {
         if (TextUtils.isEmpty(messageSpan)) {
-            Logger.warning("Empty messageSpan");
+            Logger.warning("empty message");
             return messageSpan;
         }
-        if (tokens == null) {
-            Logger.warning("tokens is null");
+
+        if (tokens == null || tokens.size() == 0) {
+            Logger.warning("message has no tokens");
             return messageSpan;
         }
+
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(messageSpan);
         spannableStringBuilder.setSpan(new CopyChatMessage(tokens), 0, messageSpan.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return SpannedString.valueOf(spannableStringBuilder);
     }
 
-    private static SpannableString getEmoteSpan(String word, int channelID, IChatMessageFactory factory) {
-        if (TextUtils.isEmpty(word)) {
-            Logger.warning("Empty word");
-            return null;
-        }
-
-        if (factory == null) {
-            Logger.error("factory is null");
-            return null;
-        }
-
-        Emote emote = LoaderLS.getInstance().getEmoteManager().getEmote(word, channelID);
-        PrefManager prefManager = LoaderLS.getInstance().getPrefManager();
-        if (emote != null) {
-            return (SpannableString) factory.getSpannedEmote(emote.getUrl(prefManager.getEmoteSize()), word, emote.isGif());
-        }
-
-        return null;
-    }
-
-    public static SpannedString injectEmotesSpan(SpannedString messageSpan, int channelID, IChatMessageFactory factory) {
+    public static SpannedString injectEmotesSpan(IChatMessageFactory factory, EmoteManager emoteManager, SpannedString messageSpan, int channelID, Emote.Size size) {
         if (TextUtils.isEmpty(messageSpan)) {
             Logger.warning("Empty messageSpan");
+            return messageSpan;
+        }
+
+        if (emoteManager == null) {
+            Logger.error("emoteManager is null");
             return messageSpan;
         }
 
@@ -126,31 +111,27 @@ public class ChatUtils {
 
         SpannableStringBuilder ssb = new SpannableStringBuilder(messageSpan);
 
-        boolean inWord = false;
-        int endPos = messageSpan.length();
-        for (int i = endPos-1; i >= 0; i--) {
-            final boolean isSpace = messageSpan.charAt(i) == ' ';
+        boolean newWord = false;
+        int startPos = 0;
+        int messageLength = messageSpan.length();
 
-            if (isSpace) {
-                if (inWord) {
-                    inWord = false;
-                    SpannableString emoteSpan = getEmoteSpan(String.valueOf(messageSpan.subSequence(i+1, endPos)), channelID, factory);
-                    if (emoteSpan != null) {
-                        ssb.replace(i+1, endPos, emoteSpan);
-                    }
+        for (int currentPos = 0; currentPos <= messageLength; currentPos++) {
+            if (currentPos != messageLength && messageSpan.charAt(currentPos) != ' ') {
+                if (!newWord) {
+                    newWord = true;
+                    startPos = currentPos;
                 }
             } else {
-                if (!inWord) {
-                    inWord = true;
-                    endPos = i + 1;
-                }
-            }
-            if (i == 0) {
-                if (inWord) {
-                    inWord = false;
-                    SpannableString emoteSpan = getEmoteSpan(String.valueOf(messageSpan.subSequence(0, endPos)), channelID, factory);
-                    if (emoteSpan != null) {
-                        ssb.replace(0, endPos, emoteSpan);
+                if (newWord) {
+                    newWord = false;
+
+                    String code = String.valueOf(messageSpan.subSequence(startPos, currentPos));
+                    Emote emote = emoteManager.getEmote(code, channelID);
+                    if (emote != null) {
+                        SpannableString emoteSpan = (SpannableString) factory.getSpannedEmote(emote.getUrl(size), emote.getCode(), emote.isGif());
+                        if (emoteSpan != null) {
+                            ssb.replace(startPos, currentPos, emoteSpan);
+                        }
                     }
                 }
             }
@@ -158,5 +139,4 @@ public class ChatUtils {
 
         return SpannedString.valueOf(ssb);
     }
-
 }

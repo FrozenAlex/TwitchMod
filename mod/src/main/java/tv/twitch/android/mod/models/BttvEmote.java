@@ -1,10 +1,12 @@
 package tv.twitch.android.mod.models;
 
+
 import androidx.annotation.NonNull;
 
+import tv.twitch.android.mod.bridges.ChatFactory;
 import tv.twitch.android.mod.models.api.BttvEmoteResponse;
 import tv.twitch.chat.ChatEmoticon;
-import tv.twitch.chat.ChatEmoticonUrl;
+
 
 public final class BttvEmote implements Emote {
     private static final String sUrlTemplate = "https://cdn.betterttv.net/emote/";
@@ -56,7 +58,7 @@ public final class BttvEmote implements Emote {
         if (ce == null) {
             synchronized (this) {
                 if (ce == null) {
-                    ce = new ChatEmoticonUrl(getCode(), getUrl(Size.LARGE));
+                    this.ce = ChatFactory.getEmoticon(getUrl(Size.LARGE), getCode());
                 }
             }
         }

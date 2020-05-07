@@ -1,14 +1,15 @@
 package tv.twitch.android.mod.net;
 
+
 import static tv.twitch.android.mod.bridges.RetrofitUtils.getRetrofitClient;
+
 
 public class ServiceFactory {
     private static final String BTTV_API = "https://api.betterttv.net/";
     private static final String FFZ_API = "https://api.frankerfacez.com/";
 
-    private static BttvApi mBttvApi;
-    private static FfzApi mFfzApi;
-
+    private static volatile BttvApi mBttvApi;
+    private static volatile FfzApi mFfzApi;
 
     public static BttvApi getBttvApi() {
         if (mBttvApi == null) {

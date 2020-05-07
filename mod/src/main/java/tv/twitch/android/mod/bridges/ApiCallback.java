@@ -1,8 +1,10 @@
 package tv.twitch.android.mod.bridges;
 
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 public abstract class ApiCallback<T> implements Callback<T> {
     public enum FailReason {
@@ -36,10 +38,12 @@ public abstract class ApiCallback<T> implements Callback<T> {
             onRequestFail(call, FailReason.UNSUCCESSFUL);
             return;
         }
+
         if (response.body() == null) {
             onRequestFail(call, FailReason.NULL_BODY);
             return;
         }
+
         onRequestSuccess(response.body());
     }
 

@@ -1,5 +1,6 @@
 package tv.twitch.android.mod.emotes;
 
+
 import android.text.TextUtils;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import tv.twitch.android.mod.models.api.BttvEmoteResponse;
 import tv.twitch.android.mod.utils.Logger;
 
 import static tv.twitch.android.mod.net.ServiceFactory.getBttvApi;
+
 
 public class BttvChannelEmoteSet extends BaseChannelEmoteSet<BttvChannelResponse> {
     BttvChannelEmoteSet(int channelId) {
@@ -22,7 +24,7 @@ public class BttvChannelEmoteSet extends BaseChannelEmoteSet<BttvChannelResponse
 
     @Override
     public void onRequestSuccess(BttvChannelResponse bttvResponse) {
-        if (bttvResponse == null)  {
+        if (bttvResponse == null) {
             Logger.error("bttvResponse is null");
             return;
         }

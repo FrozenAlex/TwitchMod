@@ -1,6 +1,8 @@
 package tv.twitch.android.mod.models;
 
+
 import tv.twitch.chat.ChatEmoticon;
+
 
 public interface Emote {
     String getCode();

@@ -11,7 +11,6 @@ public class t {
     private final ViewGroup b = null;
 
     private final void e(CommunityPointsModel communityPointsModel) {
-
-        Hooks.setClicker(b, communityPointsModel); // TODO: __ADD_END
+        Hooks.setClicker(b, communityPointsModel); // TODO: __CALL_METHOD_END
     }
 }
