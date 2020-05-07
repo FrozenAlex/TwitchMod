@@ -27,7 +27,7 @@
 -keep class tv.twitch.** { *; }
 
 # Mod
--keep class com.swipper.library.** { *; }
+
 
 # Libs
 -keep class com.bumptech.glide.** { *; }

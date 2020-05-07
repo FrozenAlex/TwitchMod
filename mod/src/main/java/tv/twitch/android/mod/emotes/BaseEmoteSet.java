@@ -51,7 +51,7 @@ public abstract class BaseEmoteSet<T> extends ApiCallback<T> implements EmoteSet
     @Override
     public void onRequestFail(Call<T> call, FailReason reason) {
         if (reason == FailReason.NOT_FOUND) {
-            Logger.debug("NOT_FOUND: " + call.request().toString());
+            Logger.debug("NOT_FOUND");
             return;
         }
 

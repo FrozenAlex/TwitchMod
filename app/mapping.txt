@@ -2,9 +2,8 @@
 
 com.google.gson.annotations.SerializedName -> com.google.gson.v.c:
 com.google.gson.Gson -> com.google.gson.f:
+okhttp3.Request -> j.d0:
 retrofit2.Call -> retrofit2.b:
-    retrofit2.Call clone() -> clone
-    void enqueue(retrofit2.Callback) -> a
 retrofit2.Callback -> retrofit2.d:
     void onFailure(retrofit2.Call,java.lang.Throwable) -> a
     void onResponse(retrofit2.Call,retrofit2.Response) -> a
