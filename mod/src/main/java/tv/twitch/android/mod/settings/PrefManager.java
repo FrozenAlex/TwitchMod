@@ -27,6 +27,8 @@ public class PrefManager implements SharedPreferences.OnSharedPreferenceChangeLi
     private static final String PREF_KEY_EMOTE_SIZE = "MOD_EMOTE_SIZE2";
     private static final String PREF_KEY_VIDEO_DEBUG = "MOD_VIDEO_DEBUG";
     private static final String PREF_KEY_ADBLOCK = "MOD_ADBLOCK";
+    private static final String PREF_KEY_SWIPE_VOLUME = "MOD_SWIPE_VOLUME";
+    private static final String PREF_KEY_SWIPE_BRIGHTNESS = "MOD_SWIPE_BRIGHTNESS";
     private static final String PREF_KEY_TWITCH_DARK_THEME_ENABLED = "dark_theme_enabled";
 
     private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
@@ -136,6 +138,14 @@ public class PrefManager implements SharedPreferences.OnSharedPreferenceChangeLi
 
     public float getMiniplayerSize() {
         return Float.parseFloat(getString(PREF_KEY_MINIPLAYER_SIZE, "1.0"));
+    }
+
+    public boolean isVolumeSwipeEnabled() {
+        return getBoolean(PREF_KEY_SWIPE_VOLUME, false);
+    }
+
+    public boolean isBrightnessSwipeEnabled() {
+        return getBoolean(PREF_KEY_SWIPE_BRIGHTNESS, false);
     }
 
     private synchronized void setEmoteSize(String size) {

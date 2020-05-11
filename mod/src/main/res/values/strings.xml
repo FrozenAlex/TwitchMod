@@ -5,6 +5,7 @@
     <string name="mod_category_settings_player_category">Player</string>
     <string name="mod_category_settings_patch">Patch</string>
     <string name="mod_category_settings_following">Following</string>
+    <string name="mod_category_settings_swipe">Swipe controls</string>
     <!-- BTTV -->
     <string name="mod_bttv_settings_bttv_emotes">Enable</string>
     <string name="mod_bttv_settings_bttv_widget">Emote menu</string>
@@ -29,4 +30,7 @@
     <string name="mod_following_settings_disable_recommendations">Hide «Recommended Streams»</string>
     <string name="mod_following_settings_disable_resume_watching">Hide «Recent Watching»</string>
     <string name="mod_following_settings_disable_followed_games">Hide «Followed Games»</string>
+    <!-- Swipe -->
+    <string name="mod_swipe_settings_enable_volume">Volume</string>
+    <string name="mod_swipe_settings_enable_brightness">Brightness</string>
 </resources>

@@ -52,6 +52,8 @@ public class SwipperOverlay extends RelativeLayout {
         progress.setId(View.generateViewId());
         progress.setTextSize(PROGRESS_TEXT_SIZE);
         progress.setTextColor(Color.WHITE);
+        progress.setPadding(5,5,5,5);
+        progress.setShadowLayer(10.0f, 0.0f, 0.0f, Color.BLACK);
 
         RelativeLayout.LayoutParams textParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         textParam.addRule(RelativeLayout.CENTER_VERTICAL);

@@ -78,6 +78,17 @@
                 android:title="@string/mod_player_settings_exoplayer_speed">
             </ListPreference>
         </PreferenceCategory>
+        <PreferenceScreen
+            android:title="@string/mod_category_settings_swipe">
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="MOD_SWIPE_VOLUME"
+                android:title="@string/mod_swipe_settings_enable_volume" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="MOD_SWIPE_BRIGHTNESS"
+                android:title="@string/mod_swipe_settings_enable_brightness" />
+        </PreferenceScreen>
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/mod_category_settings_patch">
         <PreferenceScreen android:title="@string/mod_category_settings_following">
