@@ -11,6 +11,6 @@ import tv.twitch.android.mod.bridges.Hooks;
 public class v {
     public final void a(Toolbar toolbar) {
         View networkImageWidget = null;
-        Hooks.setOpenModMenu(networkImageWidget); // TODO: __INJECT_CALL
+        Hooks.setLongClickableModMenu(networkImageWidget); // TODO: __INJECT_CALL
     }
 }

@@ -353,6 +353,22 @@ public class Hooks {
         helper.setCurrentChannel(event.a().getId());
     }
 
+    public static void setLongClickableModMenu(View view) {
+        if (view == null) {
+            Logger.error("view is null");
+            return;
+        }
+
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Helper.openSettings();
+
+                return true;
+            }
+        });
+    }
+
     /**
      * Some hooks
      */
