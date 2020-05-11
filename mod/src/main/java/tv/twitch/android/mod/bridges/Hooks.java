@@ -320,10 +320,10 @@ public class Hooks {
      */
     public static boolean isAdBlockJump() {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
-        if (!manager.isAdblockOn())
-            return false;
+        if (manager.isAdblockOn())
+            return true;
 
-        return true;
+        return false;
     }
 
     /**
