@@ -3,6 +3,7 @@ package tv.twitch.android.mod.utils;
 import android.graphics.drawable.Drawable;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.widget.TextView;
 
 import com.bumptech.glide.load.n.g.c;
 
@@ -15,6 +16,13 @@ import tv.twitch.android.mod.bridges.IMessageRecyclerItem;
 
 
 public class GifHelper {
+    public static void recycle(TextView textView) {
+        if (textView == null)
+            return;
+
+        recycle((Spanned) textView.getText(), false);
+    }
+
     public static void recycle(List<t> list) {
         if (list == null || list.size() == 0) {
             return;
@@ -45,11 +53,11 @@ public class GifHelper {
 
     public static void recycle(t item) {
         if (item instanceof IMessageRecyclerItem) {
-            recycle(((IMessageRecyclerItem) item).getSpanned());
+            recycle(((IMessageRecyclerItem) item).getSpanned(), true);
         }
     }
 
-    public static void recycle(Spanned spanned) {
+    public static void recycle(Spanned spanned, boolean clear) {
         if (TextUtils.isEmpty(spanned)) {
             Logger.debug("empty spanned");
             return;
@@ -80,21 +88,14 @@ public class GifHelper {
 
                 if (drawable instanceof c) {
                     c gifDrawable = (c) drawable;
-                    removeCallbacks(gifDrawable);
+                    Logger.debug("gifDrawable=" + Integer.toHexString(gifDrawable.hashCode()));
+                    gifDrawable.stop();
+                    if (clear) {
+                        Logger.debug("recycled");
+                        gifDrawable.clearCallbacks();
+                    }
                 }
             }
         }
-    }
-
-    public static void removeCallbacks(c gifDrawable) {
-        if (gifDrawable == null) {
-            Logger.debug("gifDrawable is null");
-            return;
-        }
-
-        Logger.debug("gifDrawable=" + Integer.toHexString(gifDrawable.hashCode()));
-
-        gifDrawable.setCallback(null);
-        gifDrawable.stop();
     }
 }

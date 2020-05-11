@@ -29,6 +29,10 @@ public class b implements IMessageRecyclerItem { // TODO: __IMPLEMENT
         public a(View view) {
             this.t.setMovementMethod(LongClickLinkMovementMethod.getInstance()); // TODO: __REPLACE
         }
+
+        public final TextView E() {
+            return this.t;
+        }
     }
 
     public void g() {
