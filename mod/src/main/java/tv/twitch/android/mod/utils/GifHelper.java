@@ -93,6 +93,8 @@ public class GifHelper {
                     if (clear) {
                         Logger.debug("recycled");
                         gifDrawable.clearCallbacks();
+                        gifDrawable.setCallback(null);
+                        //gifDrawable.g();
                     }
                 }
             }
