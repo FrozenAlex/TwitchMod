@@ -46,7 +46,7 @@
     </PreferenceScreen>
     <PreferenceScreen android:title="@string/mod_category_settings_player_category">
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="MOD_ADBLOCK"
             android:title="@string/mod_player_settings_adblock" />
         <SwitchPreference

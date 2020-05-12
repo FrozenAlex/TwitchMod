@@ -65,7 +65,7 @@ public class PrefManager implements SharedPreferences.OnSharedPreferenceChangeLi
     }
 
     public boolean isAdblockOn() {
-        return getBoolean(PREF_KEY_ADBLOCK, false);
+        return getBoolean(PREF_KEY_ADBLOCK, true);
     }
 
     public boolean isEmotesOn() {
