@@ -11,16 +11,4 @@ public class z {
     public ChatEmoticonSet[] b() { // TODO: __REPLACE_METHOD
         return Hooks.hookChatEmoticonSet(this.k);
     }
-
-    class a implements IChatAPIListener {
-
-        @Override
-        public void chatUserEmoticonSetsChanged(int i2, ChatEmoticonSet[] chatEmoticonSetArr) {
-            chatEmoticonSetArr = Hooks.hookChatEmoticonSet(chatEmoticonSetArr); // TODO: __HOOK_PARAM
-        }
-    }
-
-    public /* synthetic */ void a(Object errorCode, ChatEmoticonSet[] chatEmoticonSetArr) {
-        chatEmoticonSetArr = Hooks.hookChatEmoticonSet(chatEmoticonSetArr); // TODO: __HOOK_PARAM
-    }
 }
