@@ -6,6 +6,7 @@
     <string name="mod_category_settings_player_category">Плеер</string>
     <string name="mod_category_settings_patch">Патчи</string>
     <string name="mod_category_settings_following">Остлеживаемое</string>
+    <string name="mod_category_settings_swipe">Настройка свайпов</string>
     <!-- BTTV -->
     <string name="mod_bttv_settings_bttv_emotes">Включить</string>
     <string name="mod_bttv_settings_bttv_widget">Интегрировать в «Меню смайлов»</string>
@@ -30,4 +31,6 @@
     <string name="mod_following_settings_disable_recommendations">Скрыть «Рекомендуемые каналы»</string>
     <string name="mod_following_settings_disable_resume_watching">Скрыть «Продолжить просмотр»</string>
     <string name="mod_following_settings_disable_followed_games">Скрыть «Отслеживаемые категории»</string>
+    <string name="mod_swipe_settings_enable_volume">Громкость</string>
+    <string name="mod_swipe_settings_enable_brightness">Яркость</string>
 </resources>
