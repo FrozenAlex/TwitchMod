@@ -88,10 +88,8 @@ public class GifHelper {
 
                 if (drawable instanceof c) {
                     c gifDrawable = (c) drawable;
-                    Logger.debug("gifDrawable=" + Integer.toHexString(gifDrawable.hashCode()));
                     gifDrawable.stop();
                     if (clear) {
-                        Logger.debug("recycled");
                         gifDrawable.clearCallbacks();
                         gifDrawable.setCallback(null);
                         //gifDrawable.g();

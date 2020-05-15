@@ -6,7 +6,9 @@ import tv.twitch.android.core.adapters.d0;
 import tv.twitch.android.core.adapters.t;
 import tv.twitch.android.mod.utils.GifHelper;
 
-// Source: ChommentChatAdapter
+/**
+ * Source: ChommentChatAdapter
+ */
 public class c extends d0 {
     public void a(List<? extends t> list) {
         int size = 0;

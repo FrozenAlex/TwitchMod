@@ -19,7 +19,9 @@ import tv.twitch.android.mod.settings.PrefManager;
 import static tv.twitch.android.mod.utils.ChatUtils.injectCopySpan;
 import static tv.twitch.android.mod.utils.ChatUtils.injectEmotesSpan;
 
-// Source: ChatMessageFactory
+/**
+ * Source: ChatMessageFactory
+ */
 public class a implements IChatMessageFactory { // TODO: __IMPLEMENT
     static CharSequence a(a factory, String url, tv.twitch.a.k.c0.b.s.d mediaSpan, String text, m0 urlImageClickableProvider, boolean z, int i2, Object obj) {
         return null;

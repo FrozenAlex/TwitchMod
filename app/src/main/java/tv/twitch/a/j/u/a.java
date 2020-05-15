@@ -4,7 +4,9 @@ package tv.twitch.a.j.u;
 import tv.twitch.android.mod.bridges.Hooks;
 
 
-// Source: SearchSuggestionAdapterBinder
+/**
+ * Source: SearchSuggestionAdapterBinder
+ */
 public class a {
 
     public final void a(Object obj) {

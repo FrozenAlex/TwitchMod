@@ -3,5 +3,4 @@ package tv.twitch.a.b.h;
 /**
  * Source: NoParamDynamicContentFetcher
  */
-public class e extends d {
-}
+public class e extends d {}

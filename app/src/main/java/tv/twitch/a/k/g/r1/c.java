@@ -4,7 +4,9 @@ import android.content.Context;
 
 import tv.twitch.chat.ChatEmoticon;
 
-// Source: ChatEmoticonUtils
+/**
+ * Source: ChatEmoticonUtils
+ */
 public final class c {
     public static String a(Context context, ChatEmoticon chatEmoticon) { // TODO: __INJECT_METHOD
         if (chatEmoticon.url != null)

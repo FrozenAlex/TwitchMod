@@ -2,9 +2,12 @@ package tv.twitch.android.shared.chat.messageinput.u;
 
 import tv.twitch.android.mod.bridges.Hooks;
 
-// Source: EmoteAdapterSection
+/**
+ * Source: EmoteAdapterSection
+ */
 public class d {
     private final String e = "";
+
 
     private final String k() {
         return null;

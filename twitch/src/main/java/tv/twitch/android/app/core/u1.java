@@ -8,9 +8,8 @@ import android.app.Activity;
 public class u1 {
     public static final a a = new a();
 
-    public static final class a {
-        public final void c(Activity activity) {
 
-        }
+    public static final class a {
+        public final void c(Activity activity) {}
     }
 }

@@ -16,31 +16,24 @@ import java.util.List;
 public class c extends Drawable {
     private List<Object> l; // callbacks
 
-    @Override
-    public void draw(@NonNull Canvas canvas) {
-
-    }
 
     @Override
-    public void setAlpha(int alpha) {
-
-    }
+    public void draw(@NonNull Canvas canvas) {}
 
     @Override
-    public void setColorFilter(@Nullable ColorFilter colorFilter) {
+    public void setAlpha(int alpha) {}
 
-    }
+    @Override
+    public void setColorFilter(@Nullable ColorFilter colorFilter) {}
 
     @Override
     public int getOpacity() {
         return 0;
     }
 
-    public void start() {
-    }
+    public void start() {}
 
-    public void stop() {
-    }
+    public void stop() {}
 
     // recycle
     public void g() {};

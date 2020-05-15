@@ -3,7 +3,9 @@ package tv.twitch.a.a.u;
 import tv.twitch.android.mod.utils.Helper;
 
 
-// Source: QuickSettingsPresenter
+/**
+ * Source: QuickSettingsPresenter
+ */
 public class b {
     public static final class a {
         public void a(Object bVar) {

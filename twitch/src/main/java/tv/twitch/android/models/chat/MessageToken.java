@@ -1,9 +1,7 @@
 package tv.twitch.android.models.chat;
 
-public abstract class MessageToken {
-    public static final class BitsToken extends MessageToken {
-    }
 
+public abstract class MessageToken {
     public static final class EmoticonToken extends MessageToken {
         public final String getText() {
             return "";

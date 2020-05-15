@@ -9,6 +9,7 @@ public enum d {
     e(18.0f), // Reward
     f(24.0f); // AnimatedBit
 
+
     d(float size) {}
 
     /**
@@ -16,5 +17,5 @@ public enum d {
      */
     public final float a() {
         return 0;
-    }
+}
 }

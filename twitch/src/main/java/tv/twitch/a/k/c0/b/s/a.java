@@ -8,6 +8,9 @@ import android.graphics.drawable.Drawable;
  * Source: CenteredImageSpan
  */
 public class a {
+    /**
+     * @return UrlDrawable
+     */
     public final Drawable a() {
         return null;
     }

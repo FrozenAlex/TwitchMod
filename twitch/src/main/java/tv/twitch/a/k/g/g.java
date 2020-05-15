@@ -10,12 +10,16 @@ import tv.twitch.android.models.chat.MessageToken;
 public interface g {
     boolean a();
 
-    // UserName
+    /**
+     * @return Username
+     */
     String b();
 
     boolean c();
 
-    // UserId
+    /**
+     * @return User ID
+     */
     int d();
 
     List<MessageToken> e();

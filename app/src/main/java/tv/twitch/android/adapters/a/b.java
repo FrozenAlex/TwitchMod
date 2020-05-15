@@ -9,10 +9,13 @@ import tv.twitch.android.mod.bridges.Hooks;
 import tv.twitch.android.mod.bridges.IMessageRecyclerItem;
 import tv.twitch.android.mod.utils.LongClickLinkMovementMethod;
 
-// Source: MessageRecyclerItem
+/**
+ * Source: MessageRecyclerItem
+ */
 public class b implements IMessageRecyclerItem { // TODO: __IMPLEMENT
     private boolean j;
     private Spanned f;
+
 
     public b(Context context, String messageId, int i2, String str2, String str3, int i3, Spanned message, Object systemMessageType, float f2, int i4, float f3, boolean z) {
         message = Hooks.addTimestampToMessage(message, messageId); // TODO: __HOOK_PARAM

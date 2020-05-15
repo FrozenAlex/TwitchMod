@@ -6,6 +6,7 @@ package tv.twitch.a.b.h;
 public class d {
     private boolean e = true;
 
+
     public boolean j() { // TODO: __CHANGE_MOD
         return this.e;
     }

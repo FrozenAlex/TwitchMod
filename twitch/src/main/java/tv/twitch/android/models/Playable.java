@@ -1,5 +1,4 @@
 package tv.twitch.android.models;
 
 
-public interface Playable {
-}
+public interface Playable {}

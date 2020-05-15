@@ -13,7 +13,11 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LoaderLS.XML_ID = R.xml.mod_preferences;
+        fixIDs();
         startActivity(new Intent(getApplicationContext(), Settings.class));
+    }
+
+    private void fixIDs() {
+        LoaderLS.PREFERENCES_ID = R.xml.mod_preferences;
     }
 }

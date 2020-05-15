@@ -2,7 +2,9 @@ package tv.twitch.android.feature.theatre.common;
 
 import tv.twitch.android.mod.bridges.Hooks;
 
-// Source: MiniPlayerSize
+/**
+ * Source: MiniPlayerSize
+ */
 public class i {
 
     // Source: b()

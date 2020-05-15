@@ -2,9 +2,10 @@ package tv.twitch.a.k.w;
 
 import tv.twitch.android.mod.bridges.Hooks;
 
-// Source: VideoDebugConfig
+/**
+ * Source: VideoDebugConfig
+ */
 public class v {
-
     public final boolean org() { // TODO: __RENAME__a
         return false;
     }
