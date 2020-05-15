@@ -27,6 +27,7 @@
     <string name="mod_player_settings_miniplayer_size">Размер мини-плеера</string>
     <!-- Patch -->
     <string name="mod_patch_settings_disable_recent_search">Отключить историю недавнего поиска</string>
+    <string name="mod_patch_settings_dev_mod">Режим разработчика</string>
     <!-- Following -->
     <string name="mod_following_settings_disable_recommendations">Скрыть «Рекомендуемые каналы»</string>
     <string name="mod_following_settings_disable_resume_watching">Скрыть «Продолжить просмотр»</string>

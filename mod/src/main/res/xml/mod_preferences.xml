@@ -109,6 +109,10 @@
             android:defaultValue="false"
             android:key="MOD_DISABLE_RECENT_SEARCH"
             android:title="@string/mod_patch_settings_disable_recent_search" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="MOD_DEV_MOD"
+            android:title="@string/mod_patch_settings_dev_mod" />
     </PreferenceScreen>
     <PreferenceCategory
         android:title="Info">

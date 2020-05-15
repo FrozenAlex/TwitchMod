@@ -29,6 +29,7 @@ public class PrefManager implements SharedPreferences.OnSharedPreferenceChangeLi
     private static final String PREF_KEY_ADBLOCK = "MOD_ADBLOCK";
     private static final String PREF_KEY_SWIPE_VOLUME = "MOD_SWIPE_VOLUME";
     private static final String PREF_KEY_SWIPE_BRIGHTNESS = "MOD_SWIPE_BRIGHTNESS";
+    private static final String PREF_KEY_DEV_MODE = "MOD_DEV_MOD";
     private static final String PREF_KEY_TWITCH_DARK_THEME_ENABLED = "dark_theme_enabled";
 
     private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
@@ -146,6 +147,10 @@ public class PrefManager implements SharedPreferences.OnSharedPreferenceChangeLi
 
     public boolean isBrightnessSwipeEnabled() {
         return getBoolean(PREF_KEY_SWIPE_BRIGHTNESS, false);
+    }
+
+    public boolean isDevModeOn() {
+        return getBoolean(PREF_KEY_DEV_MODE, false);
     }
 
     private synchronized void setEmoteSize(String size) {

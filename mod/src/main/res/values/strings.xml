@@ -26,6 +26,7 @@
     <string name="mod_player_settings_miniplayer_size">Mini player size</string>
     <!-- Patch -->
     <string name="mod_patch_settings_disable_recent_search">Disable recent searches</string>
+    <string name="mod_patch_settings_dev_mod">Developer mode</string>
     <!-- Following -->
     <string name="mod_following_settings_disable_recommendations">Hide «Recommended Streams»</string>
     <string name="mod_following_settings_disable_resume_watching">Hide «Recent Watching»</string>

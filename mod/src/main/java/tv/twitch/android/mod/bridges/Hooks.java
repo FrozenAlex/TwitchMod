@@ -327,6 +327,17 @@ public class Hooks {
     }
 
     /**
+     * Class: *.*
+     */
+    public static boolean isDevModeOn() {
+        PrefManager manager = LoaderLS.getInstance().getPrefManager();
+        if (manager.isDevModeOn())
+            return true;
+
+        return false;
+    }
+
+    /**
      * Class: RecommendationAutoPlayPresenter
      * signature: public final void prepareRecommendationForCurrentModel(T t)
      */
