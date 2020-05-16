@@ -12,6 +12,7 @@
     <string name="mod_bttv_settings_bttv_widget">Emote menu</string>
     <string name="mod_bttv_settings_emote_size">Source emote size</string>
     <!-- Chat -->
+    <string name="mod_chat_settings_floating_chat">Floating chat</string>
     <string name="mod_chat_settings_show_del_messages">Reveal deleted messages</string>
     <string name="mod_chat_settings_timestamps">Timestamps</string>
     <string name="mod_chat_settings_copymsg">Tap and hold on the message to copy</string>

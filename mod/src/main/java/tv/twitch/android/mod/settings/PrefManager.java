@@ -32,6 +32,7 @@ public class PrefManager implements SharedPreferences.OnSharedPreferenceChangeLi
     public static final String PREF_KEY_DEV_MODE = "MOD_DEV_MOD";
     public static final String PREF_KEY_HIDE_DISCOVER = "MOD_HIDE_NAVIGATION_DISCOVER";
     public static final String PREF_KEY_HIDE_ESPORTS = "MOD_HIDE_NAVIGATION_ESPORTS";
+    public static final String PREF_KET_FLOATING_CHAT = "MOD_FLOATING_CHAT";
     public static final String PREF_KEY_TWITCH_DARK_THEME_ENABLED = "dark_theme_enabled";
 
     public static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
@@ -161,6 +162,10 @@ public class PrefManager implements SharedPreferences.OnSharedPreferenceChangeLi
 
     public boolean isHideEsportsTab() {
         return getBoolean(PREF_KEY_HIDE_ESPORTS, false);
+    }
+
+    public boolean isFloatingChatEnabled() {
+        return getBoolean(PREF_KET_FLOATING_CHAT, false);
     }
 
     private synchronized void setEmoteSize(String size) {

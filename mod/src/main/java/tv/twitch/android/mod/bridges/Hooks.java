@@ -395,6 +395,17 @@ public class Hooks {
     }
 
     /**
+     * Class: *.*
+     */
+    public final static boolean isFloatingChatEnabled() {
+        PrefManager manager = LoaderLS.getInstance().getPrefManager();
+        if (manager.isFloatingChatEnabled())
+            return true;
+
+        return false;
+    }
+
+    /**
      * Some hooks
      */
     public final static void helper() {
