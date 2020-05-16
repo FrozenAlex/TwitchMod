@@ -92,7 +92,6 @@ public class GifHelper {
                     if (clear) {
                         gifDrawable.clearCallbacks();
                         gifDrawable.setCallback(null);
-                        //gifDrawable.g();
                     }
                 }
             }

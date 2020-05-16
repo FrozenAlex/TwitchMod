@@ -105,6 +105,18 @@
                 android:key="MOD_DISABLE_FOLLOWED_GAMES"
                 android:title="@string/mod_following_settings_disable_followed_games" />
         </PreferenceScreen>
+        <PreferenceScreen android:title="@string/mod_category_settings_navigation">
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="MOD_HIDE_NAVIGATION_DISCOVER"
+                android:summary="@string/mod_need_restart_summary"
+                android:title="@string/mod_navigation_settings_hide_discover" />
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="MOD_HIDE_NAVIGATION_ESPORTS"
+                android:summary="@string/mod_need_restart_summary"
+                android:title="@string/mod_navigation_settings_hide_esports" />
+        </PreferenceScreen>
         <SwitchPreference
             android:defaultValue="false"
             android:key="MOD_DISABLE_RECENT_SEARCH"

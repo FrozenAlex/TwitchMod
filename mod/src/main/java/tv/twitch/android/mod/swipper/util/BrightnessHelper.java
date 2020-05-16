@@ -10,9 +10,14 @@ public class BrightnessHelper {
         return Math.max((int) (layoutParams.screenBrightness * 100), 0);
     }
 
-    public static void setWindowBrightness(Activity context, int val){
+    public static void setWindowBrightness(Activity context, int val) {
         WindowManager.LayoutParams layoutParams = context.getWindow().getAttributes();
-        layoutParams.screenBrightness = ((float) val) / 100;
+
+        float brightness = ((float) val) / 100;
+        if (brightness <= 0)
+            brightness = 0.01f;
+
+        layoutParams.screenBrightness = brightness;
         context.getWindow().setAttributes(layoutParams);
     }
 }

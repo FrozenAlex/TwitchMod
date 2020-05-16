@@ -11,7 +11,7 @@ public class d {
 
     private final String k() {
         return null;
-    };
+    }
 
     public void a(Object b0Var) {
 //        invoke-direct {p0}, Ltv/twitch/android/shared/chat/messageinput/u/d;->k()Ljava/lang/String;

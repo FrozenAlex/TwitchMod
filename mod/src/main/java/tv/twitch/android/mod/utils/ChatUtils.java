@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
 
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -18,7 +17,6 @@ import tv.twitch.android.mod.bridges.IChatMessageFactory;
 import tv.twitch.android.mod.emotes.EmoteManager;
 import tv.twitch.android.mod.models.Emote;
 import tv.twitch.android.models.chat.MessageToken;
-import tv.twitch.chat.ChatEmoticon;
 
 
 public class ChatUtils {
@@ -36,20 +34,6 @@ public class ChatUtils {
         public String getId() {
             return mId;
         }
-    }
-
-    public static ChatEmoticon[] emotesToChatEmoticonArr(Collection<Emote> emoteList) {
-        if (emoteList == null || emoteList.size() == 0)
-            return new ChatEmoticon[0];
-
-        ChatEmoticon[] chatEmoticons = new ChatEmoticon[emoteList.size()];
-
-        int i = 0;
-        for (Emote emote : emoteList) {
-            chatEmoticons[i++] = emote.getChatEmoticon();
-        }
-
-        return chatEmoticons;
     }
 
     public static Spanned addTimestamp(Spanned spanned, Date date) {

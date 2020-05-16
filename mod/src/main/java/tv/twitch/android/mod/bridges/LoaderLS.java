@@ -14,6 +14,7 @@ import tv.twitch.android.mod.utils.Logger;
 
 public class LoaderLS extends TwitchApplication {
     public static int PREFERENCES_ID = 0x7f160006;
+    public static int PLAYER_OVERLAY_ID = 0x7f0b05ec;
 
     private EmoteManager sEmoteManager;
     private PrefManager sPrefManager;

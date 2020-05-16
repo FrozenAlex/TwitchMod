@@ -63,7 +63,7 @@ public class Hooks {
      * Class: EmoteAdapterSection
      * signature: public void a(RecyclerView.b0 b0Var)
      */
-    public static String hookSetName(String org, String setId) {
+    public final static String hookSetName(String org, String setId) {
         PrefManager prefManager = LoaderLS.getInstance().getPrefManager();
         if (!prefManager.isHookEmoticonSetOn())
             return org;
@@ -85,7 +85,7 @@ public class Hooks {
      * Class: MessageRecyclerItem
      * signature: public void g()
      */
-    public static boolean hookMsgRemover(boolean org) {
+    public final static boolean hookMsgRemover(boolean org) {
         PrefManager prefManager = LoaderLS.getInstance().getPrefManager();
         if (!prefManager.isPreventMsg())
             return org;
@@ -97,7 +97,7 @@ public class Hooks {
      * Class: CommunityPointsButtonViewDelegate
      * signature: private final void e(CommunityPointsModel communityPointsModel)
      */
-    public static void setClicker(final View pointButtonView, CommunityPointsModel pointsModel) {
+    public final static void setClicker(final View pointButtonView, CommunityPointsModel pointsModel) {
         PrefManager prefManager = LoaderLS.getInstance().getPrefManager();
         if (!prefManager.isClickerOn())
             return;
@@ -110,7 +110,7 @@ public class Hooks {
      * Class: StandaloneMediaClock
      * signatute: private PlaybackParameters f = PlaybackParameters.e;
      */
-    public static PlaybackParameters hookVodPlayerStandaloneMediaClockInit(PlaybackParameters org) {
+    public final static PlaybackParameters hookVodPlayerStandaloneMediaClockInit(PlaybackParameters org) {
         PrefManager prefManager = LoaderLS.getInstance().getPrefManager();
         float speed = prefManager.getExoplayerSpeed();
         if (speed == org.a)
@@ -137,7 +137,7 @@ public class Hooks {
      * Class: MessageRecyclerItem
      * signature:
      */
-    public static Spanned addTimestampToMessage(Spanned message, String messageId) {
+    public final static Spanned addTimestampToMessage(Spanned message, String messageId) {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (!manager.isTimestampsOn())
             return message;
@@ -152,7 +152,7 @@ public class Hooks {
      * Class: ChatController
      * signature: ChatEmoticonSet[] b()
      */
-    public static ChatEmoticonSet[] hookChatEmoticonSet(ChatEmoticonSet[] orgSet) {
+    public final static ChatEmoticonSet[] hookChatEmoticonSet(ChatEmoticonSet[] orgSet) {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (!manager.isHookEmoticonSetOn())
             return orgSet;
@@ -163,7 +163,7 @@ public class Hooks {
         Helper helper = LoaderLS.getInstance().getHelper();
         EmoteManager emoteManager = LoaderLS.getInstance().getEmoteManager();
 
-        int currentChannel = helper.getCurrentChannel();
+        final int currentChannel = helper.getCurrentChannel();
         Collection<Emote> globalEmotes = emoteManager.getGlobalEmotes();
         Collection<Emote> bttvEmotes = emoteManager.getBttvEmotes(currentChannel);
         Collection<Emote> ffzEmotes = emoteManager.getFfzEmotes(currentChannel);
@@ -171,21 +171,9 @@ public class Hooks {
         ChatEmoticonSet[] newSet = new ChatEmoticonSet[orgSet.length+3];
         System.arraycopy(orgSet, 0, newSet, 0, orgSet.length);
 
-        ChatEmoticonSet bttvEmoticonSet = new ChatEmoticonSet();
-        bttvEmoticonSet.emoticonSetId = ChatUtils.EmoteSet.BTTV.getId();
-        bttvEmoticonSet.emoticons = ChatUtils.emotesToChatEmoticonArr(bttvEmotes);
-
-        ChatEmoticonSet ffzEmoticonSet = new ChatEmoticonSet();
-        ffzEmoticonSet.emoticonSetId = ChatUtils.EmoteSet.FFZ.getId();
-        ffzEmoticonSet.emoticons = ChatUtils.emotesToChatEmoticonArr(ffzEmotes);
-
-        ChatEmoticonSet globalEmoticonSet = new ChatEmoticonSet();
-        globalEmoticonSet.emoticonSetId = ChatUtils.EmoteSet.GLOBAL.getId();
-        globalEmoticonSet.emoticons = ChatUtils.emotesToChatEmoticonArr(globalEmotes);
-
-        newSet[newSet.length-1] = bttvEmoticonSet;
-        newSet[newSet.length-2] = ffzEmoticonSet;
-        newSet[newSet.length-3] = globalEmoticonSet;
+        newSet[newSet.length-1] = ChatFactory.getSet(ChatUtils.EmoteSet.BTTV.getId(), bttvEmotes);
+        newSet[newSet.length-2] = ChatFactory.getSet(ChatUtils.EmoteSet.FFZ.getId(), ffzEmotes);
+        newSet[newSet.length-3] = ChatFactory.getSet(ChatUtils.EmoteSet.GLOBAL.getId(), globalEmotes);
 
         return newSet;
     }
@@ -193,7 +181,7 @@ public class Hooks {
     /**
      * Class: *.*
      */
-    public static boolean hookAd(boolean org) {
+    public final static boolean hookAd(boolean org) {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (manager.isAdblockOn())
             return false;
@@ -205,7 +193,7 @@ public class Hooks {
      * Class: ChatConnectionController
      * signature: private final void a(ChannelInfo channelInfo)
      */
-    public static void requestEmotes(ChannelInfo channelInfo) {
+    public final static void requestEmotes(ChannelInfo channelInfo) {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (!manager.isEmotesOn())
             return;
@@ -218,7 +206,7 @@ public class Hooks {
      * Class: ModelTheatreModeTracker
      * signature: public c(f1 f1Var, Playable playable, Object pageViewTracker)
      */
-    public static void requestEmotes(final f1 playableModelParser, final Playable playable) {
+    public final static void requestEmotes(final f1 playableModelParser, final Playable playable) {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (!manager.isEmotesOn())
             return;
@@ -231,7 +219,7 @@ public class Hooks {
      * Class: FollowedGamesFetcher
      * signature: public final boolean j()
      */
-    public static boolean hookFollowerFetcher(boolean org) {
+    public final static boolean hookFollowerFetcher(boolean org) {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (!manager.isDisableFollowedGames())
             return org;
@@ -243,7 +231,7 @@ public class Hooks {
      * Class: RecommendedStreamsFetcher
      * signature: public final boolean j()
      */
-    public static boolean hookRecommendedFetcher(boolean org) {
+    public final static boolean hookRecommendedFetcher(boolean org) {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (!manager.isDisableRecommendations())
             return org;
@@ -255,7 +243,7 @@ public class Hooks {
      * Class: ResumeWatchingVideosFetcher
      * signature: public final boolean j()
      */
-    public static boolean hookResumeWatchingFetcher(boolean org) {
+    public final static boolean hookResumeWatchingFetcher(boolean org) {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (!manager.isDisableRecentWatching())
             return org;
@@ -267,7 +255,7 @@ public class Hooks {
      * Class: VideoDebugConfig
      * signature: public final boolean a()
      */
-    public static boolean hookVideoDebugPanel(boolean org) {
+    public final static boolean hookVideoDebugPanel(boolean org) {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (!manager.isShowVideoDebugPanel())
             return org;
@@ -279,7 +267,7 @@ public class Hooks {
      * Class: MiniPlayerSize
      * signature: public final int b()
      */
-    public static int hookMiniplayerSize(int size) {
+    public final static int hookMiniplayerSize(int size) {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         float k = manager.getMiniplayerSize();
         if (k == 1.0f)
@@ -292,7 +280,7 @@ public class Hooks {
      * Class: PlayerImplementation
      * signature: public final PlayerImplementation getProviderForName(String str)
      */
-    public static String hookPlayerProvider(String org) {
+    public final static String hookPlayerProvider(String org) {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (!manager.isExoPlayerOn())
             return org;
@@ -307,7 +295,7 @@ public class Hooks {
      * Class: SearchSuggestionAdapterBinder
      * signature: public final void a(Object obj)
      */
-    public static boolean isJumpDisRecentSearch() {
+    public final static boolean isJumpDisRecentSearch() {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (!manager.isDisableRecentSearch())
             return false;
@@ -318,7 +306,7 @@ public class Hooks {
     /**
      * Class: *.*
      */
-    public static boolean isAdBlockJump() {
+    public final static boolean isAdBlockJump() {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (manager.isAdblockOn())
             return true;
@@ -329,7 +317,7 @@ public class Hooks {
     /**
      * Class: *.*
      */
-    public static boolean isDevModeOn() {
+    public final static boolean isDevModeOn() {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (manager.isDevModeOn())
             return true;
@@ -341,7 +329,7 @@ public class Hooks {
      * Class: RecommendationAutoPlayPresenter
      * signature: public final void prepareRecommendationForCurrentModel(T t)
      */
-    public static boolean isJumpDisableAutoplay() {
+    public final static boolean isJumpDisableAutoplay() {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (!manager.isDisableAutoplay())
             return false;
@@ -350,11 +338,10 @@ public class Hooks {
     }
 
     /**
-     * For injecting emotes in emote menu we need known current channel id
      * Class: ChatMessageInputViewPresenter
      * signature: public final void a(b bVar)
      */
-    public static void setCurrentChannel(b event) {
+    public final static void setCurrentChannel(b event) {
         if (event == null) {
             Logger.error("event is null");
             return;
@@ -364,7 +351,12 @@ public class Hooks {
         helper.setCurrentChannel(event.a().getId());
     }
 
-    public static void setLongClickableModMenu(View view) {
+
+    /**
+     * Source: ToolbarPresenter
+     * signature: a(Toolbar toolbar)
+     */
+    public final static void setLongClickableModMenu(View view) {
         if (view == null) {
             Logger.error("view is null");
             return;
@@ -381,9 +373,31 @@ public class Hooks {
     }
 
     /**
+     * Class: *.*
+     */
+    public final static boolean isHideDiscoverTab() {
+        PrefManager manager = LoaderLS.getInstance().getPrefManager();
+        if (manager.isHideDiscoverTab())
+            return true;
+
+        return false;
+    }
+
+    /**
+     * Class: *.*
+     */
+    public final static boolean isHideEsportsTab() {
+        PrefManager manager = LoaderLS.getInstance().getPrefManager();
+        if (manager.isHideEsportsTab())
+            return true;
+
+        return false;
+    }
+
+    /**
      * Some hooks
      */
-    public static void helper() {
+    public final static void helper() {
         if (!isAdBlockJump()) {
         } // TODO: __HOOK
         boolean ad = hookAd(true); // TODO: __HOOK

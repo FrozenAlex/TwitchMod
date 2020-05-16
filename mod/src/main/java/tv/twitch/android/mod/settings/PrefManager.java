@@ -11,32 +11,34 @@ import tv.twitch.android.mod.utils.Logger;
 
 
 public class PrefManager implements SharedPreferences.OnSharedPreferenceChangeListener {
-    private static final String PREF_KEY_EMOTES = "MOD_EMOTES";
-    private static final String PREF_KEY_DISABLE_GIFS = "MOD_DISABLE_GIFS2";
-    private static final String PREF_KEY_SHOW_DEL_MESSAGES = "MOD_SHOW_DEL_MESSAGES";
-    private static final String PREF_KEY_EMOTE_PICKER = "MOD_EMOTE_PICKER";
-    private static final String PREF_KEY_POINTS = "MOD_POINTS";
-    private static final String PREF_KEY_TIMESTAMPS = "MOD_TIMESTAMPS";
-    private static final String PREF_KEY_EXOPLAYER = "MOD_EXOPLAYER";
-    private static final String PREF_KEY_COPY_MSG = "MOD_COPY_MSG";
-    private static final String PREF_KEY_DISABLE_PLAYER_AUTOPLAY = "MOD_DISABLE_AUTOPLAY";
-    private static final String PREF_KEY_DISABLE_RECENT_SEARCH = "MOD_DISABLE_RECENT_SEARCH";
-    private static final String PREF_KEY_FIX_BRIGHTNESS  = "MOD_FIX_BRIGHTNESS";
-    private static final String PREF_KEY_EXOPLAYER_SPEED_LIST  = "MOD_EXOPLAYER_SPEED2";
-    private static final String PREF_KEY_MINIPLAYER_SIZE  = "MOD_MINIPLAYER_SIZE";
-    private static final String PREF_KEY_EMOTE_SIZE = "MOD_EMOTE_SIZE2";
-    private static final String PREF_KEY_VIDEO_DEBUG = "MOD_VIDEO_DEBUG";
-    private static final String PREF_KEY_ADBLOCK = "MOD_ADBLOCK";
-    private static final String PREF_KEY_SWIPE_VOLUME = "MOD_SWIPE_VOLUME";
-    private static final String PREF_KEY_SWIPE_BRIGHTNESS = "MOD_SWIPE_BRIGHTNESS";
-    private static final String PREF_KEY_DEV_MODE = "MOD_DEV_MOD";
-    private static final String PREF_KEY_TWITCH_DARK_THEME_ENABLED = "dark_theme_enabled";
+    public static final String PREF_KEY_EMOTES = "MOD_EMOTES";
+    public static final String PREF_KEY_DISABLE_GIFS = "MOD_DISABLE_GIFS2";
+    public static final String PREF_KEY_SHOW_DEL_MESSAGES = "MOD_SHOW_DEL_MESSAGES";
+    public static final String PREF_KEY_EMOTE_PICKER = "MOD_EMOTE_PICKER";
+    public static final String PREF_KEY_POINTS = "MOD_POINTS";
+    public static final String PREF_KEY_TIMESTAMPS = "MOD_TIMESTAMPS";
+    public static final String PREF_KEY_EXOPLAYER = "MOD_EXOPLAYER";
+    public static final String PREF_KEY_COPY_MSG = "MOD_COPY_MSG";
+    public static final String PREF_KEY_DISABLE_PLAYER_AUTOPLAY = "MOD_DISABLE_AUTOPLAY";
+    public static final String PREF_KEY_DISABLE_RECENT_SEARCH = "MOD_DISABLE_RECENT_SEARCH";
+    public static final String PREF_KEY_FIX_BRIGHTNESS  = "MOD_FIX_BRIGHTNESS";
+    public static final String PREF_KEY_EXOPLAYER_SPEED_LIST  = "MOD_EXOPLAYER_SPEED2";
+    public static final String PREF_KEY_MINIPLAYER_SIZE  = "MOD_MINIPLAYER_SIZE";
+    public static final String PREF_KEY_EMOTE_SIZE = "MOD_EMOTE_SIZE2";
+    public static final String PREF_KEY_VIDEO_DEBUG = "MOD_VIDEO_DEBUG";
+    public static final String PREF_KEY_ADBLOCK = "MOD_ADBLOCK";
+    public static final String PREF_KEY_SWIPE_VOLUME = "MOD_SWIPE_VOLUME";
+    public static final String PREF_KEY_SWIPE_BRIGHTNESS = "MOD_SWIPE_BRIGHTNESS";
+    public static final String PREF_KEY_DEV_MODE = "MOD_DEV_MOD";
+    public static final String PREF_KEY_HIDE_DISCOVER = "MOD_HIDE_NAVIGATION_DISCOVER";
+    public static final String PREF_KEY_HIDE_ESPORTS = "MOD_HIDE_NAVIGATION_ESPORTS";
+    public static final String PREF_KEY_TWITCH_DARK_THEME_ENABLED = "dark_theme_enabled";
 
-    private static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
-    private static final String PREF_KEY_DISABLE_FOLLOWED_GAMES = "MOD_DISABLE_FOLLOWED_GAMES";
-    private static final String PREF_KEY_DISABLE_RECENT_WATCHING = "MOD_DISABLE_RESUME_WATCHING";
+    public static final String PREF_KEY_DISABLE_RECOMMENDATIONS = "MOD_DISABLE_RECOMMENDATIONS";
+    public static final String PREF_KEY_DISABLE_FOLLOWED_GAMES = "MOD_DISABLE_FOLLOWED_GAMES";
+    public static final String PREF_KEY_DISABLE_RECENT_WATCHING = "MOD_DISABLE_RESUME_WATCHING";
 
-    private SharedPreferences mPref;
+    private final SharedPreferences mPref;
 
     private Emote.Size mEmoteSize;
 
@@ -153,6 +155,14 @@ public class PrefManager implements SharedPreferences.OnSharedPreferenceChangeLi
         return getBoolean(PREF_KEY_DEV_MODE, false);
     }
 
+    public boolean isHideDiscoverTab() {
+        return getBoolean(PREF_KEY_HIDE_DISCOVER, false);
+    }
+
+    public boolean isHideEsportsTab() {
+        return getBoolean(PREF_KEY_HIDE_ESPORTS, false);
+    }
+
     private synchronized void setEmoteSize(String size) {
         mEmoteSize = Emote.Size.valueOf(size);
     }
@@ -166,8 +176,10 @@ public class PrefManager implements SharedPreferences.OnSharedPreferenceChangeLi
         if (sharedPreferences == null || TextUtils.isEmpty(key))
             return;
 
-        if (key.equals(PREF_KEY_EMOTE_SIZE)) {
-            setEmoteSize(sharedPreferences.getString(PREF_KEY_EMOTE_SIZE,"MEDIUM"));
+        switch (key) {
+            case PREF_KEY_EMOTE_SIZE:
+                setEmoteSize(sharedPreferences.getString(PREF_KEY_EMOTE_SIZE,"MEDIUM"));
+                break;
         }
     }
 }

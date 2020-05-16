@@ -28,18 +28,28 @@ public class Swipper implements GestureDetector.OnGestureListener {
     private final Handler mHandler;
     private Runnable mProgressHide;
 
-    private boolean mIsLeftArea = false;
+    private boolean bIsLeftArea = false;
 
     private int mOldVolume;
     private int mOldBrightness;
 
-    private boolean mIsVolumeSwipeEnabled = false;
-    private boolean mIsBrightnessSwipeEnabled = false;
+    private boolean bIsVolumeSwipeEnabled = false;
+    private boolean bIsBrightnessSwipeEnabled = false;
 
 
-    public void initialize(ViewGroup viewGroup) {
-        mIsVolumeSwipeEnabled = false;
-        mIsBrightnessSwipeEnabled = false;
+    public Swipper(Activity activity) {
+        mContext = activity;
+        mHandler = new Handler();
+
+        mGestureDetector = new GestureDetector(mContext, this);
+        mAudioManager = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
+
+        mSwipperOverlay = new SwipperOverlay(mContext);
+    }
+
+    public void setTwitchOverlay(ViewGroup viewGroup) {
+        bIsVolumeSwipeEnabled = false;
+        bIsBrightnessSwipeEnabled = false;
 
         RelativeLayout.LayoutParams overlayParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 
@@ -56,8 +66,12 @@ public class Swipper implements GestureDetector.OnGestureListener {
         mSwipperOverlay.requestLayout();
     }
 
+    public boolean isEnabled() {
+        return bIsVolumeSwipeEnabled || bIsBrightnessSwipeEnabled;
+    }
+
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        if (!mIsVolumeSwipeEnabled && !mIsBrightnessSwipeEnabled)
+        if (!isEnabled())
             return false;
 
         switch (motionEvent.getActionMasked()) {
@@ -89,7 +103,7 @@ public class Swipper implements GestureDetector.OnGestureListener {
     public boolean onDown(MotionEvent e) {
         mOldBrightness = BrightnessHelper.getWindowBrightness(mContext);
         mOldVolume = getSystemVolume();
-        mIsLeftArea = e.getX() < mSwipperOverlay.getWidth() / 2.0f;
+        bIsLeftArea = e.getX() < mSwipperOverlay.getWidth() / 2.0f;
 
         return false;
     }
@@ -98,13 +112,13 @@ public class Swipper implements GestureDetector.OnGestureListener {
     public boolean onScroll(MotionEvent downEvent, MotionEvent moveEvent, float distanceX, float distanceY) {
         final float diff = downEvent.getY() - moveEvent.getY();
 
-        if (mIsLeftArea) {
-            if (!mIsBrightnessSwipeEnabled)
+        if (bIsLeftArea) {
+            if (!bIsBrightnessSwipeEnabled)
                 return false;
 
             updateBrightnessProgress(diff);
         } else {
-            if (!mIsVolumeSwipeEnabled)
+            if (!bIsVolumeSwipeEnabled)
                 return false;
 
             updateVolumeProgress(diff);
@@ -113,30 +127,12 @@ public class Swipper implements GestureDetector.OnGestureListener {
         return true;
     }
 
-    public Swipper(Activity activity) {
-        mContext = activity;
-        mHandler = new Handler();
-
-        mGestureDetector = new GestureDetector(mContext, this);
-        mAudioManager = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);
-
-        mSwipperOverlay = new SwipperOverlay(mContext);
-    }
-
     public void enableVolumeSwipe() {
-        mIsVolumeSwipeEnabled = true;
+        bIsVolumeSwipeEnabled = true;
     }
 
     public void enableBrightnessSwipe() {
-        mIsBrightnessSwipeEnabled = true;
-    }
-
-    public boolean isBrightnessSwipeEnabled() {
-        return mIsBrightnessSwipeEnabled;
-    }
-
-    public boolean isVolumeSwipeEnabled() {
-        return mIsVolumeSwipeEnabled;
+        bIsBrightnessSwipeEnabled = true;
     }
 
     public int getSystemMaxVolume() {

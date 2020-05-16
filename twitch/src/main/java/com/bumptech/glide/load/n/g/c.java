@@ -36,7 +36,7 @@ public class c extends Drawable {
     public void stop() {}
 
     // recycle
-    public void g() {};
+    public void g() {}
 
     public void clearCallbacks() { // TODO: __INJECT_METHOD
         if (l != null) {

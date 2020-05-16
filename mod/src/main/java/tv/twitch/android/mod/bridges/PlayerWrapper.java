@@ -11,50 +11,64 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import tv.twitch.android.mod.settings.PrefManager;
 import tv.twitch.android.mod.swipper.Swipper;
 import tv.twitch.android.mod.utils.Logger;
 
 public class PlayerWrapper extends RelativeLayout {
-    private static final int PLAYER_OVERLAY_ID = 0x7f0b05ec;
 
+    private static final int STATUS_BAR_HEIGHT = 25;
     private static int TOP_PADDING_IGNORE = 25;
 
     private ViewGroup mPlayerOverlayContainer;
-    private Swipper mSwipper;
+    private final Swipper mSwipper;
 
     private int mTouchSlop;
-    private boolean mIsScrolling = false;
-    private boolean mInScrollArea = false;;
+    private boolean bIsScrolling = false;
+    private boolean bInScrollArea = false;
     private int mStartPosY = 0;
     private int mStartPosX = 0;
 
     public PlayerWrapper(Context context) {
         super(context);
+        mSwipper = new Swipper((Activity) context);
     }
 
     public PlayerWrapper(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mSwipper = new Swipper((Activity) context);
     }
 
     public PlayerWrapper(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mSwipper = new Swipper((Activity) context);
     }
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        TOP_PADDING_IGNORE = Math.round(25 * this.getResources().getDisplayMetrics().density);
+        TOP_PADDING_IGNORE = Math.round(STATUS_BAR_HEIGHT * this.getResources().getDisplayMetrics().density);
 
-        mTouchSlop = ViewConfiguration.get(this.getContext()).getScaledTouchSlop();
-        mPlayerOverlayContainer = findViewById(PLAYER_OVERLAY_ID);
+        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+        mPlayerOverlayContainer = findViewById(LoaderLS.PLAYER_OVERLAY_ID);
 
-        mSwipper = new Swipper((Activity) getContext());
-        mSwipper.initialize(mPlayerOverlayContainer);
+        if (mPlayerOverlayContainer == null) {
+            Logger.error("mPlayerOverlayContainer is null");
+            return;
+        }
 
-        if (LoaderLS.getInstance().getPrefManager().isVolumeSwipeEnabled())
+        initializeSwipper();
+    }
+
+    private void initializeSwipper() {
+        mSwipper.setTwitchOverlay(mPlayerOverlayContainer);
+
+        PrefManager prefManager = LoaderLS.getInstance().getPrefManager();
+        if (prefManager.isVolumeSwipeEnabled())
             mSwipper.enableVolumeSwipe();
-        if (LoaderLS.getInstance().getPrefManager().isBrightnessSwipeEnabled())
+
+        if (prefManager.isBrightnessSwipeEnabled())
             mSwipper.enableBrightnessSwipe();
     }
 
@@ -62,13 +76,13 @@ public class PlayerWrapper extends RelativeLayout {
     public boolean onInterceptTouchEvent(MotionEvent event) {
         final int action = event.getAction();
 
-        if (!mSwipper.isBrightnessSwipeEnabled() && !mSwipper.isVolumeSwipeEnabled())
+        if (!mSwipper.isEnabled())
             return false;
 
         switch (action) {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                mIsScrolling = false;
+                bIsScrolling = false;
                 mStartPosY = -1;
                 mStartPosX = -1;
 
@@ -79,37 +93,37 @@ public class PlayerWrapper extends RelativeLayout {
                 mStartPosY = Math.round(event.getY());
                 mStartPosX = Math.round(event.getX());
 
-                mInScrollArea = checkArea(event);
-                mIsScrolling = false;
+                bInScrollArea = checkArea(event);
+                bIsScrolling = false;
 
                 mSwipper.onTouchEvent(event);
 
                 return false;
             case MotionEvent.ACTION_MOVE: {
-                if (!mInScrollArea)
+                if (!bInScrollArea)
                     return false;
 
-                if (mIsScrolling)
+                if (bIsScrolling)
                     return true;
 
                 if (event.getPointerCount() > 1) {
                     Logger.debug("Ignore scrolling: multi touch, val="+event.getPointerCount());
-                    mInScrollArea = false;
-                    mIsScrolling = false;
+                    bInScrollArea = false;
+                    bIsScrolling = false;
                     return false;
                 }
 
                 int diff = getDistance(event);
                 if (diff > mTouchSlop) {
                     Logger.debug("SCROLLING");
-                    mIsScrolling = true;
+                    bIsScrolling = true;
                     return true;
                 }
                 break;
             }
             case MotionEvent.ACTION_POINTER_DOWN:
-                mInScrollArea = false;
-                mIsScrolling = false;
+                bInScrollArea = false;
+                bIsScrolling = false;
                 return false;
         }
 
