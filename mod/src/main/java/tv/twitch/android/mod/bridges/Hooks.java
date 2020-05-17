@@ -142,9 +142,6 @@ public class Hooks {
         if (!manager.isTimestampsOn())
             return message;
 
-        if (TextUtils.isEmpty(message) || TextUtils.isEmpty(messageId))
-            return message;
-
         return ChatUtils.addTimestamp(message, new Date());
     }
 
