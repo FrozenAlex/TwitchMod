@@ -13,6 +13,7 @@ import static tv.twitch.android.mod.swipper.util.DimensionConverter.dipToPix;
 public class SwipperOverlay extends RelativeLayout {
     private final static int MAX_BRIGHTNESS = 100;
     private final static int PROGRESS_TEXT_SIZE = 45;
+    private final static float SHADOW_SIZE = 2.0f;
 
     private final Context mContext;
     private final VerticalProgressBar volumeProgressBar;
@@ -53,7 +54,7 @@ public class SwipperOverlay extends RelativeLayout {
         progress.setTextSize(PROGRESS_TEXT_SIZE);
         progress.setTextColor(Color.WHITE);
         progress.setPadding(5,5,5,5);
-        progress.setShadowLayer(1.0f, 0.0f, 0.0f, Color.BLACK);
+        progress.setShadowLayer(SHADOW_SIZE, 0.0f, 0.0f, Color.BLACK);
 
         RelativeLayout.LayoutParams textParam = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         textParam.addRule(RelativeLayout.CENTER_VERTICAL);

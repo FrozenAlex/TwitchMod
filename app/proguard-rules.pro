@@ -26,9 +26,6 @@
 # Twitch
 -keep class tv.twitch.** { *; }
 
-# Mod
-
-
 # Libs
 -keep class com.bumptech.glide.** { *; }
 -keep class com.google.android.exoplayer2.** { *; }

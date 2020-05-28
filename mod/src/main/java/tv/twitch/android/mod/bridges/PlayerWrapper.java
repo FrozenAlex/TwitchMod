@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -18,16 +19,18 @@ import tv.twitch.android.mod.utils.Logger;
 public class PlayerWrapper extends RelativeLayout {
 
     private static final int STATUS_BAR_HEIGHT = 25;
-    private static int TOP_PADDING_IGNORE = 25;
+    private static int PADDING_IGNORE = 25;
 
     private ViewGroup mPlayerOverlayContainer;
+    private ViewGroup mDebugPanelContainer;
+    private ViewGroup mFloatingChatContainer;
     private final Swipper mSwipper;
 
     private int mTouchSlop;
-    private boolean bIsScrolling = false;
     private boolean bInScrollArea = false;
     private int mStartPosY = 0;
     private int mStartPosX = 0;
+
 
     public PlayerWrapper(Context context) {
         super(context);
@@ -48,13 +51,23 @@ public class PlayerWrapper extends RelativeLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        TOP_PADDING_IGNORE = Math.round(STATUS_BAR_HEIGHT * this.getResources().getDisplayMetrics().density);
+        PADDING_IGNORE = Math.round(STATUS_BAR_HEIGHT * this.getResources().getDisplayMetrics().density);
 
-        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+        mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 2;
         mPlayerOverlayContainer = findViewById(LoaderLS.PLAYER_OVERLAY_ID);
+        mFloatingChatContainer = findViewById(LoaderLS.FLOATING_CHAT_CONTAINER_ID);
+        mDebugPanelContainer = findViewById(LoaderLS.DEBUG_PANEL_CONTAINER_ID);
 
         if (mPlayerOverlayContainer == null) {
             Logger.error("mPlayerOverlayContainer is null");
+            return;
+        }
+        if (mFloatingChatContainer == null) {
+            Logger.error("mFloatingChatContainer is null");
+            return;
+        }
+        if (mDebugPanelContainer == null) {
+            Logger.error("mDebugPanelContainer is null");
             return;
         }
 
@@ -62,7 +75,7 @@ public class PlayerWrapper extends RelativeLayout {
     }
 
     private void initializeSwipper() {
-        mSwipper.setTwitchOverlay(mPlayerOverlayContainer);
+        mSwipper.setOverlay(mPlayerOverlayContainer);
 
         PrefManager prefManager = LoaderLS.getInstance().getPrefManager();
         if (prefManager.isVolumeSwipeEnabled())
@@ -82,7 +95,6 @@ public class PlayerWrapper extends RelativeLayout {
         switch (action) {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                bIsScrolling = false;
                 mStartPosY = -1;
                 mStartPosX = -1;
 
@@ -94,7 +106,6 @@ public class PlayerWrapper extends RelativeLayout {
                 mStartPosX = Math.round(event.getX());
 
                 bInScrollArea = checkArea(event);
-                bIsScrolling = false;
 
                 mSwipper.onTouchEvent(event);
 
@@ -103,52 +114,104 @@ public class PlayerWrapper extends RelativeLayout {
                 if (!bInScrollArea)
                     return false;
 
-                if (bIsScrolling)
-                    return true;
-
                 if (event.getPointerCount() > 1) {
                     Logger.debug("Ignore scrolling: multi touch, val="+event.getPointerCount());
                     bInScrollArea = false;
-                    bIsScrolling = false;
                     return false;
                 }
 
                 int diff = getDistance(event);
                 if (diff > mTouchSlop) {
                     Logger.debug("SCROLLING");
-                    bIsScrolling = true;
-                    return true;
+                    return mSwipper.onTouchEvent(event);
                 }
                 break;
             }
             case MotionEvent.ACTION_POINTER_DOWN:
                 bInScrollArea = false;
-                bIsScrolling = false;
                 return false;
         }
 
         return false;
     }
 
-    private boolean checkArea(MotionEvent event) {
-        Rect hitRect = new Rect();
-        mPlayerOverlayContainer.getHitRect(hitRect);
-
-        if (mStartPosY <= TOP_PADDING_IGNORE) {
-            Logger.debug("Ignore scrolling: TOP_PADDING_IGNORE=" + TOP_PADDING_IGNORE +", val="+ mStartPosY);
+    private static boolean isVisible(View view) {
+        if (view == null)
             return false;
-        } else if (!hitRect.contains(mStartPosX, mStartPosY)) {
+
+        return view.getVisibility() == VISIBLE;
+    }
+
+    private static boolean isHit(ViewGroup view, int x, int y) {
+        if (view == null) {
+            Logger.debug("view is null");
+            return false;
+        }
+        Rect hitRect = new Rect();
+        view.getHitRect(hitRect);
+
+        return hitRect.contains(x, y);
+    }
+
+    private static View getFirstChild(ViewGroup viewGroup) {
+        if (viewGroup == null)
+            return null;
+
+        int childCount = viewGroup.getChildCount();
+        if (childCount < 1)
+            return null;
+
+        return viewGroup.getChildAt(0);
+    }
+
+    private boolean checkCollisions() {
+        if (!isHit(mPlayerOverlayContainer, mStartPosX, mStartPosY)) {
             Logger.debug("Ignore scrolling: Wrong area: x=" + mStartPosX + ", y="+ mStartPosY);
             return false;
-        } else if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-            Logger.debug("Ignore scrolling: wrong orientation");
+        }
+
+        if (isVisible(mDebugPanelContainer)) {
+            ViewGroup list = mDebugPanelContainer.findViewById(LoaderLS.VIDEO_DEBUG_LIST_ID);
+            if (isVisible(getFirstChild(mDebugPanelContainer)) && isVisible(list) && isHit(list, mStartPosX, mStartPosY)) {
+                Logger.debug("Ignore scrolling: Debug panel area: x=" + mStartPosX + ", y=" + mStartPosY);
+                return false;
+            }
+        }
+
+        if (isVisible(mFloatingChatContainer)) {
+            ViewGroup container = mFloatingChatContainer.findViewById(LoaderLS.MESSAGES_CONTAINER_ID);
+            if (isVisible(container) && isHit(container, mStartPosX, mStartPosY)) {
+                Logger.debug("Ignore scrolling: Floating chat area: x=" + mStartPosX + ", y=" + mStartPosY);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean checkArea(MotionEvent event) {
+        if (mStartPosY <= PADDING_IGNORE) {
+            Logger.debug("Ignore scrolling: top PADDING_IGNORE=" + PADDING_IGNORE +", val="+ mStartPosY);
             return false;
-        } else if (event.getPointerCount() > 1) {
+        }
+
+        float overlayBottomY = mPlayerOverlayContainer.getY()+mPlayerOverlayContainer.getHeight();
+        if (mStartPosY >= (overlayBottomY - PADDING_IGNORE)) {
+            Logger.debug("Ignore scrolling: bottom PADDING_IGNORE=" + PADDING_IGNORE +", val="+ overlayBottomY);
+            return false;
+        }
+
+        if (event.getPointerCount() > 1) {
             Logger.debug("Ignore scrolling: multi touch, val="+event.getPointerCount());
             return false;
         }
 
-        return true;
+        if (getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            Logger.debug("Ignore scrolling: wrong orientation");
+            return false;
+        }
+
+        return checkCollisions();
     }
 
     private int getDistance(MotionEvent moveEvent) {

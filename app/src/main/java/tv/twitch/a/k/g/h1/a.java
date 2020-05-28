@@ -1,14 +1,45 @@
 package tv.twitch.a.k.g.h1;
 
+import android.text.SpannedString;
 
+import tv.twitch.a.k.g.g;
+import tv.twitch.a.k.d0.b.s.d;
+import tv.twitch.a.k.g.m0;
 import tv.twitch.android.mod.bridges.Hooks;
-import tv.twitch.android.models.channel.ChannelInfo;
+import tv.twitch.android.mod.bridges.IChatMessageFactory;
+
 
 /**
- * Source: ChatConnectionController
+ * Source: ChatMessageFactory
  */
-public class a {
-    private final void a(ChannelInfo channelInfo) {
-        Hooks.requestEmotes(channelInfo); // TODO: __INJECT_CALL
+public class a implements IChatMessageFactory { // TODO: __IMPLEMENT
+    static CharSequence a(a factory, String url, tv.twitch.a.k.d0.b.s.d mediaSpan, String text, m0 urlImageClickableProvider, boolean z, int i2, Object obj) {
+        return null;
+    }
+
+    private final e a(g chatMessageInterface, boolean z, boolean z2, boolean z3, int i2, int channelId, Object iClickableUsernameSpanListener, Object twitchUrlSpanClickListener, Object webViewSource, String str, boolean z4, Object censoredMessageTrackingInfo, Integer num, Object eventDispatcher) {
+        try {
+            // TODO: HOOK EXAMPLE
+            //  invoke-static/range {v6 .. v20}, Ltv/twitch/a/k/g/h1/a;->a(Ltv/twitch/a/k/g/h1/a;Ltv/twitch/a/k/g/g;ZZZLtv/twitch/android/models/webview/WebViewSource;Ltv/twitch/a/k/d0/b/s/g;Ljava/lang/String;Ltv/twitch/a/k/g/h1/a$c;ILtv/twitch/a/k/g/s1/c;Ljava/lang/Integer;Ltv/twitch/android/core/mvp/viewdelegate/EventDispatcher;ILjava/lang/Object;)Landroid/text/SpannedString;
+            //  move-result-object v8
+            //  move-object/from16 v7, p1
+            //  move/from16 v9, p6
+            //  invoke-static {v6, v7, v8, v9}, Ltv/twitch/android/mod/bridges/Hooks;->hookChatMessage(Ltv/twitch/android/mod/bridges/IChatMessageFactory;Ltv/twitch/a/k/g/g;Landroid/text/SpannedString;I)Landroid/text/SpannedString;
+            //  move-result-object v8
+
+            SpannedString message = new SpannedString("KEKW");
+            message = Hooks.hookChatMessage(this, chatMessageInterface, message, channelId);
+
+            return null;
+        } catch (Throwable th) {
+            th.printStackTrace();
+
+            return e.d;
+        }
+    }
+
+    @Override
+    public CharSequence getSpannedEmote(String url, String emoteText) { // TODO: __INJECT_METHOD
+        return a(this, url, d.c, emoteText, null, false, 0, null);
     }
 }

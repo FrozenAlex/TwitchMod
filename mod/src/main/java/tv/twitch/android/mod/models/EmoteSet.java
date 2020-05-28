@@ -12,4 +12,6 @@ public interface EmoteSet {
     Collection<Emote> getEmotes();
 
     boolean isEmpty();
+
+    void clear();
 }

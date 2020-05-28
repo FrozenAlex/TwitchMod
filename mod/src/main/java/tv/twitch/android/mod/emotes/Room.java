@@ -9,17 +9,27 @@ import tv.twitch.android.mod.models.Emote;
 class Room {
     private final int mChannelId;
 
-    private final BttvChannelEmoteSet mBttvSet;
-    private final FfzChannelEmoteSet mFfzSet;
+    private final BttvChannelSet mBttvSet;
+    private final FfzChannelSet mFfzSet;
+
 
     public Room(int channelId) {
         mChannelId = channelId;
-        mBttvSet = new BttvChannelEmoteSet(getChannelId());
-        mFfzSet = new FfzChannelEmoteSet(getChannelId());
-        requestEmotes();
+        mBttvSet = new BttvChannelSet(getChannelId());
+        mFfzSet = new FfzChannelSet(getChannelId());
     }
 
-    private void requestEmotes() {
+    private void clear() {
+        mFfzSet.clear();
+        mBttvSet.clear();
+    }
+
+    public boolean isReadyForRequest() {
+        return mBttvSet.isReadyForFetch() && mFfzSet.isReadyForFetch();
+    }
+
+    public synchronized void requestEmotes() {
+        clear();
         mBttvSet.fetch();
         mFfzSet.fetch();
     }

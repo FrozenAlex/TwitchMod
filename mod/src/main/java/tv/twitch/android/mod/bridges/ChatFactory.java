@@ -7,11 +7,22 @@ import tv.twitch.chat.ChatEmoticon;
 import tv.twitch.chat.ChatEmoticonSet;
 
 public class ChatFactory {
+    private static final int MASK = 0xFFFF0000;
+
+    private static int lastEmoteId = Integer.MAX_VALUE;
+
+    private static synchronized String generateEmoteId() {
+        if (lastEmoteId == Integer.MAX_VALUE)
+            lastEmoteId = lastEmoteId & MASK;
+
+        return String.valueOf(lastEmoteId++);
+    }
+
     public static ChatEmoticon getEmoticon(String url, String code) {
         ChatEmoticon chatEmoticon = new ChatEmoticon();
         chatEmoticon.match = code;
         chatEmoticon.isRegex = false;
-        chatEmoticon.emoticonId = "-1";
+        chatEmoticon.emoticonId = generateEmoteId();
         chatEmoticon.url = url;
 
         return chatEmoticon;

@@ -2,6 +2,7 @@ package tv.twitch.android.mod.bridges;
 
 
 import android.text.Spanned;
+import android.text.SpannedString;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -10,11 +11,12 @@ import com.google.android.exoplayer2.PlaybackParameters;
 import java.util.Collection;
 import java.util.Date;
 
-import tv.twitch.a.k.c0.b.s.h;
-import tv.twitch.a.k.g.z0.b;
-import tv.twitch.android.api.i1.f1;
+import tv.twitch.a.k.g.c1.b;
+import tv.twitch.a.k.g.g;
+import tv.twitch.android.api.p1.i1;
 import tv.twitch.android.mod.emotes.EmoteManager;
 import tv.twitch.android.mod.models.Emote;
+import tv.twitch.android.mod.models.settings.PlayerImpl;
 import tv.twitch.android.mod.settings.PrefManager;
 import tv.twitch.android.mod.utils.ChatUtils;
 import tv.twitch.android.mod.utils.Helper;
@@ -24,39 +26,28 @@ import tv.twitch.android.models.channel.ChannelInfo;
 import tv.twitch.android.shared.chat.communitypoints.models.CommunityPointsModel;
 import tv.twitch.chat.ChatEmoticonSet;
 
+import static tv.twitch.android.mod.utils.ChatUtils.injectEmotesSpan;
+
 
 @SuppressWarnings("FinalStaticMethod")
 public class Hooks {
-    public static final String EXOPLAYER_CONSTANT = "exoplayer_2";
+    private final static String VOD_PLAYER_PRESENTER_CLASS = "tv.twitch.a.k.w.j0.w";
+    private final static float DEFAULT_MINIPLAYER_SIZE = 1.0f;
 
     /**
-     * Class: *.*
-     * signature: Ltv/twitch/a/k/c0/b/s/h;-><init>
+     * Class: tv.twitch.android.adapters.a.b.c
+     * signature: public final boolean a(MotionEvent motionEvent)
      */
-    public final static h hookUrlDrawableConstructor(h urlDrawableInstance) {
-        if (urlDrawableInstance == null) {
-            Logger.error("urlDrawableInstance is null");
-            return null;
+    public final static void tryCopyMsg(String msg) {
+        PrefManager prefManager = LoaderLS.getInstance().getPrefManager();
+        if (!prefManager.isCopyMsgOn())
+            return;
+
+        if (TextUtils.isEmpty(msg)) {
+            Logger.debug("empty msg");
         }
 
-        PrefManager prefManager = LoaderLS.getInstance().getPrefManager();
-        if (prefManager.isDisableGifs())
-            return new StaticUrlDrawable(urlDrawableInstance);
-
-        return urlDrawableInstance;
-    }
-
-    /**
-     * Class: ChatMessageFactory
-     * signature: private final CharSequence a(tv.twitch.a.k.g.g gVar, int i2, tv.twitch.a.k.g.t0.a aVar, boolean z, String str, String str2)
-     */
-    public final static int hookUsernameSpanColor(int usernameColor) {
-        PrefManager prefManager = LoaderLS.getInstance().getPrefManager();
-        if (!prefManager.isFixBrightness() || !prefManager.isDarkTheme())
-            return usernameColor;
-
-        Helper helper = LoaderLS.getInstance().getHelper();
-        return helper.getFineColor(usernameColor);
+        Helper.saveToClipboard(msg);
     }
 
     /**
@@ -68,29 +59,11 @@ public class Hooks {
         if (!prefManager.isHookEmoticonSetOn())
             return org;
 
-        // FIXME:
-        if (!TextUtils.isEmpty(setId)) {
-            if (setId.equals(ChatUtils.EmoteSet.GLOBAL.getId()))
-                return "BetterTTV Global Emotes";
-            else if (setId.equals(ChatUtils.EmoteSet.FFZ.getId()))
-                return "FFZ Emotes";
-            else if (setId.equals(ChatUtils.EmoteSet.BTTV.getId()))
-                return "BetterTTV Emotes";
-        }
+        ChatUtils.EmoteSet set = ChatUtils.EmoteSet.findById(setId);
+        if (set != null)
+            return set.getDescription();
 
         return org;
-    }
-
-    /**
-     * Class: MessageRecyclerItem
-     * signature: public void g()
-     */
-    public final static boolean hookMsgRemover(boolean org) {
-        PrefManager prefManager = LoaderLS.getInstance().getPrefManager();
-        if (!prefManager.isPreventMsg())
-            return org;
-
-        return true;
     }
 
     /**
@@ -112,7 +85,7 @@ public class Hooks {
      */
     public final static PlaybackParameters hookVodPlayerStandaloneMediaClockInit(PlaybackParameters org) {
         PrefManager prefManager = LoaderLS.getInstance().getPrefManager();
-        float speed = prefManager.getExoplayerSpeed();
+        float speed = Float.parseFloat(prefManager.getExoplayerSpeed().getPreferenceValue());
         if (speed == org.a)
             return org;
 
@@ -124,7 +97,7 @@ public class Hooks {
             if (TextUtils.isEmpty(clazz))
                 continue;
 
-            if (!clazz.equals("tv.twitch.a.k.v.j0.w"))
+            if (!clazz.equals(VOD_PLAYER_PRESENTER_CLASS))
                 continue;
 
             return new PlaybackParameters(speed);
@@ -176,17 +149,6 @@ public class Hooks {
     }
 
     /**
-     * Class: *.*
-     */
-    public final static boolean hookAd(boolean org) {
-        PrefManager manager = LoaderLS.getInstance().getPrefManager();
-        if (manager.isAdblockOn())
-            return false;
-
-        return org;
-    }
-
-    /**
      * Class: ChatConnectionController
      * signature: private final void a(ChannelInfo channelInfo)
      */
@@ -196,20 +158,20 @@ public class Hooks {
             return;
 
         EmoteManager emoteManager = LoaderLS.getInstance().getEmoteManager();
-        emoteManager.requestChannelEmoteSet(channelInfo.getId(), false);
+        emoteManager.requestEmotes(channelInfo.getId(), false);
     }
 
     /**
      * Class: ModelTheatreModeTracker
      * signature: public c(f1 f1Var, Playable playable, Object pageViewTracker)
      */
-    public final static void requestEmotes(final f1 playableModelParser, final Playable playable) {
+    public final static void requestEmotes(final i1 playableModelParser, final Playable playable) {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
         if (!manager.isEmotesOn())
             return;
 
         EmoteManager emoteManager = LoaderLS.getInstance().getEmoteManager();
-        emoteManager.requestChannelEmoteSet(Helper.getChannelId(playableModelParser, playable), false);
+        emoteManager.requestEmotes(Helper.getChannelId(playableModelParser, playable), true);
     }
 
     /**
@@ -266,8 +228,8 @@ public class Hooks {
      */
     public final static int hookMiniplayerSize(int size) {
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
-        float k = manager.getMiniplayerSize();
-        if (k == 1.0f)
+        float k = Float.parseFloat(manager.getMiniPlayerSize().getPreferenceValue());
+        if (k == DEFAULT_MINIPLAYER_SIZE)
             return size;
 
         return (int) (k * size);
@@ -277,15 +239,22 @@ public class Hooks {
      * Class: PlayerImplementation
      * signature: public final PlayerImplementation getProviderForName(String str)
      */
-    public final static String hookPlayerProvider(String org) {
+    public final static String hookPlayerProvider(String name) {
+        if (TextUtils.isEmpty(name)) {
+            Logger.warning("empty name");
+            return name;
+        }
+
         PrefManager manager = LoaderLS.getInstance().getPrefManager();
-        if (!manager.isExoPlayerOn())
-            return org;
-
-        if (TextUtils.isEmpty(org))
-            return org;
-
-        return EXOPLAYER_CONSTANT;
+        PlayerImpl playerImpl = manager.getPlayer();
+        switch (playerImpl) {
+            default:
+            case AUTO:
+                return name;
+            case CORE:
+            case EXO:
+                return playerImpl.getPreferenceValue();
+        }
     }
 
     /**
@@ -298,17 +267,6 @@ public class Hooks {
             return false;
 
         return true;
-    }
-
-    /**
-     * Class: *.*
-     */
-    public final static boolean isAdBlockJump() {
-        PrefManager manager = LoaderLS.getInstance().getPrefManager();
-        if (manager.isAdblockOn())
-            return true;
-
-        return false;
     }
 
     /**
@@ -348,27 +306,6 @@ public class Hooks {
         helper.setCurrentChannel(event.a().getId());
     }
 
-
-    /**
-     * Source: ToolbarPresenter
-     * signature: a(Toolbar toolbar)
-     */
-    public final static void setLongClickableModMenu(View view) {
-        if (view == null) {
-            Logger.error("view is null");
-            return;
-        }
-
-        view.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Helper.openSettings();
-
-                return true;
-            }
-        });
-    }
-
     /**
      * Class: *.*
      */
@@ -406,10 +343,45 @@ public class Hooks {
      * Some hooks
      */
     public final static void helper() {
-        if (!isAdBlockJump()) {
-        } // TODO: __HOOK
-        boolean ad = hookAd(true); // TODO: __HOOK
-        Object o = hookUrlDrawableConstructor(new h(null, null)); // TODO: __HOOK
-        o = hookVodPlayerStandaloneMediaClockInit(new PlaybackParameters(0.0f)); // TODO: __HOOK
+        Object o = hookVodPlayerStandaloneMediaClockInit(new PlaybackParameters(0.0f)); // TODO: __HOOK
     }
+
+    /**
+     * Class: ChatMessageFactory
+     */
+    public static SpannedString hookChatMessage(IChatMessageFactory factory, g chatMessageInterface, SpannedString orgMessage, int channelId) { // TODO: __INJECT_METHOD
+        PrefManager manager = LoaderLS.getInstance().getPrefManager();
+        if (!manager.isEmotesOn())
+            return orgMessage;
+
+        try {
+            if (TextUtils.isEmpty(orgMessage))
+                return orgMessage;
+
+            if (chatMessageInterface.a())
+                return orgMessage;
+
+            EmoteManager emoteManager = LoaderLS.getInstance().getEmoteManager();
+            emoteManager.requestEmotes(channelId, false);
+
+            return injectEmotesSpan(factory, emoteManager, orgMessage, channelId, manager);
+        } catch (Throwable th) {
+            th.printStackTrace();
+            if (chatMessageInterface.e() == null) {
+                Helper.showToast("message is null");
+                return orgMessage;
+            }
+
+            String message = ChatUtils.getRawMessage(chatMessageInterface.e());
+            if (!TextUtils.isEmpty(message)) {
+                Helper.showToast("Bad message: '" + message + "'");
+            } else {
+                Helper.showToast("Empty message");
+            }
+        }
+
+        return orgMessage;
+    }
+
+
 }

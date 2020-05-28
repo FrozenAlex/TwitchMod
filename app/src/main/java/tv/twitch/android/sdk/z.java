@@ -10,6 +10,11 @@ public class z {
     public ChatEmoticonSet[] k = null; // widget set
 
     public ChatEmoticonSet[] b() { // TODO: __REPLACE_METHOD
+        return getK();
+    }
+
+    // TODO: __REPLACE_DIRECT_CALL
+    public ChatEmoticonSet[] getK() { // TODO: __INJECT_METHOD
         return Hooks.hookChatEmoticonSet(this.k);
     }
 }

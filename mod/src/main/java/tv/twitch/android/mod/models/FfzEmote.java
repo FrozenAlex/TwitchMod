@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import java.util.HashMap;
 
 import tv.twitch.android.mod.bridges.ChatFactory;
+import tv.twitch.android.mod.models.settings.EmoteSize;
 import tv.twitch.chat.ChatEmoticon;
 
 
@@ -20,11 +21,11 @@ public class FfzEmote implements Emote {
 
     private ChatEmoticon ce = null;
 
-    public FfzEmote(String code, String id, HashMap<Integer, String> urls) {
+    public FfzEmote(String code, String id, HashMap<String, String> urls) {
         this.mCode = code;
         this.mId = id;
 
-        for (Integer key : urls.keySet()) {
+        for (String key : urls.keySet()) {
             String url = urls.get(key);
             if (TextUtils.isEmpty(url))
                 continue;
@@ -32,13 +33,13 @@ public class FfzEmote implements Emote {
             if (url.startsWith("//"))
                 url = "https:" + url;
             switch (key) {
-                case 1:
+                case "1x":
                     url1x = url;
                     break;
-                case 2:
+                case "2x":
                     url2x = url;
                     break;
-                case 4:
+                case "4x":
                     url3x = url;
                     break;
             }
@@ -51,7 +52,7 @@ public class FfzEmote implements Emote {
     }
 
     @Override
-    public String getUrl(Size size) {
+    public String getUrl(EmoteSize size) {
         switch (size) {
             case LARGE:
                 if (url3x != null)
@@ -83,7 +84,7 @@ public class FfzEmote implements Emote {
         if (ce == null) {
             synchronized (this) {
                 if (ce == null) {
-                    this.ce = ChatFactory.getEmoticon(getUrl(Size.LARGE), getCode());
+                    this.ce = ChatFactory.getEmoticon(getUrl(EmoteSize.LARGE), getCode());
                 }
             }
         }

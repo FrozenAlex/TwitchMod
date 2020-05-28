@@ -11,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-
 import tv.twitch.android.mod.swipper.util.BrightnessHelper;
 import tv.twitch.android.mod.swipper.view.SwipperOverlay;
+
 
 public class Swipper implements GestureDetector.OnGestureListener {
     private final static int DELAY_TIMEOUT = 500;
@@ -47,7 +47,7 @@ public class Swipper implements GestureDetector.OnGestureListener {
         mSwipperOverlay = new SwipperOverlay(mContext);
     }
 
-    public void setTwitchOverlay(ViewGroup viewGroup) {
+    public void setOverlay(ViewGroup viewGroup) {
         bIsVolumeSwipeEnabled = false;
         bIsBrightnessSwipeEnabled = false;
 
@@ -105,7 +105,7 @@ public class Swipper implements GestureDetector.OnGestureListener {
         mOldVolume = getSystemVolume();
         bIsLeftArea = e.getX() < mSwipperOverlay.getWidth() / 2.0f;
 
-        return false;
+        return true;
     }
 
     @Override

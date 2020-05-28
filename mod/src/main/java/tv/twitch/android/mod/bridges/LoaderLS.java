@@ -3,8 +3,6 @@ package tv.twitch.android.mod.bridges;
 
 import android.content.Context;
 
-import java.util.Map;
-
 import tv.twitch.android.app.consumer.TwitchApplication;
 import tv.twitch.android.mod.emotes.EmoteManager;
 import tv.twitch.android.mod.settings.PrefManager;
@@ -13,8 +11,11 @@ import tv.twitch.android.mod.utils.Logger;
 
 
 public class LoaderLS extends TwitchApplication {
-    public static int PREFERENCES_ID = 0x7f160006;
-    public static int PLAYER_OVERLAY_ID = 0x7f0b05ec;
+    public static int PLAYER_OVERLAY_ID = 0x7f0b060e;
+    public static int DEBUG_PANEL_CONTAINER_ID = 0x7f0b02b3;
+    public static int FLOATING_CHAT_CONTAINER_ID = 0x7f0b03a1;
+    public static int VIDEO_DEBUG_LIST_ID = 0x7f0b08a8;
+    public static int MESSAGES_CONTAINER_ID = 0x7f0b04cf;
 
     private EmoteManager sEmoteManager;
     private PrefManager sPrefManager;
@@ -38,32 +39,7 @@ public class LoaderLS extends TwitchApplication {
         post();
     }
 
-    private void post() {
-        // debug glide executor
-        Thread th = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    Map<Thread, StackTraceElement[]> map = Thread.getAllStackTraces();
-                    for (Thread thread : map.keySet()) {
-                        if (!thread.isAlive())
-                            continue;
-
-                        if (thread.getName().startsWith("glide-animation")) {
-                            Logger.debug(thread.getName() + " alive!");
-                        }
-                    }
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        th.setDaemon(true);
-        th.start();
-    }
+    private void post() { }
 
     private void init() {
         Logger.debug("Init LoaderLS");

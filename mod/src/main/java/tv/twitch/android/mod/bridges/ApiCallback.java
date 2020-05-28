@@ -4,29 +4,34 @@ package tv.twitch.android.mod.bridges;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import tv.twitch.android.mod.models.api.FailReason;
+import tv.twitch.android.mod.utils.Logger;
 
 
 public abstract class ApiCallback<T> implements Callback<T> {
-    public enum FailReason {
-        UNKNOWN,
-        NOT_FOUND,
-        UNSUCCESSFUL,
-        NULL_BODY
-    }
+    private static final int MAX_RETRIES = 3;
+
+    private int retryCount = 0;
+    private volatile boolean isReadyForRequest = true;
+
 
     public void onFailure(Call<T> call, Throwable th) {
-        th.printStackTrace();
-        onRequestFail(call, FailReason.UNKNOWN);
-    }
+        Logger.debug("retryCount=" + retryCount);
 
-    protected void retry(Call<T> call) {
-        Call<T> clone = call.clone();
-        clone.enqueue(this);
+        if (retryCount++ < MAX_RETRIES) {
+            Logger.debug("Next try...");
+            call.clone().enqueue(this);
+        } else {
+            retryCount = 0;
+            th.printStackTrace();
+            onRequestFail(call, FailReason.EXCEPTION);
+            isReadyForRequest = true;
+        }
     }
 
     public abstract void onRequestSuccess(T t);
 
-    public abstract void onRequestFail(Call<T> call, FailReason reason);
+    public abstract void onRequestFail(Call<T> call, FailReason failReason);
 
     public void onResponse(Call<T> call, Response<T> response) {
         if (response.code() == 404) {
@@ -45,7 +50,17 @@ public abstract class ApiCallback<T> implements Callback<T> {
         }
 
         onRequestSuccess(response.body());
+        isReadyForRequest = true;
+    }
+
+    public boolean isReadyForFetch() {
+        return isReadyForRequest;
     }
 
     public abstract void fetch();
+
+    protected void doCall(Call<T> call) {
+        isReadyForRequest = false;
+        call.enqueue(this);
+    }
 }

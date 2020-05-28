@@ -4,7 +4,8 @@ package tv.twitch.android.mod.models;
 import androidx.annotation.NonNull;
 
 import tv.twitch.android.mod.bridges.ChatFactory;
-import tv.twitch.android.mod.models.api.BttvEmoteResponse;
+import tv.twitch.android.mod.models.api.ImageType;
+import tv.twitch.android.mod.models.settings.EmoteSize;
 import tv.twitch.chat.ChatEmoticon;
 
 
@@ -19,10 +20,10 @@ public final class BttvEmote implements Emote {
 
     private ChatEmoticon ce = null;
 
-    public BttvEmote(String code, String id, BttvEmoteResponse.ImageType imageType) {
+    public BttvEmote(String code, String id, ImageType imageType) {
         this.mCode = code;
         this.mId = id;
-        this.isGif = imageType == BttvEmoteResponse.ImageType.GIF;
+        this.isGif = imageType == ImageType.GIF;
     }
 
     @Override
@@ -31,7 +32,7 @@ public final class BttvEmote implements Emote {
     }
 
     @Override
-    public String getUrl(Size size) {
+    public String getUrl(EmoteSize size) {
         switch (size) {
             case LARGE:
                 return getUrl3x();
@@ -58,7 +59,7 @@ public final class BttvEmote implements Emote {
         if (ce == null) {
             synchronized (this) {
                 if (ce == null) {
-                    this.ce = ChatFactory.getEmoticon(getUrl(Size.LARGE), getCode());
+                    this.ce = ChatFactory.getEmoticon(getUrl(EmoteSize.LARGE), getCode());
                 }
             }
         }

@@ -5,8 +5,6 @@ import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import tv.twitch.android.mod.models.Emote;
@@ -14,17 +12,17 @@ import tv.twitch.android.mod.utils.Logger;
 
 
 public class EmoteManager {
-    private static final BttvGlobalEmoteSet sGlobalSet = new BttvGlobalEmoteSet();
+    private static final BttvGlobalSet sGlobalEmotes = new BttvGlobalSet();
 
     private final ConcurrentHashMap<Integer, Room> mRooms = new ConcurrentHashMap<>();
-    private final Set<Integer> mCurrentRoomRequests = Collections.newSetFromMap(new ConcurrentHashMap<Integer, Boolean>());
+
 
     public EmoteManager() {
         fetchGlobalEmotes();
     }
 
     public Collection<Emote> getGlobalEmotes() {
-        return sGlobalSet.getEmotes();
+        return sGlobalEmotes.getEmotes();
     }
 
     public Collection<Emote> getBttvEmotes(int channelId) {
@@ -51,14 +49,12 @@ public class EmoteManager {
 
     private void fetchGlobalEmotes() {
         Logger.info("Fetching global emoticons...");
-        sGlobalSet.fetch();
+        sGlobalEmotes.fetch();
     }
 
     public Emote getEmote(String code, int channelId) {
-        if (TextUtils.isEmpty(code)) {
-            Logger.error("empty code");
+        if (TextUtils.isEmpty(code))
             return null;
-        }
 
         if (channelId != 0) {
             Room room = mRooms.get(channelId);
@@ -69,10 +65,10 @@ public class EmoteManager {
             }
         }
 
-        return sGlobalSet.getEmote(code);
+        return sGlobalEmotes.getEmote(code);
     }
 
-    public void requestChannelEmoteSet(int channelId, boolean force) {
+    public void requestEmotes(int channelId, boolean force) {
         if (channelId == 0)
             return;
 
@@ -86,15 +82,16 @@ public class EmoteManager {
         if (channelId == 0)
             return;
 
-        if (!mCurrentRoomRequests.contains(channelId)) {
-            synchronized (mCurrentRoomRequests) {
-                if (!mCurrentRoomRequests.contains(channelId)) {
-                    mCurrentRoomRequests.add(channelId);
-                    Room room = new Room(channelId);
-                    mRooms.put(channelId, room);
-                    mCurrentRoomRequests.remove(channelId);
-                }
-            }
+        Room room = mRooms.get(channelId);
+        if (room == null) {
+            Logger.debug("Create new room: " + channelId);
+            room = new Room(channelId);
+            mRooms.put(channelId, room);
+        }
+
+        if (room.isReadyForRequest()) {
+            Logger.debug("Emotes request: " + channelId);
+            room.requestEmotes();
         }
     }
 }

@@ -7,7 +7,7 @@ public class d {
     private boolean e = true;
 
 
-    public boolean j() { // TODO: __CHANGE_MOD
+    public boolean j() { // TODO: __REMOVE_FINAL
         return this.e;
     }
 }

@@ -12,23 +12,6 @@ public class BttvEmoteResponse {
     @SerializedName("imageType")
     private ImageType imageType;
 
-    public enum ImageType {
-        @SerializedName("png")
-        PNG("png"),
-        @SerializedName("gif")
-        GIF("gif");
-
-        private final String mValue;
-
-        ImageType(String value) {
-            mValue = value;
-        }
-
-        public String getValue() {
-            return mValue;
-        }
-    }
-
     public String getCode() {
         return code;
     }

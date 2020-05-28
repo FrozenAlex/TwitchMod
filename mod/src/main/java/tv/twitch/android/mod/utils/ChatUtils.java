@@ -16,23 +16,40 @@ import java.util.Locale;
 import tv.twitch.android.mod.bridges.IChatMessageFactory;
 import tv.twitch.android.mod.emotes.EmoteManager;
 import tv.twitch.android.mod.models.Emote;
+import tv.twitch.android.mod.models.settings.Gifs;
+import tv.twitch.android.mod.settings.PrefManager;
 import tv.twitch.android.models.chat.MessageToken;
 
 
 public class ChatUtils {
     public enum EmoteSet {
-        GLOBAL("-110"),
-        FFZ("-109"),
-        BTTV("-108");
+        GLOBAL("-110", "BetterTTV Global Emotes"),
+        FFZ( "-109", "FFZ Channel Emotes"),
+        BTTV( "-108", "BetterTTV Channel Emotes");
 
-        public final String mId;
+        public final String description;
+        public final String setId;
 
-        EmoteSet(String id) {
-            this.mId = id;
+        public static EmoteSet findById(String id) {
+            for (EmoteSet set : values()) {
+                if (set.getId().equals(id))
+                    return set;
+            }
+
+            return null;
+        }
+
+        EmoteSet(String id, String description) {
+            this.description = description;
+            this.setId = id;
         }
 
         public String getId() {
-            return mId;
+            return setId;
+        }
+
+        public String getDescription() {
+            return description;
         }
     }
 
@@ -60,24 +77,7 @@ public class ChatUtils {
         return stringBuilder.toString();
     }
 
-    public static SpannedString injectCopySpan(SpannedString messageSpan, final List<MessageToken> tokens) {
-        if (TextUtils.isEmpty(messageSpan)) {
-            Logger.warning("empty message");
-            return messageSpan;
-        }
-
-        if (tokens == null || tokens.size() == 0) {
-            Logger.warning("message has no tokens");
-            return messageSpan;
-        }
-
-        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(messageSpan);
-        spannableStringBuilder.setSpan(new CopyChatMessage(tokens), 0, messageSpan.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        return SpannedString.valueOf(spannableStringBuilder);
-    }
-
-    public static SpannedString injectEmotesSpan(IChatMessageFactory factory, EmoteManager emoteManager, SpannedString messageSpan, int channelID, Emote.Size size) {
+    public static SpannedString injectEmotesSpan(IChatMessageFactory factory, EmoteManager emoteManager, SpannedString messageSpan, int channelID, PrefManager manager) {
         if (TextUtils.isEmpty(messageSpan)) {
             Logger.warning("Empty messageSpan");
             return messageSpan;
@@ -112,7 +112,10 @@ public class ChatUtils {
                     String code = String.valueOf(messageSpan.subSequence(startPos, currentPos));
                     Emote emote = emoteManager.getEmote(code, channelID);
                     if (emote != null) {
-                        SpannableString emoteSpan = (SpannableString) factory.getSpannedEmote(emote.getUrl(size), emote.getCode(), emote.isGif());
+                        if (manager.getGifsStrategy() == Gifs.DISABLED)
+                            continue;
+
+                        SpannableString emoteSpan = (SpannableString) factory.getSpannedEmote(emote.getUrl(manager.getEmoteSize()), emote.getCode());
                         if (emoteSpan != null) {
                             ssb.replace(startPos, currentPos, emoteSpan);
                         }
