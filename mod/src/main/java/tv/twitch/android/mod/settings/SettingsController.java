@@ -141,7 +141,7 @@ public class SettingsController {
 
         items.add(MenuFactory.getMenuInfo("Info", null, null));
 
-        items.add(MenuFactory.getMenuInfo("TwitchMod r11 (9.1.1)", "TEST BUILD", null));
+        items.add(MenuFactory.getMenuInfo("TwitchMod 2.1 (9.1.1)", "Release 30.05.2020", null));
         items.add(MenuFactory.getMenuInfo("Open Telegram channel", null, new OnTelegramClick()));
         items.add(MenuFactory.getMenuInfo("Open GitHub page", null, new OnGithubClick()));
     }
