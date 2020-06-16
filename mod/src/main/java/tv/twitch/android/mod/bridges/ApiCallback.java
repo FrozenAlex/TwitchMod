@@ -12,21 +12,28 @@ public abstract class ApiCallback<T> implements Callback<T> {
     private static final int MAX_RETRIES = 3;
 
     private int retryCount = 0;
-    private volatile boolean isReadyForRequest = true;
 
 
-    public void onFailure(Call<T> call, Throwable th) {
+    public void onFailure(Call<T> call, Throwable callThrowable) {
         Logger.debug("retryCount=" + retryCount);
 
         if (retryCount++ < MAX_RETRIES) {
             Logger.debug("Next try...");
-            call.clone().enqueue(this);
-        } else {
-            retryCount = 0;
-            th.printStackTrace();
-            onRequestFail(call, FailReason.EXCEPTION);
-            isReadyForRequest = true;
+            try {
+                retry(call);
+                return;
+            } catch (Throwable cloneThrowable) {
+                cloneThrowable.printStackTrace();
+            }
         }
+
+        retryCount = 0;
+        callThrowable.printStackTrace();
+        onRequestFail(call, FailReason.EXCEPTION);
+    }
+
+    protected final void retry(Call<T> call) {
+        call.clone().enqueue(this);
     }
 
     public abstract void onRequestSuccess(T t);
@@ -50,17 +57,7 @@ public abstract class ApiCallback<T> implements Callback<T> {
         }
 
         onRequestSuccess(response.body());
-        isReadyForRequest = true;
-    }
-
-    public boolean isReadyForFetch() {
-        return isReadyForRequest;
     }
 
     public abstract void fetch();
-
-    protected void doCall(Call<T> call) {
-        isReadyForRequest = false;
-        call.enqueue(this);
-    }
 }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="mod_category_settings_chat_bttv">BetterTTV/FFZ</string>
+    <string name="mod_bttv_settings_bttv_emotes">Enable</string>
+    <string name="mod_bttv_settings_bttv_emotes_desc">Show BetterTTV/FFZ emoticons in chat</string>
+    <string name="mod_bttv_settings_bttv_widget">Emote menu</string>
+    <string name="mod_bttv_settings_bttv_widget_desc">Adds extra BetterTTV/FFZ emoticons to emote picker</string>
+
+    <string name="mod_bttv_settings_bttv_gifs">GIFS</string>
+    <string name="mod_bttv_settings_bttv_gifs_desc">Change the mode of how GIF emoticons are showing up</string>
+    <string name="mod_bttv_settings_emote_size">Source emote size</string>
+    <string name="mod_bttv_settings_emote_size_desc"></string>
+
+    <string name="mod_category_settings_chat_category">Chat</string>
+    <string name="mod_chat_settings_emote_picker">Emote picker view</string>
+    <string name="mod_chat_settings_floating_chat">Floating chat</string>
+    <string name="mod_chat_settings_floating_chat_desc">Enable floating chat over video in landscape mode</string>
+    <string name="mod_chat_settings_filtering">Message user-level filtering</string>
+    <string name="mod_chat_settings_filtering_desc">Messages will be removed from chat entirely if they aren\'t sent by a user of this level or higher</string>
+    <string name="mod_chat_settings_tap_copy">Tap copy</string>
+    <string name="mod_chat_settings_tap_copy_desc">Tap and hold on the message to copy</string>
+    <string name="mod_chat_settings_timestamps">Timestamps</string>
+    <string name="mod_chat_settings_timestamps_desc">Display timestamps alongside chat messages</string>
+
+    <string name="mod_category_settings_player_category">Player</string>
+    <string name="mod_player_settings_disable_autoplay">Turn off autoplay</string>
+    <string name="mod_player_settings_disable_autoplay_desc">Disable autoplay of the next video</string>
+    <string name="mod_player_settings_follow_view">Follow button view</string>
+    <string name="mod_player_settings_video_debug_panel">Video stats</string>
+    <string name="mod_player_settings_video_debug_panel_desc">Enable video debug information</string>
+    <string name="mod_player_settings_player">Player implementation</string>
+    <string name="mod_player_settings_player_desc"></string>
+    <string name="mod_player_settings_miniplayer_size">MiniPlayer size</string>
+    <string name="mod_player_settings_miniplayer_size_desc"></string>
+    <string name="mod_player_settings_exoplayer_speed">ExoPlayer VOD speed</string>
+    <string name="mod_player_settings_exoplayer_speed_desc"></string>
+
+    <string name="mod_category_settings_swipe">Swipe controls</string>
+    <string name="mod_swipe_settings_enable_volume">Volume swipe</string>
+    <string name="mod_swipe_settings_enable_volume_desc">Control volume by swiping</string>
+    <string name="mod_swipe_settings_enable_brightness">Brightness swipe</string>
+    <string name="mod_swipe_settings_enable_brightness_desc">Control brightness by swiping</string>
+
+    <string name="mod_category_settings_patch">Patches</string>
+    <string name="mod_patches_settings_disable_recommendations">Hide «Recommended Streams»</string>
+    <string name="mod_patches_settings_disable_recommendations_desc"></string>
+    <string name="mod_patches_settings_disable_resume_watching">Hide «Recent Watching»</string>
+    <string name="mod_patches_settings_disable_resume_watching_desc"></string>
+    <string name="mod_patches_settings_disable_followed_games">Hide «Followed Games»</string>
+    <string name="mod_patches_settings_disable_followed_games_desc"></string>
+    <string name="mod_patches_settings_hide_discover">Hide «Discover» tab</string>
+    <string name="mod_patches_settings_hide_discover_desc">You must restart the app to apply changes</string>
+    <string name="mod_patches_settings_hide_esports">Hide «ESports» tab</string>
+    <string name="mod_patches_settings_hide_esports_desc">You must restart the app to apply changes</string>
+    <string name="mod_patches_settings_disable_recent_search">Disable recent searches</string>
+    <string name="mod_patches_settings_disable_recent_search_desc">Hide all your recent searches</string>
+    <string name="mod_patches_settings_dev_mode">Developer mode</string>
+    <string name="mod_patches_settings_dev_mode_desc">This option should only be enable if you think you need it</string>
+    <string name="mod_patches_settings_interceptor">Enable interceptor</string>
+
+    <string name="mod_category_info">Info</string>
+    <string name="mod_info_open_telegram">Open Telegram channel</string>
+    <string name="mod_info_open_github">Open GitHub page</string>
+</resources>

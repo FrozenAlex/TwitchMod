@@ -3,9 +3,7 @@ package tv.twitch.android.core.adapters;
 
 import java.util.List;
 
-import tv.twitch.android.adapters.a.b;
 import tv.twitch.android.mod.utils.GifHelper;
-import tv.twitch.android.mod.utils.Logger;
 
 /**
  * Source: TwitchAdapter
@@ -13,18 +11,20 @@ import tv.twitch.android.mod.utils.Logger;
 public class d0 {
     private List<t> d;
 
-    protected final List<t> i() {
+    protected final List<t> U() {
         return this.d;
     }
 
 
-    public void c(Object b0Var) {
+    public void J(Object b0Var) {
         if (b0Var instanceof Object) {
-            GifHelper.recycle(b0Var, false); // TODO: __INJECT_CODE
+            GifHelper.recycleObject(b0Var, false); // TODO: __INJECT_CODE
         }
     }
 
-    public final void h() {
-        GifHelper.recycleAdapter(this.d); // TODO: __INJECT_CODE
+    public final void S() {
+        GifHelper.recycleAdapterItems(this.d); // TODO: __INJECT_CODE
     }
+
+    public void R(List<? extends t> list)  {}
 }

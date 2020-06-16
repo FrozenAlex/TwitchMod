@@ -9,7 +9,7 @@ import tv.twitch.chat.ChatEmoticonSet;
 public class z {
     public ChatEmoticonSet[] k = null; // widget set
 
-    public ChatEmoticonSet[] b() { // TODO: __REPLACE_METHOD
+    public ChatEmoticonSet[] Q() { // TODO: __REPLACE_METHOD
         return getK();
     }
 

@@ -1,26 +1,28 @@
-# Version: 9.0.1-9.1.1
+# Version: 9.2.0
 
 com.google.gson.annotations.SerializedName -> com.google.gson.v.c:
 com.google.gson.Gson -> com.google.gson.f:
 okhttp3.Request -> j.d0:
 retrofit2.Call -> retrofit2.b:
+    void enqueue(retrofit2.Callback) -> e0
+    retrofit2.Call clone() -> t
 retrofit2.Callback -> retrofit2.d:
     void onFailure(retrofit2.Call,java.lang.Throwable) -> a
-    void onResponse(retrofit2.Call,retrofit2.Response) -> a
+    void onResponse(retrofit2.Call,retrofit2.Response) -> b
 retrofit2.Response -> retrofit2.l:
     125:125:int code() -> b
-    140:140:boolean isSuccessful() -> e
+    140:140:boolean isSuccessful() -> f
     145:145:java.lang.Object body() -> a
 retrofit2.http.Path -> retrofit2.q.r:
 retrofit2.http.Headers -> retrofit2.q.k:
 retrofit2.http.GET -> retrofit2.q.f:
 retrofit2.http.Query -> retrofit2.q.s:
 retrofit2.Retrofit -> retrofit2.m:
-    131:135:java.lang.Object create(java.lang.Class) -> a
+    131:135:java.lang.Object create(java.lang.Class) -> d
 retrofit2.Retrofit$Builder -> retrofit2.m$b:
-    469:470:retrofit2.Retrofit$Builder baseUrl(java.lang.String) -> a
-    535:536:retrofit2.Retrofit$Builder addConverterFactory(retrofit2.Converter$Factory) -> a
-    586:587:retrofit2.Retrofit build() -> a
+    469:470:retrofit2.Retrofit$Builder baseUrl(java.lang.String) -> c
+    535:536:retrofit2.Retrofit$Builder addConverterFactory(retrofit2.Converter$Factory) -> b
+    586:587:retrofit2.Retrofit build() -> e
 retrofit2.Converter$Factory -> retrofit2.e$a:
 retrofit2.converter.gson.GsonConverterFactory -> retrofit2.p.a.a:
-    51:51:retrofit2.converter.gson.GsonConverterFactory create(com.google.gson.Gson) -> a
+    51:51:retrofit2.converter.gson.GsonConverterFactory create(com.google.gson.Gson) -> d

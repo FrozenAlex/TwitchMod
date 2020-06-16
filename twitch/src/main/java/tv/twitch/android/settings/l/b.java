@@ -5,6 +5,8 @@ import androidx.fragment.app.FragmentActivity;
 
 import java.util.List;
 
+import tv.twitch.android.shared.ui.menus.j;
+
 /**
  * Source: BaseSettingsPresenter
  */
@@ -12,31 +14,31 @@ public abstract class b {
 
 
     /**
-     * destinations
+     * Destinations
      */
-    protected abstract d o0();
+    protected abstract d U1();
 
     /**
      * Title
      */
-    public abstract String r0();
+    public abstract String X1();
 
 
     /**
      * Controller
      */
-    protected abstract tv.twitch.android.shared.ui.menus.k p0();
+    protected abstract j V1();
 
-    public final FragmentActivity l0() {
+    public final FragmentActivity R1() {
         return null;
     }
 
-    public abstract void w0();
+    public abstract void c2();
 
     /**
      * Menu items
      */
-    public final List<tv.twitch.android.shared.ui.menus.p.b> q0() {
+    public final List<tv.twitch.android.shared.ui.menus.l.b> W1() {
         return null;
     }
 }

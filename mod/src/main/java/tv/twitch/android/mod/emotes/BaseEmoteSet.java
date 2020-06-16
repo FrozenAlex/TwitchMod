@@ -28,10 +28,6 @@ public abstract class BaseEmoteSet<T> extends ApiCallback<T> implements EmoteSet
         mEmoteMap.put(emote.getCode(), emote);
     }
 
-    public void clear() {
-        mEmoteMap.clear();
-    }
-
     @Override
     public Emote getEmote(String name) {
         return mEmoteMap.get(name);
@@ -40,10 +36,5 @@ public abstract class BaseEmoteSet<T> extends ApiCallback<T> implements EmoteSet
     @Override
     public Collection<Emote> getEmotes() {
         return mEmoteMap.values();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return mEmoteMap.isEmpty();
     }
 }

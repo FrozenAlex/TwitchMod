@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import java.util.List;
 
 import retrofit2.Call;
+import tv.twitch.android.mod.models.BttvEmoteModel;
 import tv.twitch.android.mod.models.api.BttvEmoteResponse;
 import tv.twitch.android.mod.models.api.FailReason;
 import tv.twitch.android.mod.utils.Logger;
@@ -17,11 +18,7 @@ public class BttvGlobalSet extends BaseEmoteSet<List<BttvEmoteResponse>> {
 
     @Override
     public synchronized void fetch() {
-        if (isReadyForFetch()) {
-            doCall(getBttvApi().getGlobalEmotes());
-        } else {
-            Logger.debug("Skip fetching");
-        }
+        getBttvApi().getGlobalEmotes().enqueue(this);
     }
 
     @Override
@@ -43,7 +40,7 @@ public class BttvGlobalSet extends BaseEmoteSet<List<BttvEmoteResponse>> {
                 continue;
             }
 
-            addEmote(new tv.twitch.android.mod.models.BttvEmote(emoticon.getCode(), emoticon.getId(), emoticon.getImageType()));
+            addEmote(new BttvEmoteModel(emoticon.getCode(), emoticon.getId(), emoticon.getImageType()));
         }
     }
 

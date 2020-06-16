@@ -6,20 +6,21 @@ import tv.twitch.android.mod.bridges.Hooks;
  * Source: EmoteAdapterSection
  */
 public class d {
-    private final String e = "";
+    private String e = "";
 
 
-    private final String k() {
+    private final String w() {
         return null;
     }
 
-    public void a(Object b0Var) {
-//        invoke-direct {p0}, Ltv/twitch/android/shared/chat/messageinput/u/d;->k()Ljava/lang/String;
-//        move-result-object v0
-//        iget-object v4, p0, Ltv/twitch/android/shared/chat/messageinput/u/d;->e:Ljava/lang/String;
-//        invoke-static {v0, v4}, Ltv/twitch/android/mod/bridges/Hooks;->hookSetName(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
-//        move-result-object v0
+    public void e(Object b0Var) {
+        //   invoke-direct {p0}, Ltv/twitch/android/shared/chat/messageinput/u/d;->w()Ljava/lang/String;
+        //   move-result-object v0
+        //   invoke-virtual {p0}, Ljava/lang/Object;->getClass()Ljava/lang/Class;
+        //   const-string v1, ""
+        //   invoke-static {v0, v1}, Ltv/twitch/android/mod/bridges/Hooks;->hookSetName(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+        //   move-result-object v0
 
-        String str = Hooks.hookSetName(k(), this.e); // TODO: __HOOK
+        String str = Hooks.hookSetName(w(), this.e); // TODO: __HOOK
     }
 }

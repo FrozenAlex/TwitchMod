@@ -4,6 +4,7 @@ package tv.twitch.android.mod.emotes;
 import java.util.Collection;
 
 import tv.twitch.android.mod.models.Emote;
+import tv.twitch.android.mod.utils.Logger;
 
 
 class Room {
@@ -14,22 +15,14 @@ class Room {
 
 
     public Room(int channelId) {
+        Logger.debug("New room: " + channelId);
         mChannelId = channelId;
         mBttvSet = new BttvChannelSet(getChannelId());
         mFfzSet = new FfzChannelSet(getChannelId());
-    }
-
-    private void clear() {
-        mFfzSet.clear();
-        mBttvSet.clear();
-    }
-
-    public boolean isReadyForRequest() {
-        return mBttvSet.isReadyForFetch() && mFfzSet.isReadyForFetch();
+        requestEmotes();
     }
 
     public synchronized void requestEmotes() {
-        clear();
         mBttvSet.fetch();
         mFfzSet.fetch();
     }

@@ -30,11 +30,14 @@ public class Logger {
         return className + "->" + methodName;
     }
 
-    private static void showDebugToast(String msg) {
-        if (LoaderLS.getInstance() == null)
+    public static void showDebugToast(String msg) {
+        if (LoaderLS.getInstance() == null) {
+            Logger.error("instance is null");
             return;
+        }
 
-        if (!LoaderLS.getInstance().getPrefManager().isDevModeOn())
+        Logger.debug("Toast message: " + msg);
+        if (!LoaderLS.getPrefManagerInstance().isDevModeOn())
             return;
 
         Helper.showToast(msg);

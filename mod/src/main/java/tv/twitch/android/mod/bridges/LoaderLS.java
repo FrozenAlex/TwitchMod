@@ -11,15 +11,13 @@ import tv.twitch.android.mod.utils.Logger;
 
 
 public class LoaderLS extends TwitchApplication {
-    public static int PLAYER_OVERLAY_ID = 0x7f0b060e;
-    public static int DEBUG_PANEL_CONTAINER_ID = 0x7f0b02b3;
-    public static int FLOATING_CHAT_CONTAINER_ID = 0x7f0b03a1;
-    public static int VIDEO_DEBUG_LIST_ID = 0x7f0b08a8;
-    public static int MESSAGES_CONTAINER_ID = 0x7f0b04cf;
+    public static final String VERSION = "TwitchMod v2.2";
+    public static final String BUILD = "TEST BUILD r9";
 
     private EmoteManager sEmoteManager;
     private PrefManager sPrefManager;
     private Helper sHelper;
+    private IDPub sIDPub;
 
     private static volatile LoaderLS sInstance = null;
 
@@ -42,14 +40,31 @@ public class LoaderLS extends TwitchApplication {
     private void post() { }
 
     private void init() {
-        Logger.debug("Init LoaderLS");
+        Logger.debug("Init LoaderLS. " + VERSION);
         sInstance = this;
         sEmoteManager = new EmoteManager();
         sPrefManager = new PrefManager(getApplicationContext());
         sHelper = new Helper();
+        sIDPub = new IDPub();
     }
 
-    public EmoteManager getEmoteManager() {
+    public static EmoteManager getEmoteMangerInstance() {
+        return getInstance().getEmoteManager();
+    }
+
+    public static PrefManager getPrefManagerInstance() {
+        return getInstance().getPrefManager();
+    }
+
+    public static Helper getHelperInstance() {
+        return getInstance().getHelper();
+    }
+
+    public static IDPub getIDPubInstance() {
+        return getInstance().getIDPub();
+    }
+
+    private EmoteManager getEmoteManager() {
         if (sEmoteManager == null) {
             synchronized (LoaderLS.class) {
                 if (sEmoteManager == null) {
@@ -61,7 +76,7 @@ public class LoaderLS extends TwitchApplication {
         return sEmoteManager;
     }
 
-    public PrefManager getPrefManager() {
+    private PrefManager getPrefManager() {
         if (sPrefManager == null) {
             synchronized (LoaderLS.class) {
                 if (sPrefManager == null) {
@@ -73,7 +88,7 @@ public class LoaderLS extends TwitchApplication {
         return sPrefManager;
     }
 
-    public Helper getHelper() {
+    private Helper getHelper() {
         if (sHelper == null) {
             synchronized (LoaderLS.class) {
                 if (sHelper == null) {
@@ -83,5 +98,17 @@ public class LoaderLS extends TwitchApplication {
             }
         }
         return sHelper;
+    }
+
+    private IDPub getIDPub() {
+        if (sIDPub == null) {
+            synchronized (LoaderLS.class) {
+                if (sIDPub == null) {
+                    Logger.warning("creating new instance");
+                    sIDPub = new IDPub();
+                }
+            }
+        }
+        return sIDPub;
     }
 }

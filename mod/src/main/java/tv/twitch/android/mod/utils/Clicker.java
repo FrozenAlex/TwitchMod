@@ -3,24 +3,18 @@ package tv.twitch.android.mod.utils;
 
 import android.view.View;
 
-import java.lang.ref.WeakReference;
-
 
 public class Clicker implements Runnable {
-    final private WeakReference<View> mPointButton;
+    private final View.OnClickListener mListener;
 
-    public Clicker(View pointButton) {
-        mPointButton = new WeakReference<>(pointButton);
+    public Clicker(View.OnClickListener listener) {
+        mListener = listener;
     }
 
     @Override
     public void run() {
-        View button = mPointButton.get();
-        if (button == null) {
-            Logger.warning("pointButton is null");
-            return;
+        if (mListener != null) {
+            mListener.onClick(null);
         }
-
-        button.performClick();
     }
 }

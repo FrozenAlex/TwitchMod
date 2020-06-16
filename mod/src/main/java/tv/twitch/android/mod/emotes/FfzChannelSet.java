@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import java.util.List;
 
 import retrofit2.Call;
-import tv.twitch.android.mod.models.FfzEmote;
+import tv.twitch.android.mod.models.FfzEmoteModel;
 import tv.twitch.android.mod.models.api.FailReason;
 import tv.twitch.android.mod.models.api.FfzEmoteResponse;
 import tv.twitch.android.mod.utils.Logger;
@@ -22,11 +22,7 @@ public class FfzChannelSet extends BaseChannelSet<List<FfzEmoteResponse>> {
 
     @Override
     public void fetch() {
-        if (isReadyForFetch()) {
-            doCall(getBttvApi().getFfzEmotes(getChannelId()));
-        } else {
-            Logger.debug("Skip fetching");
-        }
+        getBttvApi().getFfzEmotes(getChannelId()).enqueue(this);
     }
 
     @Override
@@ -44,7 +40,7 @@ public class FfzChannelSet extends BaseChannelSet<List<FfzEmoteResponse>> {
             if (TextUtils.isEmpty(emoteResponse.getId()))
                 continue;
 
-            FfzEmote emote = new FfzEmote(emoteResponse.getCode(), emoteResponse.getId(), emoteResponse.getImages());
+            FfzEmoteModel emote = new FfzEmoteModel(emoteResponse.getCode(), emoteResponse.getId(), emoteResponse.getImages());
             addEmote(emote);
         }
     }

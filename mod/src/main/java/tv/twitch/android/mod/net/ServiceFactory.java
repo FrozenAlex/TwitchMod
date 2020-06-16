@@ -9,6 +9,7 @@ public class ServiceFactory {
 
     private static volatile BttvApi mBttvApi;
 
+
     public static BttvApi getBttvApi() {
         if (mBttvApi == null) {
             synchronized (ServiceFactory.class) {

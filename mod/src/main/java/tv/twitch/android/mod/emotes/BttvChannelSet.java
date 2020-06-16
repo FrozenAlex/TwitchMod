@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import java.util.List;
 
 import retrofit2.Call;
+import tv.twitch.android.mod.models.BttvEmoteModel;
 import tv.twitch.android.mod.models.api.BttvChannelResponse;
 import tv.twitch.android.mod.models.api.BttvEmoteResponse;
 import tv.twitch.android.mod.models.api.FailReason;
@@ -22,11 +23,7 @@ public class BttvChannelSet extends BaseChannelSet<BttvChannelResponse> {
 
     @Override
     public void fetch() {
-        if (isReadyForFetch()) {
-            doCall(getBttvApi().getBttvEmotes(getChannelId()));
-        } else {
-            Logger.debug("Skip fetching");
-        }
+        getBttvApi().getBttvEmotes(getChannelId()).enqueue(this);
     }
 
     @Override
@@ -49,7 +46,7 @@ public class BttvChannelSet extends BaseChannelSet<BttvChannelResponse> {
                     continue;
                 }
 
-                addEmote(new tv.twitch.android.mod.models.BttvEmote(emoticon.getCode(), emoticon.getId(), emoticon.getImageType()));
+                addEmote(new BttvEmoteModel(emoticon.getCode(), emoticon.getId(), emoticon.getImageType()));
             }
         }
 
@@ -71,7 +68,7 @@ public class BttvChannelSet extends BaseChannelSet<BttvChannelResponse> {
                     continue;
                 }
 
-                addEmote(new tv.twitch.android.mod.models.BttvEmote(emoticon.getCode(), emoticon.getId(), emoticon.getImageType()));
+                addEmote(new BttvEmoteModel(emoticon.getCode(), emoticon.getId(), emoticon.getImageType()));
             }
         }
     }

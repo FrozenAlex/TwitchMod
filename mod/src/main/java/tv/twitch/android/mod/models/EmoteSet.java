@@ -10,8 +10,4 @@ public interface EmoteSet {
     Emote getEmote(String name);
 
     Collection<Emote> getEmotes();
-
-    boolean isEmpty();
-
-    void clear();
 }

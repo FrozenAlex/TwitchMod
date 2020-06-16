@@ -18,16 +18,14 @@ import tv.twitch.android.api.p1.i1;
 import tv.twitch.android.mod.bridges.LoaderLS;
 import tv.twitch.android.models.Playable;
 import tv.twitch.android.models.clips.ClipModel;
-import tv.twitch.android.models.communitypoints.ActiveClaimModel;
 import tv.twitch.android.shared.chat.communitypoints.models.CommunityPointsModel;
 
 
 public class Helper {
-    private static final int MIN_CLICK_DELAY = 500;
-    private static final int MAX_CLICK_DELAY = 1000;
+    private static final int MIN_CLICK_DELAY = 1000;
+    private static final int MAX_CLICK_DELAY = 5000;
 
     private final Handler mHandler;
-    private String sLastClaimId;
 
     private int mCurrentChannel = 0;
 
@@ -76,39 +74,8 @@ public class Helper {
         return new Random().nextInt(MAX_CLICK_DELAY-MIN_CLICK_DELAY) + MIN_CLICK_DELAY;
     }
 
-    public void setClicker(final View pointButtonView, CommunityPointsModel pointsModel) {
-        if (isActiveClaim(pointsModel)) {
-            mHandler.postDelayed(new Clicker(pointButtonView), getClickDelay());
-        }
-    }
-
-    private boolean isActiveClaim(CommunityPointsModel pointsModel) {
-        if (pointsModel == null) {
-            Logger.warning("pointsModel == null");
-            return false;
-        }
-
-        ActiveClaimModel claimModel = pointsModel.getClaim();
-
-        if (claimModel == null) {
-            Logger.warning("claimModel == null");
-            return false;
-        }
-
-        String claimId = claimModel.getId();
-        if (TextUtils.isEmpty(claimId)) {
-            Logger.warning("claimId == null");
-            return false;
-        }
-
-        synchronized (this) {
-            if (TextUtils.isEmpty(sLastClaimId) || !sLastClaimId.equals(claimId)) {
-                sLastClaimId = claimId;
-                return true;
-            } else {
-                return false;
-            }
-        }
+    public void setClicker(View.OnClickListener listener) {
+        mHandler.postDelayed(new Clicker(listener), getClickDelay());
     }
 
     public static void saveToClipboard(String text) {
@@ -128,6 +95,28 @@ public class Helper {
             channelID = 0;
 
         this.mCurrentChannel = channelID;
+    }
+
+    public static boolean checkStackTrace(String clazz) {
+        if (TextUtils.isEmpty(clazz)) {
+            Logger.error("Empty clazz");
+            return false;
+        }
+
+        for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
+            if (element == null)
+                continue;
+
+            if (TextUtils.isEmpty(element.getClassName()))
+                continue;
+
+            if (!element.getClassName().equalsIgnoreCase(clazz))
+                continue;
+
+            return true;
+        }
+
+        return false;
     }
 
     public int getCurrentChannel() {

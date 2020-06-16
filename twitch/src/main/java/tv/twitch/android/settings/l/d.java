@@ -1,4 +1,7 @@
 package tv.twitch.android.settings.l;
 
-public class d {
+/**
+ * Source: SettingsNavigationController
+ */
+public interface d {
 }

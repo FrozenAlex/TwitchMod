@@ -1,7 +1,5 @@
 package tv.twitch.android.mod.models.settings;
 
-import androidx.annotation.NonNull;
-
 import tv.twitch.android.mod.models.PreferenceItem;
 import tv.twitch.android.mod.settings.PrefManager;
 
@@ -21,7 +19,6 @@ public enum  Gifs implements PreferenceItem {
         this.value = preferenceKey;
     }
 
-    @NonNull
     @Override
     public String toString() {
         return getPreferenceName();
