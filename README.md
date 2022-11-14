@@ -1,4 +1,11 @@
-### TwitchMod
+# Update
+
+This mod is being rewritten from scratch on GitLab https://gitlab.com/twitchmod/orange-tv
+
+Latest version still works and can be downloaded from the official telegram channel https://t.me/pubTw
+
+
+## TwitchMod
 TwitchMod is a modified version of Twitch Android Application.
 
 **Features:**
